@@ -49,8 +49,8 @@ function AddHazard() {
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
                   console.log('lat and lng converted from address', lat, lng);
-                //   setmapaddress([lat, lng]);
-
+                  setHazard({...hazard, latitude:lat, longitude: lng});
+                  console.log('hazard is now', hazard);
                 },
                 (error) => {
                   console.error(error);
