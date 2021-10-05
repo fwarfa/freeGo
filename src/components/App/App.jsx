@@ -19,12 +19,14 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import MapConponent from '../Map/Map';
 
 import './App.css';
 
 function App() {
   const dispatch = useDispatch();
-
+  const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
+  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
   const user = useSelector(store => store.user);
 
   useEffect(() => {
@@ -93,6 +95,22 @@ function App() {
               :
               // Otherwise, show the registration page
               <RegisterPage />
+            }
+          </Route>
+
+          <Route
+            exact
+            path="/map"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect them to the /user page
+              <Redirect to="/user" />
+              :
+              // Otherwise, show the registration page
+              <MapConponent 
+                address = {mapaddress}
+              />
             }
           </Route>
 
