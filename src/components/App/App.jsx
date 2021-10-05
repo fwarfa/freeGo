@@ -19,8 +19,10 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddHazzard from '../AddHazzard/AddHazzard';
 
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -67,6 +69,10 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
+
+          <Route exact path="/addHazzard">
+            <AddHazzard />
+          </Route>
 
           <Route
             exact
