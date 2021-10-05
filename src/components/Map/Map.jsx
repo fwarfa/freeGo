@@ -13,7 +13,8 @@ let DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
-function MapConponent({address}) {
+
+function MapComponent({address}) {
   /**
    * Map Component
    * Utilizes react-leaflet, Leaflet
@@ -40,4 +41,4 @@ function MapConponent({address}) {
   );
 }
 
-export default MapConponent;
+export default MapComponent;

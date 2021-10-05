@@ -20,16 +20,16 @@ import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddHazard from '../AddHazard/AddHazard';
-import MapConponent from '../Map/Map';
+import MapComponent from '../Map/Map';
 
 import './App.css';
 
 
 function App() {
   const dispatch = useDispatch();
-  const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
+  // const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-  const [userLocation, setUserLocation] = useState();
+  const [userLocation, setUserLocation] = useState([44.97464249999999, -93.2726928]);
   const [isLoading, setLoading] = useState(true);
   const user = useSelector(store => store.user);
 
@@ -139,8 +139,8 @@ function App() {
               <Redirect to="/user" />
               :
               // Otherwise, show the registration page
-              <MapConponent 
-                address = {mapaddress}
+              <MapComponent 
+                address = {userLocation}
               />
             }
           </Route>
