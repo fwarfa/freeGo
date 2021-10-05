@@ -19,7 +19,7 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import AddHazzard from '../AddHazzard/AddHazzard';
+import AddHazard from '../AddHazard/AddHazard';
 
 import './App.css';
 
@@ -70,8 +70,8 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
-          <Route exact path="/addHazzard">
-            <AddHazzard />
+          <Route exact path="/addhazard">
+            <AddHazard />
           </Route>
 
           <Route
