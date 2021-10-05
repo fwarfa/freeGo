@@ -7,6 +7,7 @@
 ---- USER TABLE------------------
 CREATE TABLE "public"."user" (
     "id" serial,
+    "username" text NOT NULL, 
     "first_name" text NOT NULL,
     "last_name" text NOT NULL,
     "email" text NOT NULL,
