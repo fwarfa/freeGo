@@ -1,69 +1,38 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import './LandingPage.css';
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import "../LandingPage/LandingPage.css";
+import { useDispatch, useSelector } from "react-redux";
 
-// CUSTOM COMPONENTS
-import RegisterForm from '../RegisterForm/RegisterForm';
+export default function LandingPage() {
+  const dispatch = useDispatch();
+  const dashBoard = useSelector(store => store.dashBoardReducer)
 
-function LandingPage() {
-  const [heading, setHeading] = useState('Welcome');
-  const history = useHistory();
-
-  const onLogin = (event) => {
-    history.push('/login');
-  };
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_DASHBOARD",
+    });
+  }, []);
 
   return (
-    <div className="container">
-      <h2>{heading}</h2>
-
-      <div className="grid">
-        <div className="grid-col grid-col_8">
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            id felis metus. Vestibulum et pulvinar tortor. Morbi pharetra lacus
-            ut ex molestie blandit. Etiam et turpis sit amet risus mollis
-            interdum. Suspendisse et justo vitae metus bibendum fringilla sed
-            sed justo. Aliquam sollicitudin dapibus lectus, vitae consequat odio
-            elementum eget. Praesent efficitur eros vitae nunc interdum, eu
-            interdum justo facilisis. Sed pulvinar nulla ac dignissim efficitur.
-            Quisque eget eros metus. Vestibulum bibendum fringilla nibh a
-            luctus. Duis a sapien metus.
-          </p>
-
-          <p>
-            Praesent consectetur orci dui, id elementum eros facilisis id. Sed
-            id dolor in augue porttitor faucibus eget sit amet ante. Nunc
-            consectetur placerat pharetra. Aenean gravida ex ut erat commodo, ut
-            finibus metus facilisis. Nullam eget lectus non urna rhoncus
-            accumsan quis id massa. Curabitur sit amet dolor nisl. Proin
-            euismod, augue at condimentum rhoncus, massa lorem semper lacus, sed
-            lobortis augue mi vel felis. Duis ultrices sapien at est convallis
-            congue.
-          </p>
-
-          <p>
-            Fusce porta diam ac tortor elementum, ut imperdiet metus volutpat.
-            Suspendisse posuere dapibus maximus. Aliquam vitae felis libero. In
-            vehicula sapien at semper ultrices. Vivamus sed feugiat libero. Sed
-            sagittis neque id diam euismod, ut egestas felis ultricies. Nullam
-            non fermentum mauris. Sed in enim ac turpis faucibus pretium in sit
-            amet nisi.
-          </p>
+    <>
+      <div className="container">
+        <div className="image-container">
+          <img
+            src="https://images.pexels.com/photos/6044744/pexels-photo-6044744.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            alt=""
+          />
         </div>
-        <div className="grid-col grid-col_4">
-          <RegisterForm />
-
-          <center>
-            <h4>Already a Member?</h4>
-            <button className="btn btn_sizeSm" onClick={onLogin}>
-              Login
-            </button>
-          </center>
+        <div className="information-conatiner">
+          <h3 className="Hazard-Genre">Stolen street Sign</h3>
+          <h3 className="threat">Hazard Threat Level</h3>
+          <div className="status">
+            <p>Status: Approved</p>
+          </div>
+          <div className="address">
+            <p>733 Balthazar St, Mankato MN</p>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
-
-export default LandingPage;
