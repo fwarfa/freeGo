@@ -16,18 +16,20 @@ router.post('/', (req, res) => {
   const image = req.body.image;
   const userId = req.user.id;
   const approved = true;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
 
   console.log('user id is ', userId);
   
 
   const queryText = `
     INSERT INTO "hazard" 
-        (name, description, street, city, state, zip, image, user_id, approved)
+        (name, description, street, city, state, zip, image, user_id, approved, latitude, longitude)
     VALUES 
-        ($1, $2, $3, $4, $5, $6, $7, $8, $9);
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
     `;
   pool
-    .query(queryText, [name, description, street, city, state, zip, image, userId, approved])
+    .query(queryText, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude])
     .then(() => res.sendStatus(200))
     .catch((err) => {
       console.log('Post hazard failed: ', err);
