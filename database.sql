@@ -54,5 +54,5 @@ CREATE TABLE "flaggedHazard" (
     who_flagged integer REFERENCES "user"(id),
     is_accurate boolean NOT NULL,
     description text,
-    "hazzard_Id" integer REFERENCES "Hazard"(id)
+    "hazard_Id" integer REFERENCES "Hazard"(id)
 );
