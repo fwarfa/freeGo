@@ -1,9 +1,33 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import Geocode from "react-geocode";
+
+// set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
+//TODO = create env variable
+Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
+
+// set response language. Defaults to english.
+Geocode.setLanguage("en");
+
+// set response region. Its optional.
+// // A Geocoding request with region=es (Spain) will return the Spanish city.
+// Geocode.setRegion("es");
+
+// set location_type filter . Its optional.
+// google geocoder returns more that one address for given lat/lng.
+// In some case we need one address as response for which google itself provides a location_type filter.
+// So we can easily parse the result for fetching address components
+// ROOFTOP, RANGE_INTERPOLATED, GEOMETRIC_CENTER, APPROXIMATE are the accepted values.
+// And according to the below google docs in description, ROOFTOP param returns the most accurate result.
+Geocode.setLocationType("ROOFTOP");
+
+// Enable or disable logs. Its optional.
+Geocode.enableDebug();
 
 
 function AddHazard() {
     const dispatch = useDispatch()
+    const [address, setAddress] = useState();
     const [hazard, setHazard] = useState({
         name: '',
         description: '',
@@ -11,8 +35,30 @@ function AddHazard() {
         city: '',
         state: '',
         zip: '',
-        image: ''
+        image: '',
+        latitude: '',
+        longitude: ''
     });
+
+
+    const getUserLocal = (event) => {
+        event.preventDefault();
+        if(hazard.street && hazard.city && hazard.state && hazard.zip) {
+            let address = hazard.street + ' ' + hazard.city + ' ' + hazard.zip;
+            Geocode.fromAddress(address).then(
+                (response) => {
+                  const { lat, lng } = response.results[0].geometry.location;
+                  console.log('lat and lng converted from address', lat, lng);
+                //   setmapaddress([lat, lng]);
+
+                },
+                (error) => {
+                  console.error(error);
+                }
+            );
+        }
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         dispatch({
@@ -24,7 +70,7 @@ function AddHazard() {
     return (
         <div>
             <h1>Add A hazard</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={getUserLocal}>
                 <input 
                     placeholder="name"
                     name='name'
