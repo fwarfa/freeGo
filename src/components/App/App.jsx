@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   HashRouter as Router,
   Redirect,
@@ -19,17 +19,46 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddHazard from '../AddHazard/AddHazard';
+import MapComponent from '../Map/Map';
 
 import './App.css';
 
+
 function App() {
   const dispatch = useDispatch();
-
+  // const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
+  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
+  const [userLocation, setUserLocation] = useState([44.97464249999999, -93.2726928]);
+  const [isLoading, setLoading] = useState(true);
   const user = useSelector(store => store.user);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
+
+  // Get Position
+  // Gets users current latitude and longitude
+  // It also ask the user for permission to find their location
+  let getPosition = function (options) {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+    });
+  }
+
+  getPosition()
+  .then((position) => {
+    console.log('our user location',[position.coords.latitude, position.coords.longitude]);
+    setUserLocation([position.coords.latitude, position.coords.longitude])
+    setLoading(false)
+  })
+  .catch((err) => {
+    console.error(err.message);
+  });
+
+  if (isLoading) {
+    return <div className="lds-roller">WE ARE CURRENTLY LOADING<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+  }
 
   return (
     <Router>
@@ -68,6 +97,10 @@ function App() {
             <InfoPage />
           </ProtectedRoute>
 
+          <Route exact path="/addhazard">
+            <AddHazard />
+          </Route>
+
           <Route
             exact
             path="/login"
@@ -93,6 +126,22 @@ function App() {
               :
               // Otherwise, show the registration page
               <RegisterPage />
+            }
+          </Route>
+
+          <Route
+            exact
+            path="/map"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect them to the /user page
+              <Redirect to="/user" />
+              :
+              // Otherwise, show the registration page
+              <MapComponent 
+                address = {userLocation}
+              />
             }
           </Route>
 

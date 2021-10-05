@@ -53,12 +53,5 @@ CREATE TABLE "flaggedHazard" (
     who_flagged integer REFERENCES "user"(id),
     is_accurate boolean NOT NULL,
     description text,
-    "hazzard_Id" integer REFERENCES "Hazard"(id)
+    "hazard_Id" integer REFERENCES "Hazard"(id)
 );
-
-INSERT INTO "user" 
-("first_name","last_name",  "email", "birthday", "country", "password",   "accept_terms", "notification",   "role",    "image")
-VALUES 
-('Corbett', 'Yarranton', 'cyarranton0@is.gd', '9/18/2021', 'Armenia', 'yE3dpu1o', false, false, 75,	'http://dummyimage.com/121x100.png/5fa2dd/ffffff');
-
-
