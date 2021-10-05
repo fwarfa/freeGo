@@ -49,8 +49,9 @@ function AddHazard() {
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
                   console.log('lat and lng converted from address', lat, lng);
-                  setHazard({...hazard, latitude:lat, longitude: lng});
-                  console.log('hazard is now', hazard);
+                  let hazardLocal = {...hazard, latitude:lat, longitude: lng};
+                  console.log('hazard is before local', hazard);
+                  handleSubmit(hazardLocal);
                 },
                 (error) => {
                   console.error(error);
@@ -59,11 +60,11 @@ function AddHazard() {
         }
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (hazardLocal) => {
+        console.log('hazard after local', hazardLocal);
         dispatch({
             type: 'ADD_hazard',
-            payload: hazard
+            payload: hazardLocal
         })
     }
 
