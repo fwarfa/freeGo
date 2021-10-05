@@ -19,9 +19,11 @@ import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import AddHazard from '../AddHazard/AddHazard';
 import MapConponent from '../Map/Map';
 
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -94,6 +96,10 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
+
+          <Route exact path="/addhazard">
+            <AddHazard />
+          </Route>
 
           <Route
             exact
