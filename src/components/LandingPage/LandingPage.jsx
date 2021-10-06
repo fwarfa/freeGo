@@ -15,7 +15,7 @@ export default function LandingPage() {
 
 
   const dashBoard = useSelector(store => store.dashBoardReducer)
-  console.log("dashboard is", dashBoard)
+  // console.log("dashboard is", dashBoard)
 
   return (
     <div className="container">

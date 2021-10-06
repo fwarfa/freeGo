@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Geocode from "react-geocode";
 
@@ -39,7 +39,7 @@ function AddHazard() {
         latitude: '',
         longitude: ''
     });
-    let params = {id: 1};
+    let params = {id: 2};
 
     useEffect(() => {
         // Is there an `:id` param in the URL?

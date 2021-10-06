@@ -11,7 +11,9 @@ router.get('/:id', (req, res) => {
   const query = `SELECT * FROM "hazard" WHERE id = $1`;
   pool.query(query, [id])
     .then( result => {
-      res.send(result.rows);
+      console.log('hazard by id is ', result.rows[0]);
+      
+      res.send(result.rows[0]);
     })
     .catch(err => {
       console.log('Get Job Details with ID failed', err);
