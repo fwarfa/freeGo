@@ -16,8 +16,27 @@ function* fetchHomepageDashboard() {
   }
 }
 
+function* deleteUserInfo(action) {
+    try {
+
+        yield Promise.all( action.payload.map((id) => {
+             axios.delete(`/api/remove-session/${id}`)
+        }))
+        
+
+        yield put({
+            type: 'FETCH_DASHBOARD'
+        })
+    } catch (error) {
+
+    }
+}
+
+
+
 function* fetchDashboard() {
-  yield takeLatest("FETCH_DASHBOARD", fetchHomepageDashboard);
+  yield takeLatest("FETCH_DASHBOARD", fetchHomepageDashboard)
+  yield takeLatest("DELETE_SESSION", deleteUserInfo)
 }
 
 export default fetchDashboard;

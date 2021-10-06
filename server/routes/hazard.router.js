@@ -6,6 +6,22 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+
+router.delete('/remove-session/:id', rejectUnauthenticated, (req, res) => {
+    let id = [req.params.id];
+    console.log('id is ', id);
+
+    const query = `DELETE FROM "hazard" WHERE h.id = $1`;
+    pool.query(query, id)
+        .then(result => {
+            res.sendStatus(200);
+        })
+        .catch(err => {
+            console.log('Events session DELETE failed', err);
+            res.sendStatus(500)
+        })
+});
+
 router.post('/', (req, res) => {
   const name = req.body.name;
   const description = req.body.description;

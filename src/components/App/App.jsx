@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddHazard from '../AddHazard/AddHazard';
 import MapComponent from '../Map/Map';
+import HazardManagement from '../HazardManagement/HazardManagement';
 
 import './App.css';
 
@@ -142,6 +143,21 @@ function App() {
               // Otherwise, show the registration page
               <MapComponent 
                 address = {userLocation}
+              />
+            }
+          </Route>
+
+          <Route
+            exact
+            path="/hazardmanagement"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect them to the /user page
+              <Redirect to="/user" />
+              :
+              // Otherwise, show the registration page
+              <HazardManagement
               />
             }
           </Route>
