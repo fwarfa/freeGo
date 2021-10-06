@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../LandingPage/LandingPage.css";
 import { useDispatch, useSelector } from "react-redux";
+import LandingPageItems from "../LandingPageItems/LandingPageItems";
 
 export default function LandingPage() {
   const dispatch = useDispatch();
-  const dashBoard = useSelector(store => store.dashBoardReducer)
 
   useEffect(() => {
     dispatch({
@@ -13,26 +13,21 @@ export default function LandingPage() {
     });
   }, []);
 
+
+  const dashBoard = useSelector(store => store.dashBoardReducer)
+  console.log("dashboard is", dashBoard)
+
   return (
-    <>
-      <div className="container">
-        <div className="image-container">
-          <img
-            src="https://images.pexels.com/photos/6044744/pexels-photo-6044744.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-            alt=""
-          />
-        </div>
-        <div className="information-conatiner">
-          <h3 className="Hazard-Genre">Stolen street Sign</h3>
-          <h3 className="threat">Hazard Threat Level</h3>
-          <div className="status">
-            <p>Status: Approved</p>
+    <div className="container">
+      {dashBoard.length > 0 ? (
+        dashBoard.map((items, i) => (
+          <div key={i}>
+            <LandingPageItems items={items} />{" "}
           </div>
-          <div className="address">
-            <p>733 Balthazar St, Mankato MN</p>
-          </div>
-        </div>
-      </div>
-    </>
+        ))
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
   );
 }
