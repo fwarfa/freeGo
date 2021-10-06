@@ -6,6 +6,7 @@ CREATE TABLE "user" (
     "email" text NOT NULL,
     "birthday" date NOT NULL,
     "country" text NOT NULL,
+    "user_name" text NOT NULL,
     "accept_terms" boolean NOT NULL,
     "notification" boolean,
     "role" int,
