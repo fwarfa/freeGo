@@ -1,8 +1,8 @@
 
 .container{
-  box-shadow: 0 35px 55px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 35px 55px rgba(0, 0, 0, 0.08);
   width:40%;
-  height: 10vh;
+  height: 20vh;
   border-radius: 20px;
   margin: auto 30px;
   display:flex;
@@ -27,7 +27,19 @@ font-weight: 800;
 
 }
 .threat{
-  color: darkcyan;
   font-size: 14px;
 }
+.threat span {
+  color: darkcyan;
+}
+.threatLevel span{
+   color: darkcyan;
+
+}
+i{
+    color: darkcyan;
+
+}
+
+
 
