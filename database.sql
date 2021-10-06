@@ -6,13 +6,15 @@ CREATE TABLE "user" (
     "email" text NOT NULL,
     "birthday" date NOT NULL,
     "country" text NOT NULL,
-    "user_name" text NOT NULL,
+    "username" text NOT NULL,
+    "password" text NOT NULL,
     "accept_terms" boolean NOT NULL,
     "notification" boolean,
     "role" int,
     "image" text,
     PRIMARY KEY ("id")
 );
+
 -- Table Definition ----------------------------------------------
 CREATE TABLE "hazard" (
     "id" serial,
