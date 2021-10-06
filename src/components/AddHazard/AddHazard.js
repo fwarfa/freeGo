@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory, useParams } from 'react-router-dom';
 import Geocode from "react-geocode";
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
@@ -39,6 +40,29 @@ function AddHazard() {
         latitude: '',
         longitude: ''
     });
+    let params = {id: 1};
+
+    useEffect(() => {
+        // Is there an `:id` param in the URL?
+        if (params.id === undefined) {
+            // Create mode
+            // localhost:3000/jobEntry
+            // Reset store.editJobEntry = {}
+            dispatch({
+                type: 'CLEAR_HAZARD'
+            })
+        }
+        else {
+            // Edit mode
+            // localhost:3000/jobEntry/:id
+            // GET /jobEntries/:id
+            // Save results to store.editJobEntry
+            dispatch({
+                type: 'FETCH_HAZARD',
+                payload: params.id,
+            })
+        }
+    }, [params.id]);
 
 
     const getUserLocal = (event) => {

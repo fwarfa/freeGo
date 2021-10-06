@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
 import dashBoardReducer from './Dashboard.reducer';
+import hazardReducer from './hazard.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -12,7 +13,8 @@ import dashBoardReducer from './Dashboard.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
-  dashBoardReducer, //will have dashboard data information
+  dashBoardReducer, //will have dashboard information
+  hazardReducer, // will have hazard information
 });
 
 export default rootReducer;
