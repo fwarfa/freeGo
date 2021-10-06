@@ -6,6 +6,19 @@ const pool = require('../modules/pool');
 
 const router = express.Router();
 
+router.get('/:id', (req, res) => {
+  const id = req.params.id
+  const query = `SELECT * FROM "hazard" WHERE id = $1`;
+  pool.query(query, [id])
+    .then( result => {
+      res.send(result.rows);
+    })
+    .catch(err => {
+      console.log('Get Job Details with ID failed', err);
+      res.sendStatus(500)
+    })
+});
+
 router.post('/', (req, res) => {
   const name = req.body.name;
   const description = req.body.description;

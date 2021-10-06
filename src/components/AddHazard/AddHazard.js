@@ -25,10 +25,9 @@ Geocode.setLocationType("ROOFTOP");
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
 
-
 function AddHazard() {
+    const hazardReducer = useSelector(store => store.hazaradReducer);
     const dispatch = useDispatch()
-    const [address, setAddress] = useState();
     const [hazard, setHazard] = useState({
         name: '',
         description: '',
@@ -46,8 +45,8 @@ function AddHazard() {
         // Is there an `:id` param in the URL?
         if (params.id === undefined) {
             // Create mode
-            // localhost:3000/jobEntry
-            // Reset store.editJobEntry = {}
+            // localhost:3000/hazard
+            // Reset store.hazardReducer = {}
             dispatch({
                 type: 'CLEAR_HAZARD'
             })
@@ -58,7 +57,7 @@ function AddHazard() {
             // GET /jobEntries/:id
             // Save results to store.editJobEntry
             dispatch({
-                type: 'FETCH_HAZARD',
+                type: 'FETCH_HAZARD_TO_EDIT',
                 payload: params.id,
             })
         }
@@ -87,7 +86,7 @@ function AddHazard() {
     const handleSubmit = (hazardLocal) => {
         console.log('hazard after local', hazardLocal);
         dispatch({
-            type: 'ADD_hazard',
+            type: 'ADD_HAZARD',
             payload: hazardLocal
         })
     }

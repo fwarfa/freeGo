@@ -1,6 +1,6 @@
 const hazardReducer = (state = {}, action) => {
     switch (action.type) {
-        case 'FETCH_HAZARD':
+        case 'SET_HAZARD_TO_EDIT':
             return action.payload;
         case 'CLEAR_HAZARD':
             return {};
