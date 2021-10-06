@@ -8,12 +8,12 @@
 CREATE TABLE "public"."user" (
     "id" serial,
     "username" text NOT NULL, 
+    "password" text NOT NULL,
     "first_name" text NOT NULL,
     "last_name" text NOT NULL,
     "email" text NOT NULL,
     "birthday" date NOT NULL,
     "country" text NOT NULL,
-    "password" text NOT NULL,
     "accept_terms" boolean NOT NULL,
     "notification" boolean,
     "role" int,
