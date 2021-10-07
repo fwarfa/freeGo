@@ -9,7 +9,6 @@ export default function LandingPage() {
 
   useEffect(() => {
     fetchDashboard();
-    fetchOpenMinneapolisAPI();
   }, []);
 
   //fetches dashboard data from the database
@@ -18,24 +17,15 @@ export default function LandingPage() {
       type: "FETCH_DASHBOARD",
     });
   }
-
-  function fetchOpenMinneapolisAPI() {
-    dispatch({
-      type: "FETCH_OPEN_MINNEAPOLIS_API",
-    });
-  }
-
   const dashBoard = useSelector((store) => store.dashBoardReducer);
   console.log("dashboard is", dashBoard);
-
-  const openMinneapolisAPI = useSelector((store) => store.openMinneapolisApi);
-  console.log("open Minneapolis api is", openMinneapolisAPI);
 
   return (
     <div className="container">
       {dashBoard.length > 0 ? (
         dashBoard.map((items, i) => (
           <div key={i}>
+            {console.log("items are", items)}
             <LandingPageItems items={items} />{" "}
           </div>
         ))
