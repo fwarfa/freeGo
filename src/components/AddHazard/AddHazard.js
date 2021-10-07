@@ -28,18 +28,18 @@ Geocode.enableDebug();
 function AddHazard() {
     const hazardReducer = useSelector(store => store.hazaradReducer);
     const dispatch = useDispatch()
-    const [hazard, setHazard] = useState({
-        name: '',
-        description: '',
-        street: '',
-        city: '',
-        state: '',
-        zip: '',
-        image: '',
-        latitude: '',
-        longitude: ''
-    });
-    let params = {id: 2};
+    // const [hazard, setHazard] = useState({
+    //     name: '',
+    //     description: '',
+    //     street: '',
+    //     city: '',
+    //     state: '',
+    //     zip: '',
+    //     image: '',
+    //     latitude: '',
+    //     longitude: ''
+    // });
+    let params = {id: undefined};
 
     useEffect(() => {
         // Is there an `:id` param in the URL?
@@ -58,10 +58,24 @@ function AddHazard() {
             // Save results to store.editJobEntry
             dispatch({
                 type: 'FETCH_HAZARD_TO_EDIT',
-                payload: params.id,
+                payload: params.id
             })
         }
     }, [params.id]);
+
+    const handleChange = (event) =>{
+        console.log({
+            ...hazardReducer, 
+            [event.target.name]: event.target.value
+        })
+        // dispatch({
+        //     type: 'UPDATE_EDIT_HAZARD',
+        //     payload: {
+        //         ...hazardReducer, 
+        //         [event.target.name]: event.target.value
+        //     }
+        // })
+      };
 
 
     const getUserLocal = (event) => {
@@ -72,8 +86,8 @@ function AddHazard() {
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
                   console.log('lat and lng converted from address', lat, lng);
-                  let hazardLocal = {...hazard, latitude:lat, longitude: lng};
-                  console.log('hazard is before local', hazard);
+
+                  let hazardLocal = {...hazardReducer, latitude:lat, longitude: lng};
                   handleSubmit(hazardLocal);
                 },
                 (error) => {
@@ -84,9 +98,9 @@ function AddHazard() {
     }
 
     const handleSubmit = (hazardLocal) => {
-        console.log('hazard after local', hazardLocal);
+        console.log('hazard before dispatch', hazardLocal);
         dispatch({
-            type: 'ADD_HAZARD',
+            type: 'ADD_EDIT_HAZARD',
             payload: hazardLocal
         })
     }
@@ -98,46 +112,46 @@ function AddHazard() {
                 <input 
                     placeholder="name"
                     name='name'
-                    value={hazard.name}
-                    onChange={(event) => setHazard({...hazard, name:event.target.value})}
+                    value={hazardReducer.name}
+                    onChange={handleChange}
                 />
                 <textarea 
                     placeholder="description"
                     name='description'
                     rows="4"
-                    value={hazard.description}
-                    onChange={(event) => setHazard({...hazard, description:event.target.value})}
+                    value={hazardReducer.description}
+                    onChange={handleChange}
                 >
                 </textarea>
                 <input 
                     placeholder="street"
                     name='street'
-                    value={hazard.street}
-                    onChange={(event) => setHazard({...hazard, street:event.target.value})}
+                    value={hazardReducer.street}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="city"
                     name='city'
-                    value={hazard.city}
-                    onChange={(event) => setHazard({...hazard, city:event.target.value})}
+                    value={hazardReducer.city}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="state"
                     name='state'
-                    value={hazard.state}
-                    onChange={(event) => setHazard({...hazard, state:event.target.value})}
+                    value={hazardReducer.state}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="zip"
                     name='zip'
-                    value={hazard.zip}
-                    onChange={(event) => setHazard({...hazard, zip:event.target.value})}
+                    value={hazardReducer.zip}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="image"
                     name='image'
-                    value={hazard.image}
-                    onChange={(event) => setHazard({...hazard, image:event.target.value})}
+                    value={hazardReducer.image}
+                    onChange={handleChange}
                 />
                 <button type="submit">Submit</button>
             </form>

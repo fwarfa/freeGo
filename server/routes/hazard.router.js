@@ -52,4 +52,46 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/:id', (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  const description = req.body.description;
+  const street = req.body.street;
+  const city = req.body.city;
+  const state = req.body.state;
+  const zip = req.body.zip;
+  const image = req.body.image;
+  const userId = req.user.id;
+  const approved = true;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+
+  console.log('user id is ', userId);
+  
+  const query = `
+  UPDATE "job_hunt"
+  SET 
+    name = $1, 
+    description = $2, 
+    street = $3, 
+    city = $4, 
+    state = $5, 
+    zip = $6, 
+    image = $7, 
+    user_id = $8, 
+    approved = $9, 
+    latitude = $10, 
+    longitude = $11
+  WHERE id = $12;
+  `;
+  pool.query(query, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, id])
+    .then( result => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      console.log('hazard PUT by id failed', err);
+      res.sendStatus(500)
+    })
+});
+
 module.exports = router;
