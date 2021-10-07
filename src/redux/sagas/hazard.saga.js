@@ -23,9 +23,10 @@ function* fetchHazardToEdit(action) {
     yield put({
       type: 'SET_HAZARD_TO_EDIT',
       payload: response.data
-    })
-  } catch (error) {
-    
+    });
+  } 
+  catch (error) {
+    console.log('fetch hazard to edit failed', error);
   }
 }
 

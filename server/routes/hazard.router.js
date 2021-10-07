@@ -33,18 +33,20 @@ router.post('/', (req, res) => {
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
+  const genreId = req.body.genre;
+  const threatLevel = req.body.threatLevel
 
   console.log('user id is ', userId);
   
 
   const queryText = `
     INSERT INTO "hazard" 
-        (name, description, street, city, state, zip, image, user_id, approved, latitude, longitude)
+        (name, description, street, city, state, zip, image, user_id, approved, latitude, longitude, genre_id, threat_level)
     VALUES 
-        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
     `;
   pool
-    .query(queryText, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude])
+    .query(queryText, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, genreId, threatLevel])
     .then(() => res.sendStatus(200))
     .catch((err) => {
       console.log('Post hazard failed: ', err);
@@ -65,6 +67,8 @@ router.put('/:id', (req, res) => {
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
+  const genreId = req.body.genre;
+  const threatLevel = req.body.threatLevel
 
   console.log('user id is ', userId);
 
@@ -81,10 +85,12 @@ router.put('/:id', (req, res) => {
     user_id = $8, 
     approved = $9, 
     latitude = $10, 
-    longitude = $11
-  WHERE id = $12;
+    longitude = $11,
+    genre_id = $12,
+    threat_level = $13
+  WHERE id = $14;
   `;
-  pool.query(query, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, id])
+  pool.query(query, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, genreId, threatLevel, id])
     .then( result => {
       res.sendStatus(200);
     })

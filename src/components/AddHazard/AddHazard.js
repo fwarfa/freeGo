@@ -27,18 +27,7 @@ Geocode.enableDebug();
 
 function AddHazard() {
     const hazardReducer = useSelector(store => store.hazardReducer);
-    const dispatch = useDispatch()
-    // const [hazard, setHazard] = useState({
-    //     name: '',
-    //     description: '',
-    //     street: '',
-    //     city: '',
-    //     state: '',
-    //     zip: '',
-    //     image: '',
-    //     latitude: '',
-    //     longitude: ''
-    // });
+    const dispatch = useDispatch();
     const params = {id: undefined};
 
     useEffect(() => {
@@ -72,7 +61,6 @@ function AddHazard() {
             }
         })
       };
-
 
     const getUserLocal = (event) => {
         event.preventDefault();
@@ -149,6 +137,22 @@ function AddHazard() {
                     value={hazardReducer.image}
                     onChange={handleChange}
                 />
+                <label for="threatLevel">Hazard Threat Level:</label>
+                <select name="threatLevel" id="threatLevel" value={hazardReducer.threatLevel} onChange={handleChange}>
+                    <option selected disabled>Select A Threat Level</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="severe">Severe</option>
+                </select>
+                <label for="genre">Hazard Genre:</label>
+                <select name="genre" id="genre" value={hazardReducer.genre} onChange={handleChange}>
+                    <option selected disabled >Select A Genre</option>
+                    <option value="1">CRIME</option>
+                    <option value="2">ROAD WORK</option>
+                    <option value="3">ACCIDENT</option>
+                    <option value="4">OTHER</option>
+                </select>
+
                 <button type="submit">Submit</button>
             </form>
         </div>
