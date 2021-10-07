@@ -17,7 +17,7 @@ function* fetchHomepageDashboard() {
 }
 
 function* fetchDashboard() {
-  yield takeLatest("FETCH_DASHBOARD", fetchHomepageDashboard);
+  yield takeLatest("FETCH_HAZARD", fetchHomepageDashboard);
 
 }
 
