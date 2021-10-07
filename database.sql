@@ -56,3 +56,36 @@ CREATE TABLE "flagged_hazard" (
     description text,
     "hazard_id" integer REFERENCES "hazard"(id)
 );
+
+
+-- QUERY NEED TO ALTER OUR LAT AND LNG COLUMNS 
+
+-- alter table hazard alter column latitude type double precision using latitude::double precision;
+-- alter table hazard alter column longitude type double precision using longitude::double precision;
+
+-- QUERY TO GET ALL HAZARDS WITHIN A GIVEN RADIUS - in miles
+
+-- SELECT * 
+-- FROM hazard
+-- WHERE acos(
+--        sin(radians(44.97464249999999)) 
+--          * sin(radians(latitude)) 
+--        + cos(radians(44.97464249999999)) 
+--          * cos(radians(latitude)) 
+--          * cos( radians(-93.2726928)
+--            - radians(longitude))
+--        ) * 3961 <= 383;
+
+
+-- installing postgis ----------------------------------
+-- brew services stop postgresql  
+-- brew install postgis    
+-- brew postgresql-upgrade-database   
+-- brew reinstall -s postgis    
+-- brew services restart postgresql
+
+-- SELECT *
+-- FROM hazard
+-- WHERE ST_DistanceSphere(ST_MakePoint(longitude,latitude), ST_MakePoint(-93.2726928,44.97464249999999)) <= 382 * 1609.34
+
+
