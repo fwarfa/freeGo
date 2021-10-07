@@ -21,6 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddHazard from '../AddHazard/AddHazard';
 import MapComponent from '../Map/Map';
+import MapContainer from '../MapContainer/MapContainer';
 
 import './App.css';
 
@@ -144,7 +145,7 @@ function App() {
               <Redirect to="/user" />
               :
               // Otherwise, show the registration page
-              <MapComponent 
+              <MapContainer 
                 address = {userLocation}
               />
             }

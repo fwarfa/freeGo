@@ -12,12 +12,33 @@ function* fetchHomepageDashboard() {
     //passing the response to my reducer
     yield put({ type: "SET_DASHBOARD", payload: response.data });
   } catch (error) {
-    console.log("dashboard get error is", error.data);
+    console.log("dashboard get error is", error.data); 
   }
+}
+
+function* fetchOpenMinneapolisApi () {
+  try {
+    //saving the axios get request to response
+    const response = yield axios.get("/api/dashBoard/MplsApi")
+
+    //passing the response to my reducer
+
+    yield put({
+      type: "SET_OPEN_MINNEAPOLIS_API",
+      payload: response.data
+
+    })
+
+  } catch (error) {
+    console.log("Get Open Minneapolis Api is", error)
+    
+  }
+
 }
 
 function* fetchDashboard() {
   yield takeLatest("FETCH_DASHBOARD", fetchHomepageDashboard);
+  yield takeLatest("FETCH_OPEN_MINNEAPOLIS_API", fetchOpenMinneapolisApi)
 }
 
 export default fetchDashboard;
