@@ -101,6 +101,10 @@ function App() {
             <AddHazard />
           </Route>
 
+          <Route exact path="/edithazard/:id">
+            <AddHazard />
+          </Route>
+
           <Route
             exact
             path="/login"

@@ -26,7 +26,7 @@ Geocode.setLocationType("ROOFTOP");
 Geocode.enableDebug();
 
 function AddHazard() {
-    const hazardReducer = useSelector(store => store.hazaradReducer);
+    const hazardReducer = useSelector(store => store.hazardReducer);
     const dispatch = useDispatch()
     // const [hazard, setHazard] = useState({
     //     name: '',
@@ -39,7 +39,7 @@ function AddHazard() {
     //     latitude: '',
     //     longitude: ''
     // });
-    let params = {id: undefined};
+    const params = {id: undefined};
 
     useEffect(() => {
         // Is there an `:id` param in the URL?
@@ -64,24 +64,20 @@ function AddHazard() {
     }, [params.id]);
 
     const handleChange = (event) =>{
-        console.log({
-            ...hazardReducer, 
-            [event.target.name]: event.target.value
+        dispatch({
+            type: 'UPDATE_EDIT_HAZARD',
+            payload: {
+                ...hazardReducer, 
+                [event.target.name]: event.target.value
+            }
         })
-        // dispatch({
-        //     type: 'UPDATE_EDIT_HAZARD',
-        //     payload: {
-        //         ...hazardReducer, 
-        //         [event.target.name]: event.target.value
-        //     }
-        // })
       };
 
 
     const getUserLocal = (event) => {
         event.preventDefault();
-        if(hazard.street && hazard.city && hazard.state && hazard.zip) {
-            let address = hazard.street + ' ' + hazard.city + ' ' + hazard.zip;
+        if(hazardReducer.street && hazardReducer.city && hazardReducer.state && hazardReducer.zip) {
+            let address = hazardReducer.street + ' ' + hazardReducer.city + ' ' + hazardReducer.zip;
             Geocode.fromAddress(address).then(
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
@@ -99,10 +95,10 @@ function AddHazard() {
 
     const handleSubmit = (hazardLocal) => {
         console.log('hazard before dispatch', hazardLocal);
-        dispatch({
-            type: 'ADD_EDIT_HAZARD',
-            payload: hazardLocal
-        })
+        // dispatch({
+        //     type: 'ADD_EDIT_HAZARD',
+        //     payload: hazardLocal
+        // })
     }
 
     return (

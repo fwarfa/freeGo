@@ -67,9 +67,9 @@ router.put('/:id', (req, res) => {
   const longitude = req.body.longitude;
 
   console.log('user id is ', userId);
-  
+
   const query = `
-  UPDATE "job_hunt"
+  UPDATE "hazard"
   SET 
     name = $1, 
     description = $2, 

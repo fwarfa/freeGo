@@ -1,15 +1,10 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
 
-const handleClick = () => {
-  history.push('/addhazard');
-}
-
 export default function LandingPageItems({ items }) {
+
   return (
     <>
-      <button onClick={handleClick}>Add A Hazard</button>
-      
       <div className="image-container">
         <img src={items.image} alt="" />
       </div>
