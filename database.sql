@@ -6,6 +6,8 @@ CREATE TABLE "user" (
     "email" text NOT NULL,
     "birthday" date NOT NULL,
     "country" text NOT NULL,
+    "username" text NOT NULL,
+    "password" text NOT NULL,
     "accept_terms" boolean NOT NULL,
     "notification" boolean,
     "role" int,
@@ -25,19 +27,15 @@ CREATE TABLE "hazard" (
     "latitude" text NOT NULL,
     "longitude" text NOT NULL,
     "description" text NOT NULL,
-    "threat_level" text NOT NULL, 
+    "threat_level" text NOT NULL,
     "name" text NOT NULL,
     "image" text NOT NULL,
     "created_date" date NOT NULL DEFAULT CURRENT_DATE,
     PRIMARY KEY ("id"),
     CONSTRAINT "userId" FOREIGN KEY ("user_id") REFERENCES "user"("id"),
     CONSTRAINT "genreId" FOREIGN KEY ("genre_id") REFERENCES "hazard_genre"("id")
-    
 );
-
 -- Table Definition ----------------------------------------------
-
-
 CREATE TABLE "hazard_genre" (
     id serial PRIMARY KEY,
     title text NOT NULL,
@@ -45,7 +43,6 @@ CREATE TABLE "hazard_genre" (
 );
 DROP TABLE "hazard_genre"
 -- Table Definition ----------------------------------------------
-
 CREATE TABLE "flagged_hazard" (
     id serial PRIMARY KEY,
     who_flagged integer REFERENCES "user"(id),

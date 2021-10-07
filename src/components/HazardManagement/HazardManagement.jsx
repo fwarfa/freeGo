@@ -10,7 +10,7 @@ export default function HazardManagement() {
     const dashBoard = useSelector(store => store.dashBoardReducer);
 
     useEffect(() => {
-    dispatch({ type: "FETCH_DASHBOARD"})
+    dispatch({ type: 'FETCH_DASHBOARD'})
     }, []);
 
     return (
