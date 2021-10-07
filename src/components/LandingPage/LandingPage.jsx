@@ -14,7 +14,7 @@ export default function LandingPage() {
   //fetches dashboard data from the database
   function fetchDashboard() {
     dispatch({
-      type: "FETCH_DASHBOARD",
+      type: "FETCH_HAZARD",
     });
   }
   const dashBoard = useSelector((store) => store.dashBoardReducer);

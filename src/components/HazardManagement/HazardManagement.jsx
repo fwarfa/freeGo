@@ -8,7 +8,7 @@ const HazardManagement = () => {
 
 
     useEffect(() => {
-    dispatch({ type: "FETCH_DASHBOARD"})
+    dispatch({ type: "FETCH_HAZARD" });
     }, []);
 
     return (
