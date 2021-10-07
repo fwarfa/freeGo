@@ -14,6 +14,7 @@ CREATE TABLE "user" (
     "image" text,
     PRIMARY KEY ("id")
 );
+
 -- Table Definition ----------------------------------------------
 CREATE TABLE "hazard" (
     "id" serial,
