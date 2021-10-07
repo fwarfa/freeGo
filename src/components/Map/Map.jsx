@@ -17,30 +17,26 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 function MapComponent({address}) {
   const dispatch = useDispatch();
-  const [showpop, setshowpop] = useState(true);
+  const [showpop, setshowpop] = useState(false);
+  const [hazard, sethazard] = useState();
 
+  /**
+   * Dispatch Fetch Dashboard
+   * returns all hazards
+   */
   useEffect(() => {
     dispatch({
       type: "FETCH_DASHBOARD", // <--- change to fetch_hazard
     });
   }, []);
 
-
   const dashBoard = useSelector(store => store.dashBoardReducer)
-  console.log("dashboard is", dashBoard)
-
-  function handleClick(event, name) {
-    console.log('event', event);
-    const { lat, lng } = event.latlng
-    console.log(`Clicked at ${lat}, ${lng}`)
-    console.log('name', name);
-  }
 
   return (
     <>
       <h1>{address}</h1>
       <div className="map-popup-container">
-        <Map center={address} zoom={14} style={{ height: "100vh" }}>
+        <Map center={address} zoom={14} style={{ height: "600px" }}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -52,13 +48,10 @@ function MapComponent({address}) {
               <Marker 
                 position={[items.latitude, items.longitude]}
                 onClick={(e) => {
-                  handleClick(e, items.name)
+                  sethazard(items);
+                  setshowpop(true);
                 }}
               >
-                {/* <Popup>
-                  <h5>{items.name}</h5>
-                  <h6>{items.city}, {items.state}</h6>
-                </Popup> */}
               </Marker>
             </div>
           ))
@@ -67,17 +60,19 @@ function MapComponent({address}) {
         )}
         <FullscreenControl />
         </Map>
+
         {
           showpop === true 
           ?
-          <div className="popup-map-item">
-            <h1>hi</h1>
+          <div className="popup-map-item card animate__animated animate__slideInUp">
+            <button type="button" class="close" onClick={() => setshowpop(false)} aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+            </button>
+            <h1>{hazard.name}</h1>
           </div> 
           
           :
-          <div className="popup-map-item">
-
-          </div>
+          <div className="popup-map-item"></div>
         }        
       </div>
     </>
