@@ -31,7 +31,7 @@ router.get("/MplsAPi", async (req, res) => {
   try {
     const response = await axios({
       method: "GET",
-      url: "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=reportedDate,offense,description,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL,publicaddress&outSR=4326&f=json",
+      url: "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=10&outSR=4326&f=json",
     });
 
     console.log("GET OPEN Minneapolis API response is", response.data.features);
