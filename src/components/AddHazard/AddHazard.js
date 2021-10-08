@@ -83,10 +83,10 @@ function AddHazard() {
 
     const handleSubmit = (hazardLocal) => {
         console.log('hazard before dispatch', hazardLocal);
-        // dispatch({
-        //     type: 'ADD_EDIT_HAZARD',
-        //     payload: hazardLocal
-        // })
+        dispatch({
+            type: 'ADD_EDIT_HAZARD',
+            payload: hazardLocal
+        })
     }
 
     return (

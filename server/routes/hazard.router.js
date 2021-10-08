@@ -29,7 +29,7 @@ router.post('/', (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = req.user.id;
+  const userId = 1;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
@@ -63,14 +63,14 @@ router.put('/:id', (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = req.user.id;
+  const userId = req.body.user_id;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
   const genreId = req.body.genre;
   const threatLevel = req.body.threatLevel
 
-  console.log('user id is ', userId);
+  console.log('req body is ', req.body);
 
   const query = `
   UPDATE "hazard"
