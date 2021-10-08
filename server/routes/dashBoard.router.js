@@ -38,10 +38,10 @@ try {
   console.log("db response is", dbRes);
   console.log("open Api data is", openDataApi);
 
-  res.send({
-    dbRes,
-    openDataApi,
-  });
+  res.send(
+    dbRes
+    // openDataApi,
+  );
 } catch (error) {
   console.log("GET Minnespolis Open Api/db error is", error)
   

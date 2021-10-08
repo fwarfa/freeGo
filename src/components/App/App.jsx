@@ -24,6 +24,7 @@ import MapComponent from '../Map/Map';
 import MapContainer from '../MapContainer/MapContainer';
 
 import './App.css';
+import HazardManagement from '../HazardManagement/HazardManagement';
 
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
 
   getPosition()
   .then((position) => {
-    console.log('our user location',[position.coords.latitude, position.coords.longitude]);
+    // console.log('our user location',[position.coords.latitude, position.coords.longitude]);
     setUserLocation([position.coords.latitude, position.coords.longitude])
     setLoading(false)
   })
@@ -99,6 +100,13 @@ function App() {
           </ProtectedRoute>
 
           <Route exact path="/addhazard">
+            <AddHazard />
+          </Route>
+           <Route exact path="/hazardmanagement">
+            <HazardManagement />
+          </Route>
+
+          <Route exact path="/edithazard/:id">
             <AddHazard />
           </Route>
 
@@ -160,6 +168,7 @@ function App() {
               <LandingPage />
             }
           </Route>
+
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
