@@ -100,18 +100,45 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
-
-          <Route exact path="/addhazard">
-            <AddHazard />
+          <Route
+            exact
+            path="/addhazard"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect to the /user page
+              <AddHazard />
+              :
+              // Otherwise, show the login page
+              <Redirect to="/user" />
+            }
           </Route>
-           <Route exact path="/hazardmanagement">
-            <HazardManagement />
+          <Route
+            exact
+            path="/hazardmanagement"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect to the /user page
+              <HazardManagement />
+              :
+              // Otherwise, show the login page
+              <Redirect to="/user" />
+            }
           </Route>
-
-          <Route exact path="/edithazard/:id">
-            <AddHazard />
+          <Route
+            exact
+            path="/edithazard/:id"
+          >
+            {user.id ?
+              // If the user is already logged in, 
+              // redirect to the /user page
+              <AddHazard />
+              :
+              // Otherwise, show the login page
+              <Redirect to="/user" />
+            }
           </Route>
-
           <Route
             exact
             path="/login"
@@ -148,12 +175,12 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the registration page
               <MapContainer 
                 address = {userLocation}
               />
+              :
+              // Otherwise, show the registration page
+              <Redirect to="/user" />
             }
           </Route>
 
@@ -179,10 +206,10 @@ function App() {
             {user.id ?
               // If the user is already logged in, 
               // redirect them to the /user page
-              <Redirect to="/user" />
-              :
-              // Otherwise, show the Landing page
               <LandingPage />
+              :
+              <Redirect to="/user" />
+              // Otherwise, show the Landing page
             }
           </Route>
 
