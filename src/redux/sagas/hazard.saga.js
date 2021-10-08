@@ -30,10 +30,24 @@ function* fetchHazardToEdit(action) {
     console.log('fetch hazard to edit failed', error);
   }
 }
+function* fetchHazardCardDetails (action) {
+  try {
+    const response = yield axios.get(`/api/hazard/details/${action.payload}`)
+
+    yield put(
+      {type:'SET_HAZARD_CARD_DETAIL', 
+      payload: response.data 
+    });
+    
+  } catch (error) {
+    
+  }
+}
 
 function* hazardSaga() {
   yield takeLatest('ADD_EDIT_HAZARD', addHazard);
   yield takeLatest('FETCH_HAZARD_TO_EDIT', fetchHazardToEdit)
+  yield takeLatest ('FETCH_HAZARD_CARD_DETAIL', fetchHazardCardDetails)
 }
 
 export default hazardSaga;

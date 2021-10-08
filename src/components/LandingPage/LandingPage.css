@@ -1,7 +1,7 @@
 
 .container{
   box-shadow: 0 35px 55px rgba(0, 0, 0, 0.08);
-  width:40%;
+  width:100%;
   height: 20vh;
   border-radius: 20px;
   margin: auto 30px;
@@ -16,8 +16,8 @@ img{
     border-radius: 30px;
 }
 .information-conatiner{
-  flex-direction: column;
-  margin-left: 10px;
+  flex-direction:column;
+  margin-left: 25px;
 }
 .Hazard-Genre{
 color: black;

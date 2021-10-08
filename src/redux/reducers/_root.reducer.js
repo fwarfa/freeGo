@@ -4,6 +4,7 @@ import user from './user.reducer';
 import dashBoardReducer from './Dashboard.reducer';
 import hazardReducer from './hazard.reducer';
 import openMinneapolisApi from './OpenMinneapolisAPI.reducer';
+import cardDetails from './HazardCardDetails.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   hazardReducer, // will have hazard information
   dashBoardReducer, //will have dashboard data information
   openMinneapolisApi,  //will get data from open minneapolis open api 
+  cardDetails,
 });
 
 export default rootReducer;
