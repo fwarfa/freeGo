@@ -24,6 +24,7 @@ import MapComponent from '../Map/Map';
 import MapContainer from '../MapContainer/MapContainer';
 
 import './App.css';
+import HazardManagement from '../HazardManagement/HazardManagement';
 
 
 function App() {
@@ -101,6 +102,9 @@ function App() {
           <Route exact path="/addhazard">
             <AddHazard />
           </Route>
+           <Route exact path="/hazardmanagement">
+            <HazardManagement />
+          </Route>
 
           <Route
             exact
@@ -160,6 +164,7 @@ function App() {
               <LandingPage />
             }
           </Route>
+
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>

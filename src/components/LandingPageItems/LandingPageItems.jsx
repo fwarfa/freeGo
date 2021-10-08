@@ -1,5 +1,6 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
+import { useHistory, useLocation } from "react-router";
 
 export default function LandingPageItems({ items }) {
   return (
@@ -31,7 +32,7 @@ export default function LandingPageItems({ items }) {
             <i className="fa fa-map-marker"></i> {items.street}, {items.city}{" "}
             {items.state}
           </p>
-        </div>
+        </div>  
       </div>
     </>
   );
