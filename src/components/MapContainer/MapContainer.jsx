@@ -21,7 +21,7 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
-Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
 
 console.log('REACT_APP_API_URL', process.env.REACT_APP_GOOGLE_API_KEY);
 
