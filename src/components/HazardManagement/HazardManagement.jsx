@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import LandingPage from "../LandingPage/LandingPage";
 const HazardManagement = () => {
+    const history = useHistory()
   const dispatch = useDispatch();
   const hazard = useSelector((store) => store.dashBoardReducer);
 
@@ -19,10 +21,7 @@ const HazardManagement = () => {
 
   const editItem = (id) => {
     console.log("item to edit is", id);
-    dispatch({
-      type: "EDIT_HAZARD_ITEM",
-      payload: id,
-    });
+    history.push(`edithazard/${id}`)
   };
 
   return (
