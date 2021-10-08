@@ -16,6 +16,13 @@ CREATE TABLE "user" (
 );
 
 -- Table Definition ----------------------------------------------
+CREATE TABLE "hazard_genre" (
+    id serial PRIMARY KEY,
+    title text NOT NULL,
+    description text NOT NULL
+);
+
+-- Table Definition ----------------------------------------------
 CREATE TABLE "hazard" (
     "id" serial,
     "user_id" int,
@@ -36,13 +43,7 @@ CREATE TABLE "hazard" (
     CONSTRAINT "userId" FOREIGN KEY ("user_id") REFERENCES "user"("id"),
     CONSTRAINT "genreId" FOREIGN KEY ("genre_id") REFERENCES "hazard_genre"("id")
 );
--- Table Definition ----------------------------------------------
-CREATE TABLE "hazard_genre" (
-    id serial PRIMARY KEY,
-    title text NOT NULL,
-    description text NOT NULL
-);
-DROP TABLE "hazard_genre"
+
 -- Table Definition ----------------------------------------------
 CREATE TABLE "flagged_hazard" (
     id serial PRIMARY KEY,
