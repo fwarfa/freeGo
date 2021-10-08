@@ -28,7 +28,7 @@ Geocode.enableDebug();
 function AddHazard() {
     const hazardReducer = useSelector(store => store.hazardReducer);
     const dispatch = useDispatch();
-    const params = {id: undefined};
+    const params = useParams();
 
     useEffect(() => {
         // Is there an `:id` param in the URL?
@@ -91,7 +91,12 @@ function AddHazard() {
 
     return (
         <div>
-            <h1>Add A hazard</h1>
+            <h1>
+                {params.id === undefined ?
+                    "Add Hazard" :
+                    "Edit Hazard"
+                }
+            </h1>
             <form onSubmit={getUserLocal}>
                 <input 
                     placeholder="name"
@@ -153,7 +158,12 @@ function AddHazard() {
                     <option value="4">OTHER</option>
                 </select>
 
-                <button type="submit">Submit</button>
+                <button type="submit">
+                {params.id === undefined ?
+                    "Submit" :
+                    "Save"
+                }
+                </button>
             </form>
         </div>
     )

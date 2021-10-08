@@ -1,8 +1,13 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
+import { useHistory } from "react-router-dom";
 
 export default function LandingPageItems({ items }) {
+  const history = useHistory();
 
+  const handleClick = (id) => {
+    history.push(`/edithazard/${id}`);
+  }
   return (
     <>
       <div className="image-container">
@@ -31,6 +36,7 @@ export default function LandingPageItems({ items }) {
             <i className="fa fa-map-marker"></i> {items.street}, {items.city}{" "}
             {items.state}
           </p>
+          <button onClick={() => handleClick(items.id)}>Edit</button>
         </div>
       </div>
     </>
