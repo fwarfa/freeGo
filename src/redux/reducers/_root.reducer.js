@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
 import dashBoardReducer from './Dashboard.reducer';
+import hazardReducer from './hazard.reducer';
 import openMinneapolisApi from './OpenMinneapolisAPI.reducer';
 
 // rootReducer is the primary reducer for our entire project
@@ -13,6 +14,7 @@ import openMinneapolisApi from './OpenMinneapolisAPI.reducer';
 const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
+  hazardReducer, // will have hazard information
   dashBoardReducer, //will have dashboard data information
   openMinneapolisApi,  //will get data from open minneapolis open api 
 });

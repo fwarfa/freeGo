@@ -50,7 +50,7 @@ function App() {
 
   getPosition()
   .then((position) => {
-    console.log('our user location',[position.coords.latitude, position.coords.longitude]);
+    // console.log('our user location',[position.coords.latitude, position.coords.longitude]);
     setUserLocation([position.coords.latitude, position.coords.longitude])
     setLoading(false)
   })
@@ -104,6 +104,10 @@ function App() {
           </Route>
            <Route exact path="/hazardmanagement">
             <HazardManagement />
+          </Route>
+
+          <Route exact path="/edithazard/:id">
+            <AddHazard />
           </Route>
 
           <Route
