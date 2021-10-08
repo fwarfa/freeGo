@@ -15,6 +15,7 @@ function* fetchHomepageDashboard() {
     console.log("dashboard get error is", error.data);
   }
 }
+
 function* deleteHazardItem(action) {
   try {
     yield axios.delete(`/api/hazard/${action.payload}`);

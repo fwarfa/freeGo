@@ -10,8 +10,7 @@ function RegisterForm() {
   const [country, setCountry] = useState('');
   const [password, setPassword] = useState('');
   const [accept_terms, setAccept_Terms] = useState(true);
-  const [notification, setNotification] = useState(true);
-  const [role, setRole] = useState('');
+  const [password2, setPassword2] = useState('');
   const [image, setImage] = useState('');
 
   const errors = useSelector((store) => store.errors);
@@ -19,6 +18,8 @@ function RegisterForm() {
 
   const registerUser = (event) => {
     event.preventDefault();
+
+    if (password === password2){
 
     dispatch({
       type: 'REGISTER',
@@ -31,14 +32,17 @@ function RegisterForm() {
         birthday: birthday, 
         country: country, 
         accept_terms: accept_terms, 
-        notification: notification, 
-        role: role, 
         image: image, 
-      },
+      }
     });
+  }
+  else {
+    alert('Passwords is not matching incorrect');
+  }
   }; // end registerUser
 
   return (
+
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register User</h2>
       {errors.registrationMessage && (
@@ -46,18 +50,7 @@ function RegisterForm() {
           {errors.registrationMessage}
         </h3>
       )}
-       <div>
-        <label htmlFor="username">
-         Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUserName(event.target.value)}
-          />
-        </label>
-      </div>
+    
       <div>
         <label htmlFor="first_name">
           First name:
@@ -82,11 +75,23 @@ function RegisterForm() {
           />
         </label>
       </div>
+      <div>
+        <label htmlFor="image">
+          Add Profile Picture: 
+          <input
+            type="file"
+            name="image"
+            value={image}
+            required
+            onChange={(event) => setImage(event.target.value)}
+          />
+        </label>
+      </div>
          <div>
         <label htmlFor="text">
           Email: 
           <input
-            type="text"
+            type="email"
             name="email"
             value={email}
             required
@@ -96,7 +101,7 @@ function RegisterForm() {
       </div>
         <div>
         <label htmlFor="birthday">
-          Birthday:  
+          Birthdate:  
           <input
             type="date"
             name="birthday"
@@ -109,12 +114,28 @@ function RegisterForm() {
       <div>
         <label htmlFor="country">
           Country: 
-          <input
+          <select
             type="text"
             name="country"
             value={country}
             required
             onChange={(event) => setCountry(event.target.value)}
+          >
+          <option value="United States of America">United States of America</option>
+          <option value="South America">South America</option>
+          <option value="Canada">Canada</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label htmlFor="username">
+         Username:
+          <input
+            type="text"
+            name="username"
+            value={username}
+            required
+            onChange={(event) => setUserName(event.target.value)}
           />
         </label>
       </div>
@@ -130,6 +151,18 @@ function RegisterForm() {
           />
         </label>
       </div>
+       <div>
+        <label htmlFor="password">
+          Re-enter Password:
+          <input
+            type="text"
+            name="password"
+            value={password2}
+            required
+            onChange={(event) => setPassword2(event.target.value)}
+          />
+        </label>
+      </div>
       <div>
         <label htmlFor="accept_terms">
           Accept Terms:
@@ -139,42 +172,6 @@ function RegisterForm() {
             value={accept_terms}
             required
             onChange={(event) => setAccept_Terms(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="notification">
-          Notification:
-          <input
-            type="checkbox"
-            name="notification"
-            value={notification}
-            required
-            onChange={(event) => setNotification(event.target.value)}
-          />
-        </label>
-      </div>
-       <div>
-        <label htmlFor="role">
-          Role:
-          <input
-            type="int"
-            name="role"
-            value={role}
-            required
-            onChange={(event) => setRole(event.target.value)}
-          />
-        </label>
-      </div>
-       <div>
-        <label htmlFor="image">
-          Image:
-          <input
-            type="text"
-            name="image"
-            value={image}
-            required
-            onChange={(event) => setImage(event.target.value)}
           />
         </label>
       </div>
