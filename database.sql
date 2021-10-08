@@ -51,6 +51,15 @@ CREATE TABLE "flagged_hazard" (
     description text,
     "hazard_id" integer REFERENCES "hazard"(id)
 );
+
+INSERT INTO "hazard_genre" 
+    ("title", "description")
+VALUES
+    ('CRIME', 'crime in the area'),
+    ('ROADWORK', 'construction near you'),
+    ('ACCIDENT', 'accident in the area'),
+    ('OTHER', 'incident near you');
+
 -- QUERY NEED TO ALTER OUR LAT AND LNG COLUMNS 
 
 -- alter table hazard alter column latitude type double precision using latitude::double precision;
