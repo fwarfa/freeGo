@@ -5,6 +5,7 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector } from "react-redux";
 import icon from 'leaflet/dist/images/marker-icon.png';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import "../Map/Map.css";
 
@@ -69,6 +70,7 @@ function MapComponent({address}) {
              <span aria-hidden="true">&times;</span>
             </button>
             <h1>{hazard.name}</h1>
+            <FontAwesomeIcon icon={["fal", "coffee"]} />
           </div> 
           
           :
