@@ -1,27 +1,28 @@
-const express = require('express');
+const express = require("express");
 const {
   rejectUnauthenticated,
-} = require('../modules/authentication-middleware');
-const pool = require('../modules/pool');
+} = require("../modules/authentication-middleware");
+const pool = require("../modules/pool");
 
 const router = express.Router();
 
-router.get('/:id', (req, res) => {
-  const id = req.params.id
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
   const query = `SELECT * FROM "hazard" WHERE id = $1`;
-  pool.query(query, [id])
-    .then( result => {
-      console.log('hazard by id is ', result.rows[0]);
-      
+  pool
+    .query(query, [id])
+    .then((result) => {
+      console.log("hazard by id is ", result.rows[0]);
+
       res.send(result.rows[0]);
     })
-    .catch(err => {
-      console.log('Get Job Details with ID failed', err);
-      res.sendStatus(500)
-    })
+    .catch((err) => {
+      console.log("Get Job Details with ID failed", err);
+      res.sendStatus(500);
+    });
 });
 
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const street = req.body.street;
@@ -34,10 +35,9 @@ router.post('/', (req, res) => {
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
   const genreId = req.body.genre;
-  const threatLevel = req.body.threatLevel
+  const threatLevel = req.body.threatLevel;
 
-  console.log('user id is ', userId);
-  
+  console.log("user id is ", userId);
 
   const queryText = `
     INSERT INTO "hazard" 
@@ -46,15 +46,29 @@ router.post('/', (req, res) => {
         ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
     `;
   pool
-    .query(queryText, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, genreId, threatLevel])
+    .query(queryText, [
+      name,
+      description,
+      street,
+      city,
+      state,
+      zip,
+      image,
+      userId,
+      approved,
+      latitude,
+      longitude,
+      genreId,
+      threatLevel,
+    ])
     .then(() => res.sendStatus(200))
     .catch((err) => {
-      console.log('Post hazard failed: ', err);
+      console.log("Post hazard failed: ", err);
       res.sendStatus(500);
     });
 });
 
-router.put('/:id', (req, res) => {
+router.put("/:id", (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
   const description = req.body.description;
@@ -68,9 +82,9 @@ router.put('/:id', (req, res) => {
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
   const genreId = req.body.genre;
-  const threatLevel = req.body.threatLevel
+  const threatLevel = req.body.threatLevel;
 
-  console.log('req body is ', req.body);
+  console.log("req body is ", req.body);
 
   const query = `
   UPDATE "hazard"
@@ -90,31 +104,61 @@ router.put('/:id', (req, res) => {
     threat_level = $13
   WHERE id = $14;
   `;
-  pool.query(query, [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, genreId, threatLevel, id])
-    .then( result => {
+  pool
+    .query(query, [
+      name,
+      description,
+      street,
+      city,
+      state,
+      zip,
+      image,
+      userId,
+      approved,
+      latitude,
+      longitude,
+      genreId,
+      threatLevel,
+      id,
+    ])
+    .then((result) => {
       res.sendStatus(200);
     })
-    .catch(err => {
-      console.log('hazard PUT by id failed', err);
-      res.sendStatus(500)
+    .catch((err) => {
+      console.log("hazard PUT by id failed", err);
+      res.sendStatus(500);
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  let id = [req.params.id];
+  console.log("id is ", id);
+
+  const query = `DELETE FROM "hazard" WHERE id = $1`;
+  pool
+    .query(query, id)
+    .then((result) => {
+      res.sendStatus(200);
     })
+    .catch((err) => {
+      console.log("Events session DELETE failed", err);
+      res.sendStatus(500);
+    });
 });
 
+router.get("/details/:id", async (req, res) => {
+  try {
+    const params = [req.params.id];
+    console.log("get card by the id is", params);
+    const query = `SELECT h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.description FROM "hazard" as h
+LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
+ WHERE h.id = $1`;
 
-router.delete('/:id', (req, res) => {
-    let id = [req.params.id];
-    console.log('id is ', id);
+    const dbData = await pool.query(query, params);
 
-    const query = `DELETE FROM "hazard" WHERE id = $1`;
-    pool.query(query, id)
-        .then(result => {
-            res.sendStatus(200);
-        })
-        .catch(err => {
-            console.log('Events session DELETE failed', err);
-            res.sendStatus(500)
-        })
+    res.send(dbData.rows);
+  } catch (error) {
+    console.log("GET details id error is", error)
+  }
 });
-
 module.exports = router;
-

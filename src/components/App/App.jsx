@@ -27,6 +27,7 @@ import MapContainer from '../MapContainer/MapContainer';
 
 import './App.css';
 import HazardManagement from '../HazardManagement/HazardManagement';
+import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
 
 
 function App() {
@@ -100,119 +101,104 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
-          <Route
-            exact
-            path="/addhazard"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/addhazard">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <AddHazard />
-              :
+            ) : (
               // Otherwise, show the login page
               <Redirect to="/user" />
-            }
+            )}
           </Route>
-          <Route
-            exact
-            path="/hazardmanagement"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/hazardmanagement">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <HazardManagement />
-              :
+            ) : (
               // Otherwise, show the login page
               <Redirect to="/user" />
-            }
+            )}
           </Route>
-          <Route
-            exact
-            path="/edithazard/:id"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/edithazard/:id">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <AddHazard />
-              :
+            ) : (
               // Otherwise, show the login page
               <Redirect to="/user" />
-            }
+            )}
           </Route>
-          <Route
-            exact
-            path="/login"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/login">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the login page
               <LoginPage />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/registration"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/registration">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/user" />
-              :
+            ) : (
               // Otherwise, show the registration page
               <RegisterPage />
-            }
+            )}
           </Route>
 
-
-          <Route
-            exact
-            path="/map"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/map">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
-              <MapContainer 
-                address = {userLocation}
-              />
-              :
+              <MapContainer address={userLocation} />
+            ) : (
               // Otherwise, show the registration page
               <Redirect to="/user" />
-            }
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/hazardmanagement"
-          >
-            {user.id ?
-              // If the user is already logged in, 
+          <Route exact path="/hazardmanagement">
+            {user.id ? (
+              // If the user is already logged in,
               // redirect them to the /user page
               <Redirect to="/hazardmanagement" />
-              :
+            ) : (
               // Otherwise, show the registration page
-              <HazardManagement
-              />
-            }
+              <HazardManagement />
+            )}
           </Route>
 
-          <Route
-            exact
-            path="/home"
-          >
-            {user.id ?
-              // If the user is already logged in, 
-              // redirect them to the /user page
-              <LandingPage />
-              :
-              <Redirect to="/user" />
+          <Route exact path="/home">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <LandingPage />
+              ) : (
+                <Redirect to="/user" />
+              )
               // Otherwise, show the Landing page
             }
           </Route>
-
+          <Route exact path="/details/:id">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <HazardCardDetails />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>

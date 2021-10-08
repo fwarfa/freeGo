@@ -10,9 +10,7 @@ export default function LandingPageItems({ items }) {
   }
   return (
     <>
-      <div className="image-container">
-        <img src={items.image} alt="" />
-      </div>
+      <img src={items.image} alt="" />
       <div className="information-conatiner">
         <h3 className="Hazard-Genre">{items.name}</h3>
         <h3 className="threat">
