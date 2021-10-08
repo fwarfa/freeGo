@@ -7,11 +7,8 @@ import MapComponent from '../Map/Map'
 import Geocode from "react-geocode";
 
 const dotenv = require("dotenv");
-
 dotenv.config({ path: ".env" });
-
 const url = process.env.REACT_APP_GOOGLE_API_KEY;
-console.log('URL',url);
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -22,8 +19,6 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
-
-console.log('REACT_APP_API_URL', process.env.REACT_APP_GOOGLE_API_KEY);
 
 // set response language. Defaults to english.
 Geocode.setLanguage("en");
