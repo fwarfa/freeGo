@@ -10,38 +10,29 @@ export default function LandingPage() {
 
   useEffect(() => {
     fetchDashboard();
-    fetchOpenMinneapolisAPI();
   }, []);
 
   //fetches dashboard data from the database
   function fetchDashboard() {
     dispatch({
-      type: "FETCH_DASHBOARD",
+      type: "FETCH_HAZARD",
     });
   }
-
-  function fetchOpenMinneapolisAPI() {
-    dispatch({
-      type: "FETCH_OPEN_MINNEAPOLIS_API",
-    });
-  }
-
+  
   const handleClick = () => {
     history.push('/addhazard');
   }
-
+  
   const dashBoard = useSelector(store => store.dashBoardReducer)
   // console.log("dashboard is", dashBoard)
-
-  const openMinneapolisAPI = useSelector((store) => store.openMinneapolisApi);
-  console.log("open Minneapolis api is", openMinneapolisAPI);
-
+  
   return (
     <div className="container">
       <button onClick={handleClick}>Add A Hazard</button>
       {dashBoard.length > 0 ? (
         dashBoard.map((items, i) => (
           <div key={i}>
+            {console.log("items are", items)}
             <LandingPageItems items={items} />{" "}
           </div>
         ))

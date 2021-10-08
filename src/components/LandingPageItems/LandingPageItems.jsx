@@ -1,6 +1,6 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router";
 
 export default function LandingPageItems({ items }) {
   const history = useHistory();
@@ -37,7 +37,7 @@ export default function LandingPageItems({ items }) {
             {items.state}
           </p>
           <button onClick={() => handleClick(items.id)}>Edit</button>
-        </div>
+        </div> 
       </div>
     </>
   );

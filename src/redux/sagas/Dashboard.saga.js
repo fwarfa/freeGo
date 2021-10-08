@@ -12,33 +12,24 @@ function* fetchHomepageDashboard() {
     //passing the response to my reducer
     yield put({ type: "SET_DASHBOARD", payload: response.data });
   } catch (error) {
-    console.log("dashboard get error is", error.data); 
+    console.log("dashboard get error is", error.data);
   }
 }
-
-function* fetchOpenMinneapolisApi () {
+function* deleteHazardItem(action) {
   try {
-    //saving the axios get request to response
-    const response = yield axios.get("/api/dashBoard/MplsApi")
-
-    //passing the response to my reducer
+    yield axios.delete(`/api/hazard/${action.payload}`);
 
     yield put({
-      type: "SET_OPEN_MINNEAPOLIS_API",
-      payload: response.data
-
-    })
-
+      type: "FETCH_HAZARD",
+    });
   } catch (error) {
-    console.log("Get Open Minneapolis Api is", error)
-    
+    console.log("delete item error is", error);
   }
-
 }
 
 function* fetchDashboard() {
-  yield takeLatest("FETCH_DASHBOARD", fetchHomepageDashboard);
-  yield takeLatest("FETCH_OPEN_MINNEAPOLIS_API", fetchOpenMinneapolisApi)
+  yield takeLatest("FETCH_HAZARD", fetchHomepageDashboard);
+  yield takeLatest("DELETE_HAZARD_ITEM", deleteHazardItem);
 }
 
 export default fetchDashboard;

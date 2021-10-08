@@ -52,7 +52,7 @@ function MapContainer({userLocation}) {
 
   useEffect(() => {
     dispatch({
-      type: "FETCH_DASHBOARD", // <--- change to fetch_hazard
+      type: "FETCH_HAZARD", // <--- change to fetch_hazard
     });
   }, []);
 
