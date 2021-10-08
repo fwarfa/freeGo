@@ -28,6 +28,7 @@ Geocode.enableDebug();
 function AddHazard() {
     const hazardReducer = useSelector(store => store.hazardReducer);
     const dispatch = useDispatch();
+    const history = useHistory();
     const params = useParams();
 
     useEffect(() => {
@@ -51,6 +52,13 @@ function AddHazard() {
             })
         }
     }, [params.id]);
+
+    const handleHome = () => {
+        dispatch({
+            type: 'CLEAR_HAZARD'
+        })
+        history.push('/home');
+    }
 
     const handleChange = (event) =>{
         dispatch({
@@ -87,10 +95,16 @@ function AddHazard() {
             type: 'ADD_EDIT_HAZARD',
             payload: hazardLocal
         })
+        dispatch({
+            type: 'CLEAR_HAZARD'
+        })
+        history.push('/home');
     }
 
     return (
         <div>
+            <button onClick={handleHome}>Home</button>
+            <br />
             <h1>
                 {params.id === undefined ?
                     "Add Hazard" :
