@@ -15,7 +15,16 @@ try {
         FROM 
             "hazard" as h
         LEFT JOIN 
-            "hazard_genre" as genre ON genre.id = h.genre_id;`;
+            "hazard_genre" as genre ON genre.id = h.genre_id
+        WHERE acos(
+          sin(radians(44.97464249999999)) 
+            * sin(radians(h.latitude)) 
+            + cos(radians(44.97464249999999)) 
+            * cos(radians(h.latitude)) 
+            * cos( radians(-93.2726928)
+            - radians(h.longitude))
+          ) * 3961 <= 383;` // <-- 383 is the amount of miles we are asking for change at your discreation
+
   //Making pool request to to my local db 
   const dbData = await pool.query(query);
   //Making axios get request to open Minneapolis Api
