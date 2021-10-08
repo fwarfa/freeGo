@@ -82,7 +82,6 @@ function RegisterForm() {
             type="file"
             name="image"
             value={image}
-            required
             onChange={(event) => setImage(event.target.value)}
           />
         </label>
@@ -121,6 +120,7 @@ function RegisterForm() {
             required
             onChange={(event) => setCountry(event.target.value)}
           >
+          <option defaultValue="United States of America">United States of America</option>
           <option value="United States of America">United States of America</option>
           <option value="South America">South America</option>
           <option value="Canada">Canada</option>
