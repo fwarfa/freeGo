@@ -1,24 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import '../HazardManagement/HazardManagement.css'
-import HazardManagementItem from '../HazardManagementItem/HazardManagementItem'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import LandingPage from "../LandingPage/LandingPage";
+const HazardManagement = () => {
+  const dispatch = useDispatch();
+  const hazard = useSelector((store) => store.dashBoardReducer);
 
+  useEffect(() => {
+    dispatch({ type: "FETCH_HAZARD" });
+  }, []);
 
-export default function HazardManagement() {
- 
-    const dispatch = useDispatch();
-    const dashBoard = useSelector(store => store.dashBoardReducer);
+  const deleteItem = (id) => {
+    console.log("delete clicked for: ", id);
+    dispatch({
+      type: "DELETE_HAZARD_ITEM",
+      payload: id,
+    });
+  };
 
-    useEffect(() => {
-    dispatch({ type: 'FETCH_DASHBOARD'})
-    }, []);
+  const editItem = (id) => {
+    console.log("item to edit is", id);
+    dispatch({
+      type: "EDIT_HAZARD_ITEM",
+      payload: id,
+    });
+  };
 
-    return (
-       <div className="container">
-      {dashBoard.length > 0 ? (
-        dashBoard.map((items, i) => (
+  return (
+    <div className="container">
+      {hazard.length > 0 ? (
+        hazard.map((item, i) => (
           <div key={i}>
-            <HazardManagementItem items={items} />{" "}
+            <div className="image-container">
+              <img src={item.image} alt="" />
+            </div>
+            <div className="information-conatiner">
+              <h3 className="Hazard-Genre">{item.name}</h3>
+              <h3 className="threat">
+                <span>{item.title}</span>
+              </h3>
+              <h3 className="threat">Threat Level {item.threat_level}</h3>
+              <div className="status">
+                <p className="threatLevel">
+                  Status:{" "}
+                  {item.approved === true ? (
+                    <span>Approved</span>
+                  ) : (
+                    <span>Not approved</span>
+                  )}
+                </p>
+              </div>
+              <div className="address">
+                <p>
+                  <i className="fa fa-map-marker"></i> {item.street},{" "}
+                  {item.city} {item.state}
+                </p>
+              </div>
+            </div>
+            <button onClick={() => editItem(item.id)}>Edit</button>
+            <button onClick={() => deleteItem(item.id)}>Delete</button>
           </div>
         ))
       ) : (
@@ -26,5 +65,6 @@ export default function HazardManagement() {
       )}
     </div>
   );
-}
+};
 
+export default HazardManagement;

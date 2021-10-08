@@ -1,0 +1,19 @@
+.map-popup-container {
+  display: block;
+  position: relative;
+}
+
+.popup-map-item {
+  position:absolute;
+  left: 0; 
+  right: 0; 
+  bottom: 25px;
+  margin-left: auto; 
+  margin-right: auto; 
+  width: 100px;
+  z-index: 9999;
+  text-align: center;
+  /* background: white;
+  border-radius: 9px;
+  box-shadow: 1px 1px 1px 1px black; */
+}

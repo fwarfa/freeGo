@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 import Geocode from "react-geocode";
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
@@ -24,33 +25,53 @@ Geocode.setLocationType("ROOFTOP");
 // Enable or disable logs. Its optional.
 Geocode.enableDebug();
 
-
 function AddHazard() {
-    const dispatch = useDispatch()
-    const [address, setAddress] = useState();
-    const [hazard, setHazard] = useState({
-        name: '',
-        description: '',
-        street: '',
-        city: '',
-        state: '',
-        zip: '',
-        image: '',
-        latitude: '',
-        longitude: ''
-    });
+    const hazardReducer = useSelector(store => store.hazardReducer);
+    const dispatch = useDispatch();
+    const params = useParams();
 
+    useEffect(() => {
+        // Is there an `:id` param in the URL?
+        if (params.id === undefined) {
+            // Create mode
+            // localhost:3000/hazard
+            // Reset store.hazardReducer = {}
+            dispatch({
+                type: 'CLEAR_HAZARD'
+            })
+        }
+        else {
+            // Edit mode
+            // localhost:3000/jobEntry/:id
+            // GET /jobEntries/:id
+            // Save results to store.editJobEntry
+            dispatch({
+                type: 'FETCH_HAZARD_TO_EDIT',
+                payload: params.id
+            })
+        }
+    }, [params.id]);
+
+    const handleChange = (event) =>{
+        dispatch({
+            type: 'UPDATE_EDIT_HAZARD',
+            payload: {
+                ...hazardReducer, 
+                [event.target.name]: event.target.value
+            }
+        })
+      };
 
     const getUserLocal = (event) => {
         event.preventDefault();
-        if(hazard.street && hazard.city && hazard.state && hazard.zip) {
-            let address = hazard.street + ' ' + hazard.city + ' ' + hazard.zip;
+        if(hazardReducer.street && hazardReducer.city && hazardReducer.state && hazardReducer.zip) {
+            let address = hazardReducer.street + ' ' + hazardReducer.city + ' ' + hazardReducer.zip;
             Geocode.fromAddress(address).then(
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
                   console.log('lat and lng converted from address', lat, lng);
-                  let hazardLocal = {...hazard, latitude:lat, longitude: lng};
-                  console.log('hazard is before local', hazard);
+
+                  let hazardLocal = {...hazardReducer, latitude:lat, longitude: lng};
                   handleSubmit(hazardLocal);
                 },
                 (error) => {
@@ -61,62 +82,88 @@ function AddHazard() {
     }
 
     const handleSubmit = (hazardLocal) => {
-        console.log('hazard after local', hazardLocal);
+        console.log('hazard before dispatch', hazardLocal);
         dispatch({
-            type: 'ADD_hazard',
+            type: 'ADD_EDIT_HAZARD',
             payload: hazardLocal
         })
     }
 
     return (
         <div>
-            <h1>Add A hazard</h1>
+            <h1>
+                {params.id === undefined ?
+                    "Add Hazard" :
+                    "Edit Hazard"
+                }
+            </h1>
             <form onSubmit={getUserLocal}>
                 <input 
                     placeholder="name"
                     name='name'
-                    value={hazard.name}
-                    onChange={(event) => setHazard({...hazard, name:event.target.value})}
+                    value={hazardReducer.name}
+                    onChange={handleChange}
                 />
                 <textarea 
                     placeholder="description"
                     name='description'
                     rows="4"
-                    value={hazard.description}
-                    onChange={(event) => setHazard({...hazard, description:event.target.value})}
+                    value={hazardReducer.description}
+                    onChange={handleChange}
                 >
                 </textarea>
                 <input 
                     placeholder="street"
                     name='street'
-                    value={hazard.street}
-                    onChange={(event) => setHazard({...hazard, street:event.target.value})}
+                    value={hazardReducer.street}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="city"
                     name='city'
-                    value={hazard.city}
-                    onChange={(event) => setHazard({...hazard, city:event.target.value})}
+                    value={hazardReducer.city}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="state"
                     name='state'
-                    value={hazard.state}
-                    onChange={(event) => setHazard({...hazard, state:event.target.value})}
+                    value={hazardReducer.state}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="zip"
                     name='zip'
-                    value={hazard.zip}
-                    onChange={(event) => setHazard({...hazard, zip:event.target.value})}
+                    value={hazardReducer.zip}
+                    onChange={handleChange}
                 />
                 <input 
                     placeholder="image"
                     name='image'
-                    value={hazard.image}
-                    onChange={(event) => setHazard({...hazard, image:event.target.value})}
+                    value={hazardReducer.image}
+                    onChange={handleChange}
                 />
-                <button type="submit">Submit</button>
+                <label for="threatLevel">Hazard Threat Level:</label>
+                <select name="threatLevel" id="threatLevel" value={hazardReducer.threatLevel} onChange={handleChange}>
+                    <option selected disabled>Select A Threat Level</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="severe">Severe</option>
+                </select>
+                <label for="genre">Hazard Genre:</label>
+                <select name="genre" id="genre" value={hazardReducer.genre} onChange={handleChange}>
+                    <option selected disabled >Select A Genre</option>
+                    <option value="1">CRIME</option>
+                    <option value="2">ROAD WORK</option>
+                    <option value="3">ACCIDENT</option>
+                    <option value="4">OTHER</option>
+                </select>
+
+                <button type="submit">
+                {params.id === undefined ?
+                    "Submit" :
+                    "Save"
+                }
+                </button>
             </form>
         </div>
     )
