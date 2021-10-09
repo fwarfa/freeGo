@@ -6,23 +6,40 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
-router.get("/:id", (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
-  const query = `SELECT * FROM "hazard" WHERE id = $1`;
+  const userId = req.user.id;
+  const query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
   pool
-    .query(query, [id])
+    .query(query, [id, userId])
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
 
       res.send(result.rows[0]);
     })
     .catch((err) => {
-      console.log("Get Job Details with ID failed", err);
+      console.log("Get hazard by id failed", err);
       res.sendStatus(500);
     });
 });
 
-router.post("/", (req, res) => {
+router.get("/user/:id", rejectUnauthenticated, (req, res) => {
+  const userId = req.user.id;
+  const query = `SELECT * FROM "hazard" WHERE user_id = $1`;
+  pool
+    .query(query, [userId])
+    .then((result) => {
+      console.log("user hazard is ", result.rows);
+
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log("Get User Hazard failed", err);
+      res.sendStatus(500);
+    });
+});
+
+router.post("/", rejectUnauthenticated, (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const street = req.body.street;
@@ -30,7 +47,7 @@ router.post("/", (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = 1;
+  const userId = req.user.id;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
@@ -68,7 +85,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
   const description = req.body.description;
@@ -77,7 +94,7 @@ router.put("/:id", (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = req.body.user_id;
+  const userId = req.user.id;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
@@ -96,13 +113,12 @@ router.put("/:id", (req, res) => {
     state = $5, 
     zip = $6, 
     image = $7, 
-    user_id = $8, 
-    approved = $9, 
-    latitude = $10, 
-    longitude = $11,
-    genre_id = $12,
-    threat_level = $13
-  WHERE id = $14;
+    approved = $8, 
+    latitude = $9, 
+    longitude = $10,
+    genre_id = $11,
+    threat_level = $12
+  WHERE id = $13 AND user_id = $14;
   `;
   pool
     .query(query, [
@@ -113,13 +129,13 @@ router.put("/:id", (req, res) => {
       state,
       zip,
       image,
-      userId,
       approved,
       latitude,
       longitude,
       genreId,
       threatLevel,
       id,
+      userId
     ])
     .then((result) => {
       res.sendStatus(200);
@@ -130,13 +146,14 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
-  let id = [req.params.id];
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  let id = req.params.id;
+  let userId = req.user.id;
   console.log("id is ", id);
 
-  const query = `DELETE FROM "hazard" WHERE id = $1`;
+  const query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
   pool
-    .query(query, id)
+    .query(query, [id, userId])
     .then((result) => {
       res.sendStatus(200);
     })
