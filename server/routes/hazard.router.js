@@ -6,7 +6,7 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
-router.get("/:id", (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const userId = req.user.id;
   const query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
@@ -23,7 +23,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
-router.get("/user/:id", (req, res) => {
+router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   const userId = req.user.id;
   const query = `SELECT * FROM "hazard" WHERE user_id = $1`;
   pool
@@ -39,7 +39,7 @@ router.get("/user/:id", (req, res) => {
     });
 });
 
-router.post("/", (req, res) => {
+router.post("/", rejectUnauthenticated, (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
   const street = req.body.street;
@@ -85,7 +85,7 @@ router.post("/", (req, res) => {
     });
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
   const description = req.body.description;
@@ -146,13 +146,14 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
-  let id = [req.params.id];
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  let id = req.params.id;
+  let userId = req.user.id;
   console.log("id is ", id);
 
-  const query = `DELETE FROM "hazard" WHERE id = $1`;
+  const query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
   pool
-    .query(query, id)
+    .query(query, [id, userId])
     .then((result) => {
       res.sendStatus(200);
     })
