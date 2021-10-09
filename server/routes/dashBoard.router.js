@@ -31,19 +31,22 @@ try {
   const openApiData = await axios.get(
     "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=1&outSR=4326&f=json"
   );
+  
 
   const dbRes = dbData.rows;
   const openDataApi = openApiData.data.features;
 
-  console.log("db response is", dbRes);
-  console.log("open Api data is", openDataApi);
+  
+
+  // console.log("db response is", dbRes);
+  // console.log("open Api data is", openDataApi);
 
   res.send(
     dbRes
     // openDataApi,
   );
 } catch (error) {
-  console.log("GET Minnespolis Open Api/db error is", error)
+  console.log("GET Minneapolis Open Api/db error is", error)
   
 }
 });

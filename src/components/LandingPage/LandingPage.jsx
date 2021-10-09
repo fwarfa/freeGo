@@ -35,7 +35,11 @@ export default function LandingPage() {
       {dashBoard.length > 0 ? (
         dashBoard.map((items, i) => (
           <>
-            <div className="container" key={i} onClick={() => getCardInfo(items.id)}>
+            <div
+              className="container"
+              key={i}
+              onClick={() => getCardInfo(items.id)}
+            >
               <button onClick={handleClick}>Add A Hazard</button>
               <div className="image-container">
                 {console.log("items are", items)}
