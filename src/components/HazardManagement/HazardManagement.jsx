@@ -5,12 +5,16 @@ import LandingPage from "../LandingPage/LandingPage";
 const HazardManagement = () => {
     const history = useHistory()
   const dispatch = useDispatch();
-  const hazard = useSelector((store) => store.dashBoardReducer);
+  const hazard = useSelector((store) => store.userHazard);
   const user = useSelector(store => store.user);
   
 
   useEffect(() => {
-    dispatch({ type: "FETCH_HAZARD" });
+    console.log('user id is ', user.id);
+    dispatch({ 
+      type: "FETCH_USER_HAZARD",
+      payload: user.id 
+    });
   }, []);
 
   const deleteItem = (id) => {

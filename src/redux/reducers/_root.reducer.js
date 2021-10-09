@@ -3,6 +3,7 @@ import errors from './errors.reducer';
 import user from './user.reducer';
 import dashBoardReducer from './Dashboard.reducer';
 import hazardReducer from './hazard.reducer';
+import userHazard from './userHazarad.reducer';
 import openMinneapolisApi from './OpenMinneapolisAPI.reducer';
 import cardDetails from './HazardCardDetails.reducer';
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   dashBoardReducer, //will have dashboard data information
   openMinneapolisApi,  //will get data from open minneapolis open api 
   cardDetails,
+  userHazard
 });
 
 export default rootReducer;

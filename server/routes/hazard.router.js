@@ -18,7 +18,23 @@ router.get("/:id", (req, res) => {
       res.send(result.rows[0]);
     })
     .catch((err) => {
-      console.log("Get Job Details with ID failed", err);
+      console.log("Get hazard by id failed", err);
+      res.sendStatus(500);
+    });
+});
+
+router.get("/user/:id", (req, res) => {
+  const userId = req.user.id;
+  const query = `SELECT * FROM "hazard" WHERE user_id = $1`;
+  pool
+    .query(query, [userId])
+    .then((result) => {
+      console.log("user hazard is ", result.rows);
+
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log("Get User Hazard failed", err);
       res.sendStatus(500);
     });
 });
