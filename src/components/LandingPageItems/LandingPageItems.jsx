@@ -1,16 +1,18 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
 import { useHistory, useLocation } from "react-router";
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function LandingPageItems({ items }) {
   const history = useHistory();
+  const user = useSelector(store => store.user);
 
   const handleClick = (id) => {
     history.push(`/edithazard/${id}`);
   }
+
   return (
     <>
-      <img src={items.image} alt="" />
       <div className="information-conatiner">
         <h3 className="Hazard-Genre">{items.name}</h3>
         <h3 className="threat">
@@ -34,7 +36,9 @@ export default function LandingPageItems({ items }) {
             <i className="fa fa-map-marker"></i> {items.street}, {items.city}{" "}
             {items.state}
           </p>
-          <button onClick={() => handleClick(items.id)}>Edit</button>
+          { items.user_id === user.id &&
+            <button onClick={() => handleClick(items.id)}>Edit</button>
+          }
         </div> 
       </div>
     </>

@@ -7,9 +7,17 @@ function* addHazard(action) {
   try {
     if (!action.payload.id) {
       yield axios.post('/api/hazard', action.payload);
+
+      yield put({
+        type: "FETCH_HAZARD",
+      });
     }
     else {
       yield axios.put(`/api/hazard/${action.payload.id}`, action.payload);
+
+      yield put({
+        type: "FETCH_HAZARD",
+      });
     }
   }
   catch (error) {

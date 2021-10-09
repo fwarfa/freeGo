@@ -101,16 +101,14 @@ function App() {
           >
             <InfoPage />
           </ProtectedRoute>
-          <Route exact path="/addhazard">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect to the /user page
+
+          <ProtectedRoute 
+            exact 
+            path="/addhazard"
+          >
               <AddHazard />
-            ) : (
-              // Otherwise, show the login page
-              <Redirect to="/user" />
-            )}
-          </Route>
+          </ProtectedRoute>
+
           <Route exact path="/hazardmanagement">
             {user.id ? (
               // If the user is already logged in,
@@ -121,16 +119,10 @@ function App() {
               <Redirect to="/user" />
             )}
           </Route>
-          <Route exact path="/edithazard/:id">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect to the /user page
+          <ProtectedRoute exact path="/edithazard/:id">
               <AddHazard />
-            ) : (
-              // Otherwise, show the login page
-              <Redirect to="/user" />
-            )}
-          </Route>
+          </ProtectedRoute>
+
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
@@ -161,17 +153,6 @@ function App() {
             ) : (
               // Otherwise, show the registration page
               <Redirect to="/user" />
-            )}
-          </Route>
-
-          <Route exact path="/hazardmanagement">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect them to the /user page
-              <Redirect to="/hazardmanagement" />
-            ) : (
-              // Otherwise, show the registration page
-              <HazardManagement />
             )}
           </Route>
 

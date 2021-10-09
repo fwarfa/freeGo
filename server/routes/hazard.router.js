@@ -8,9 +8,10 @@ const router = express.Router();
 
 router.get("/:id", (req, res) => {
   const id = req.params.id;
-  const query = `SELECT * FROM "hazard" WHERE id = $1`;
+  const userId = req.user.id;
+  const query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
   pool
-    .query(query, [id])
+    .query(query, [id, userId])
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
 
@@ -30,7 +31,7 @@ router.post("/", (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = 1;
+  const userId = req.user.id;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
@@ -77,7 +78,7 @@ router.put("/:id", (req, res) => {
   const state = req.body.state;
   const zip = req.body.zip;
   const image = req.body.image;
-  const userId = req.body.user_id;
+  const userId = req.user.id;
   const approved = true;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
@@ -96,13 +97,12 @@ router.put("/:id", (req, res) => {
     state = $5, 
     zip = $6, 
     image = $7, 
-    user_id = $8, 
-    approved = $9, 
-    latitude = $10, 
-    longitude = $11,
-    genre_id = $12,
-    threat_level = $13
-  WHERE id = $14;
+    approved = $8, 
+    latitude = $9, 
+    longitude = $10,
+    genre_id = $11,
+    threat_level = $12
+  WHERE id = $13 AND user_id = $14;
   `;
   pool
     .query(query, [
@@ -113,13 +113,13 @@ router.put("/:id", (req, res) => {
       state,
       zip,
       image,
-      userId,
       approved,
       latitude,
       longitude,
       genreId,
       threatLevel,
       id,
+      userId
     ])
     .then((result) => {
       res.sendStatus(200);

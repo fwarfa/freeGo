@@ -6,6 +6,8 @@ const HazardManagement = () => {
     const history = useHistory()
   const dispatch = useDispatch();
   const hazard = useSelector((store) => store.dashBoardReducer);
+  const user = useSelector(store => store.user);
+  
 
   useEffect(() => {
     dispatch({ type: "FETCH_HAZARD" });

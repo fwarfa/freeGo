@@ -7,6 +7,7 @@ import LandingPageItems from "../LandingPageItems/LandingPageItems";
 export default function LandingPage() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const dashBoard = useSelector((store) => store.dashBoardReducer);
 
   useEffect(() => {
     fetchDashboard();
@@ -23,24 +24,23 @@ export default function LandingPage() {
     history.push("/addhazard");
   };
 
-  const dashBoard = useSelector((store) => store.dashBoardReducer);
-
-  const getCardInfo = (id)=> {
+  const getCardInfo = (id) => {
     console.log("card info id is", id);
     history.push(`/details/${id}`)
-
   }
+
   return (
     <>
+      <button onClick={handleClick}>Add A Hazard</button>
       {dashBoard.length > 0 ? (
         dashBoard.map((items, i) => (
           <>
-            <div className="container" key={i} onClick={() => getCardInfo(items.id)}>
-              <button onClick={handleClick}>Add A Hazard</button>
+            <div className="container" key={i}>
               <div className="image-container">
-                {console.log("items are", items)}
-                <LandingPageItems items={items} />{" "}
+                <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
               </div>
+              {console.log("items are", items)}
+              <LandingPageItems items={items} />{" "}
             </div>
           </>
         ))
