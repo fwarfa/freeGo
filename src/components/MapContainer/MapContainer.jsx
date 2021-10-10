@@ -9,7 +9,6 @@ import PageHeader from '../PageHeader/PageHeader';
 
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
-const url = process.env.REACT_APP_GOOGLE_API_KEY;
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -46,11 +45,7 @@ function MapContainer({userLocation}) {
   const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
 
-  useEffect(() => {
-    dispatch({
-      type: "FETCH_HAZARD", // <--- change to fetch_hazard
-    });
-  }, []);
+
 
 
   const dashBoard = useSelector(store => store.dashBoardReducer)

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faBell, faMapMarkedAlt, faUserAlt, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faBell, faMapMarkedAlt, faUserAlt, faUser, faCog } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux';
 
 function Nav() {
@@ -83,7 +83,7 @@ function Nav() {
               </Link>
             }
           </li>
-          <li className="nav-item">
+          <li className="nav-item nav-item-flex">
             {/* If a user is logged in, show these links */}
             {user.id && (
               <>
@@ -108,11 +108,11 @@ function Nav() {
                   </span>
                 </Link>
 
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <FontAwesomeIcon icon={faUserAlt} />
+                <li className="nav-item navLink dropdown">
+                  <a className="navLink dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <FontAwesomeIcon icon={faCog} />
                     <span className="hide-on-mobile">
-                      Profile
+                      Settings
                     </span>
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -126,10 +126,9 @@ function Nav() {
                     </li>
                     <li><a className="dropdown-item" href="#">Another action</a></li>
                     <li><hr className="dropdown-divider"></hr></li>
-                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                    <li><LogOutButton className="navLink btn btn-danger" /></li>
                   </ul>
                 </li>
-                <LogOutButton className="navLink btn btn-warning" />
               </>
             )}
           </li>

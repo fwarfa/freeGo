@@ -15,6 +15,10 @@
   margin-right: 5px;
 }
 
+.nav-item-flex {
+  display: flex;
+}
+
 @media only screen and (max-width: 600px) {
   .navbar {
     position: fixed;
