@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 export default function HazardCardDetails() {
-
+  const history = useHistory()
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
@@ -12,17 +13,23 @@ export default function HazardCardDetails() {
       type: "FETCH_HAZARD_CARD_DETAIL",
       payload: id,
     });
-  }, [id]);
+  }, []);
 
   const editItem = (id) => {
     console.log("edit item id is", id);
+    history.push(`/edithazard/${id}`);
   };
 
   const deleteItem = (id) => {
     console.log("delete item id is", id);
+    dispatch({
+      type: "DELETE_HAZARD_ITEM",
+      payload: id,
+    });
+    history.push('/home')
   };
     const detail = useSelector((store) => store.cardDetails);
-    console.log("details is", detail);
+
 
   return (
     <>
@@ -60,8 +67,8 @@ export default function HazardCardDetails() {
                 <div></div>
               </div>
               <div>
-                  <button >Edit</button>
-                  <button>Delete</button>
+                  <button onClick={() => editItem (items.id)} >Edit</button>
+                  <button onClick={() => deleteItem(items.id)}>Delete</button>
               </div>
             </div>
           </div>
