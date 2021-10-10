@@ -5,6 +5,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import MapComponent from '../Map/Map'
 import Geocode from "react-geocode";
+import PageHeader from '../PageHeader/PageHeader';
 
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -75,6 +76,10 @@ function MapContainer({userLocation}) {
 
   return (
     <>
+      <PageHeader 
+        title = "Map"
+        description = "View hazards on map - temp description"
+      />
       <input
           onChange={event => setAddress(event.target.value)}
           className="form-control"

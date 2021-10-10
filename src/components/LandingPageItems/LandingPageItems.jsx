@@ -40,7 +40,7 @@ export default function LandingPageItems({ items }) {
               {items.state}
             </p>
             { items.user_id === user.id &&
-              <button onClick={() => handleClick(items.id)}>Edit</button>
+              <button className="btn btn-primary" onClick={() => handleClick(items.id)}>Edit</button>
             }
           </div> 
         </div>
