@@ -7,9 +7,17 @@ function* addHazard(action) {
   try {
     if (!action.payload.id) {
       yield axios.post('/api/hazard', action.payload);
+
+      yield put({
+        type: "FETCH_HAZARD",
+      });
     }
     else {
       yield axios.put(`/api/hazard/${action.payload.id}`, action.payload);
+
+      yield put({
+        type: "FETCH_HAZARD",
+      });
     }
   }
   catch (error) {
@@ -30,6 +38,21 @@ function* fetchHazardToEdit(action) {
     console.log('fetch hazard to edit failed', error);
   }
 }
+
+function* fetchUserHazard(action) {
+  try {
+    let response = yield axios.get(`/api/hazard/user/${action.payload}`);
+
+    yield put({
+      type: 'SET_USER_HAZARD',
+      payload: response.data
+    });
+  } 
+  catch (error) {
+    console.log('fetch hazard to edit failed', error);
+  }
+}
+
 function* fetchHazardCardDetails (action) {
   try {
     const response = yield axios.get(`/api/hazard/details/${action.payload}`)
@@ -48,6 +71,7 @@ function* hazardSaga() {
   yield takeLatest('ADD_EDIT_HAZARD', addHazard);
   yield takeLatest('FETCH_HAZARD_TO_EDIT', fetchHazardToEdit)
   yield takeLatest ('FETCH_HAZARD_CARD_DETAIL', fetchHazardCardDetails)
+  yield takeLatest('FETCH_USER_HAZARD', fetchUserHazard)
 }
 
 export default hazardSaga;
