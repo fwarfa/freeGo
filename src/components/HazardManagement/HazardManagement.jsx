@@ -27,7 +27,7 @@ const HazardManagement = () => {
 
   const editItem = (id) => {
     console.log("item to edit is", id);
-    history.push(`edithazard/${id}`)
+    history.push(`/edithazard/${id}`)
   };
 
   return (
