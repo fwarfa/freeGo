@@ -51,10 +51,11 @@ function RegisterForm() {
         </h3>
       )}
     
-      <div>
+      <div className="form-group">
         <label htmlFor="first_name">
           First name:
           <input
+            className="form-control"
             type="text"
             name="first_name"
             value={first_name}
@@ -63,10 +64,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="last_name">
           Last Name: 
           <input
+            className="form-control"
             type="text"
             name="last_name"
             value={last_name}
@@ -75,10 +77,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group"> 
         <label htmlFor="image">
           Add Profile Picture: 
           <input
+            className="form-control"
             type="file"
             name="image"
             value={image}
@@ -86,10 +89,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-         <div>
+         <div className="form-group">
         <label htmlFor="text">
           Email: 
           <input
+            className="form-control"
             type="email"
             name="email"
             value={email}
@@ -98,10 +102,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-        <div>
+        <div className="form-group">
         <label htmlFor="birthday">
           Birthdate:  
           <input
+            className="form-control"
             type="date"
             name="birthday"
             value={birthday}
@@ -110,10 +115,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="country">
           Country: 
           <select
+            className="form-control"
             type="text"
             name="country"
             value={country}
@@ -127,10 +133,11 @@ function RegisterForm() {
           </select>
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="username">
          Username:
           <input
+            className="form-control"
             type="text"
             name="username"
             value={username}
@@ -139,10 +146,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="password">
           Password:
           <input
+            className="form-control"
             type="text"
             name="password"
             value={password}
@@ -151,10 +159,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-       <div>
+       <div className="form-group">
         <label htmlFor="password">
           Re-enter Password:
           <input
+            className="form-control"
             type="text"
             name="password"
             value={password2}
@@ -163,7 +172,7 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="accept_terms">
           Accept Terms:
           <input 
@@ -175,8 +184,8 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+      <div className="form-group">
+        <input className="btn btn-primary" type="submit" name="submit" value="Register" />
       </div>
     </form>
   );

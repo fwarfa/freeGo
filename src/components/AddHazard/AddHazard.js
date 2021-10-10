@@ -112,36 +112,44 @@ function AddHazard() {
                 }
             </h1>
             <form onSubmit={getUserLocal}>
-                <input 
-                    className="form-control"
-                    placeholder="name"
-                    name='name'
-                    value={hazardReducer.name}
-                    onChange={handleChange}
-                />
-                <textarea 
-                    className="form-control"
-                    placeholder="description"
-                    name='description'
-                    rows="4"
-                    value={hazardReducer.description}
-                    onChange={handleChange}
-                >
-                </textarea>
-                <input 
-                    className="form-control"
-                    placeholder="street"
-                    name='street'
-                    value={hazardReducer.street}
-                    onChange={handleChange}
-                />
-                <input 
-                    className="form-control"
-                    placeholder="city"
-                    name='city'
-                    value={hazardReducer.city}
-                    onChange={handleChange}
-                />
+                <div className="form-group">
+                    <input 
+                        className="form-control"
+                        placeholder="name"
+                        name='name'
+                        value={hazardReducer.name}
+                        onChange={handleChange}
+                    />               
+                </div>
+                <div className="form-group">
+                    <textarea 
+                        className="form-control"
+                        placeholder="description"
+                        name='description'
+                        rows="4"
+                        value={hazardReducer.description}
+                        onChange={handleChange}
+                    >
+                    </textarea>
+                </div>
+                <div className="form-group">
+                    <input 
+                        className="form-control"
+                        placeholder="street"
+                        name='street'
+                        value={hazardReducer.street}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <input 
+                        className="form-control"
+                        placeholder="city"
+                        name='city'
+                        value={hazardReducer.city}
+                        onChange={handleChange}
+                    />                    
+                </div>
                 <input 
                     className="form-control"
                     placeholder="state"
@@ -149,36 +157,43 @@ function AddHazard() {
                     value={hazardReducer.state}
                     onChange={handleChange}
                 />
-                <input 
-                    className="form-control"
-                    placeholder="zip"
-                    name='zip'
-                    value={hazardReducer.zip}
-                    onChange={handleChange}
-                />
-                <input 
-                    className="form-control"
-                    placeholder="image"
-                    name='image'
-                    value={hazardReducer.image}
-                    onChange={handleChange}
-                />
-                <label for="threatLevel">Hazard Threat Level:</label>
-                <select className="form-control" name="threatLevel" id="threatLevel" value={hazardReducer.threatLevel} onChange={handleChange}>
-                    <option selected disabled>Select A Threat Level</option>
-                    <option value="low">Low</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="severe">Severe</option>
-                </select>
-                <label for="genre">Hazard Genre:</label>
-                <select className="form-control" name="genre" id="genre" value={hazardReducer.genre} onChange={handleChange}>
-                    <option selected disabled >Select A Genre</option>
-                    <option value="1">CRIME</option>
-                    <option value="2">ROAD WORK</option>
-                    <option value="3">ACCIDENT</option>
-                    <option value="4">OTHER</option>
-                </select>
-
+                <div className="form-group">
+                    <input 
+                        className="form-control"
+                        placeholder="zip"
+                        name='zip'
+                        value={hazardReducer.zip}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <input 
+                        className="form-control"
+                        placeholder="image"
+                        name='image'
+                        value={hazardReducer.image}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label for="threatLevel">Hazard Threat Level:</label>
+                    <select className="form-control" name="threatLevel" id="threatLevel" value={hazardReducer.threatLevel} onChange={handleChange}>
+                        <option selected disabled>Select A Threat Level</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="severe">Severe</option>
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label for="genre">Hazard Genre:</label>
+                    <select className="form-control" name="genre" id="genre" value={hazardReducer.genre} onChange={handleChange}>
+                        <option selected disabled >Select A Genre</option>
+                        <option value="1">CRIME</option>
+                        <option value="2">ROAD WORK</option>
+                        <option value="3">ACCIDENT</option>
+                        <option value="4">OTHER</option>
+                    </select>
+                </div>
                 <button className="btn btn-primary" type="submit">
                 {params.id === undefined ?
                     "Submit" :

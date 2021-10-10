@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faBell } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faBell, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux';
 
 function Nav() {
@@ -89,21 +89,29 @@ function Nav() {
               <>
                 <Link className="navLink" to="/home">
                   <FontAwesomeIcon icon={faHome} />
+                  <span className="hide-on-mobile">
+                    Home
+                  </span>
                 </Link>
 
                 <Link className="navLink" to="/notifications">
                   <FontAwesomeIcon icon={faBell} />
+                  <span className="hide-on-mobile">
+                    Notifications
+                  </span>
                 </Link>
 
                 <Link className="navLink" to="/map">
-                  Map View Temporary
+                  <FontAwesomeIcon icon={faMapMarkedAlt} />
+                  <span className="hide-on-mobile">
+                    Map
+                  </span>
                 </Link>
 
-                <Link className="navLink" to="/info">
+                {/* <Link className="navLink" to="/info">
                   Info Page
-                </Link>
-
-                <LogOutButton className="navLink" />
+                </Link> */}
+                <LogOutButton className="navLink btn btn-warning" />
               </>
             )}
           </li>

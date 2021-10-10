@@ -211,6 +211,10 @@ Login Form UPDATE
   }
 }
 
+.form-group {
+  margin-bottom: 1rem;
+}
+
 /* --------------------------------------------------
 Mobile Styles
 */
