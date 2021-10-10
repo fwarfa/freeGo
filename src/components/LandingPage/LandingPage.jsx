@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import "../LandingPage/LandingPage.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
 
@@ -31,7 +33,10 @@ export default function LandingPage() {
 
   return (
     <>
-      <button onClick={handleClick}>Add A Hazard</button>
+      <button className="btn btn-primary" onClick={handleClick}>
+        <FontAwesomeIcon icon={faPlus} />
+        <span className="hide-on-mobile">Add A Hazard</span>
+      </button>
       {dashBoard.length > 0 ? (
         dashBoard.map((items, i) => (
           <>
