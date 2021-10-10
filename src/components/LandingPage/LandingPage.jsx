@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
+import AddHazardButton from "../AddHazardButton/AddHazardButton";
 
 export default function LandingPage() {
   const dispatch = useDispatch();
@@ -22,10 +23,6 @@ export default function LandingPage() {
     });
   }
 
-  const handleClick = () => {
-    history.push("/addhazard");
-  };
-
   const getCardInfo = (id) => {
     console.log("card info id is", id);
     history.push(`/details/${id}`)
@@ -33,25 +30,28 @@ export default function LandingPage() {
 
   return (
     <>
-      <button className="btn btn-primary" onClick={handleClick}>
-        <FontAwesomeIcon icon={faPlus} />
-        <span className="hide-on-mobile">Add A Hazard</span>
-      </button>
-      {dashBoard.length > 0 ? (
-        dashBoard.map((items, i) => (
-          <>
-            <div className="container" key={i}>
-              <div className="image-container">
-                <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
-              </div>
-              {console.log("items are", items)}
-              <LandingPageItems items={items} />{" "}
-            </div>
-          </>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+      <AddHazardButton />
+      <div className="container">
+        <div className="row">
+          {dashBoard.length > 0 ? (
+            dashBoard.map((items, i) => (
+              <>
+                <div className="col-sm-6">
+                  <div className="card" key={i}>
+                    <div className="image-container">
+                      <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
+                    </div>
+                    {console.log("items are", items)}
+                    <LandingPageItems items={items} />{" "}
+                  </div>
+                </div>
+              </>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+      </div>
     </>
   );
 }
