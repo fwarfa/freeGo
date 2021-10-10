@@ -67,9 +67,14 @@ function MapComponent({address}) {
           ?
           <div className="popup-map-item card animate__animated animate__slideInUp">
             <button type="button" class="close" onClick={() => setshowpop(false)} aria-label="Close">
-             <span aria-hidden="true">&times;</span>
+              <span aria-hidden="true">&times;</span>
             </button>
-            <h1>{hazard.name}</h1>
+            <div className="row no-gutters">
+              <div className="card-title">{hazard.name}</div>
+              <div className="card-body">
+                {hazard.description}  
+              </div>
+            </div>
             <FontAwesomeIcon icon={["fal", "coffee"]} />
           </div> 
           

@@ -15,8 +15,7 @@ export default function LandingPageItems({ items }) {
     <>
       <div className="information-conatiner col-sm-7">
         <div className="card-body">
-          <div className="card-title">
-            <h3 className="Hazard-Genre">{items.name}</h3>
+          <div className="card-title">{items.name}
           </div>
           <h3 className="threat">
           <span>{items.title}</span>
