@@ -75,18 +75,21 @@ function MapContainer({userLocation}) {
         title = "Map"
         description = "View hazards on map - temp description"
       />
-      <div className="form-group">
-        <input
-            onChange={event => setAddress(event.target.value)}
-            className="form-control"
-            value={address}
-            placeholder="Name"
-          />
-        <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
-      </div>
+      <div className="container">
+        <div className="form-group">
+          <input
+              onChange={event => setAddress(event.target.value)}
+              className="form-control"
+              value={address}
+              placeholder="Name"
+            />
+          <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+        </div>
         <MapComponent 
           address = {mapaddress}
         />
+      </div>
+
     </>
   );
 }

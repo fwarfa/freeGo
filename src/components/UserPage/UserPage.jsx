@@ -31,7 +31,7 @@ function UserPage() {
       title = "My Account"
       description = "my account details"
       />
-      <div className="container">
+      <div className="container margin-top-25">
         <div className="row">
           <div className="col-lg-3 me-lg-auto">
             <div className="card border-0 shadow mb-6 mb-lg-0">
@@ -44,7 +44,7 @@ function UserPage() {
                 <p>Your ID is: {user.id}</p>
               </div>
               <div className="card-footer">
-                <LogOutButton className="btn btn-primary" />
+                <LogOutButton className="btn btn-danger" />
               </div>
             </div>
           </div>

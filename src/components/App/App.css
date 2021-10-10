@@ -149,6 +149,10 @@ body {
   min-height: 400px;
 }
 
+.margin-top-25 {
+  margin-top: 25px;
+}
+
 .add-hazard-btn-container .btn{
   float: right;
   margin: 15px;
