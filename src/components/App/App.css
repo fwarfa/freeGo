@@ -124,6 +124,10 @@ body {
   margin-bottom: 15px;
 }
 
+.container {
+  clear: both;
+}
+
 .card {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
   transition: box-shadow 0.3s ease-in-out;
@@ -139,6 +143,11 @@ body {
 
 .d-inline-block {
   display: inline-block !important;
+}
+
+.add-hazard-btn-container .btn{
+  float: right;
+  margin: 15px;
 }
 
 .avatar.avatar-xxl {

@@ -39,7 +39,7 @@ export default function LandingPage() {
                 <div className="col-sm-6">
                   <div className="card" key={i}>
                     <div className="row no-gutters">
-                      <div className="col-sm-5">
+                      <div className="image-container">
                         <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
                       </div>
                       {console.log("items are", items)}

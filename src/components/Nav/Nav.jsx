@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faBell, faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faBell, faMapMarkedAlt, faUserAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import { useSelector } from 'react-redux';
 
 function Nav() {
@@ -108,27 +108,31 @@ function Nav() {
                   </span>
                 </Link>
 
-                {/* <Link className="navLink" to="/info">
-                  Info Page
-                </Link> */}
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <FontAwesomeIcon icon={faUserAlt} />
+                    <span className="hide-on-mobile">
+                      Profile
+                    </span>
+                  </a>
+                  <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                      <Link className="navLink" to="/map">
+                      <FontAwesomeIcon icon={faUserAlt} />
+                      <span className="hide-on-mobile">
+                        Profile
+                      </span>
+                      </Link>
+                    </li>
+                    <li><a className="dropdown-item" href="#">Another action</a></li>
+                    <li><hr className="dropdown-divider"></hr></li>
+                    <li><a className="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li>
                 <LogOutButton className="navLink btn btn-warning" />
               </>
             )}
           </li>
-          {/* <li className="nav-item dropdown">
-            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a className="dropdown-item" href="#">Action</a></li>
-              <li><a className="dropdown-item" href="#">Another action</a></li>
-              <li><hr className="dropdown-divider"></hr></li>
-              <li><a className="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li> */}
         </ul>
         {/* <form className="d-flex">
           <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"></input>
