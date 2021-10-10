@@ -145,6 +145,10 @@ body {
   display: inline-block !important;
 }
 
+.min-height-400 {
+  min-height: 400px;
+}
+
 .add-hazard-btn-container .btn{
   float: right;
   margin: 15px;

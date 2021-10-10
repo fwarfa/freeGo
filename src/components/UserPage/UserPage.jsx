@@ -1,11 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import LogOutButton from '../LogOutButton/LogOutButton';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import LandingPageItems from "../LandingPageItems/LandingPageItems";
+import { useHistory } from "react-router-dom";
 import PageHeader from '../PageHeader/PageHeader';
 
 function UserPage() {
   // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const dashBoard = useSelector((store) => store.dashBoardReducer);
+
+  useEffect(() => {
+    fetchDashboard();
+  }, []);
+
+  //fetches dashboard data from the database
+  function fetchDashboard() {
+    dispatch({
+      type: "FETCH_HAZARD",
+    });
+  }
+
+
   return (
     <div className="container-fluid">
       <PageHeader 
@@ -25,12 +44,33 @@ function UserPage() {
                 <p>Your ID is: {user.id}</p>
               </div>
               <div className="card-footer">
-                <LogOutButton className="btn" />
+                <LogOutButton className="btn btn-primary" />
               </div>
             </div>
           </div>
           <div className="col-lg-9 ps-lg-5">
-            <h1>MY LIST OF ADDED HAZARD - TODO FETCH MY HAZARDS AND DISPLAY HERE</h1>
+            <div className="row">
+              {dashBoard.length > 0 ? (
+                dashBoard.map((items, i) => (
+                  <>
+                    <div className="col-sm-6">
+                      <div className="card min-height-400" key={i}>
+                        <div className="row no-gutters">
+                          <div className="image-container">
+                            <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
+                          </div>
+                          {console.log("items are", items)}
+                          <LandingPageItems items={items} />{" "}
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ))
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
+
           </div>
         </div>
       </div>

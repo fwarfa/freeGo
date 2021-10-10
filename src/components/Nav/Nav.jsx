@@ -117,7 +117,7 @@ function Nav() {
                   </a>
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
-                      <Link className="navLink" to="/map">
+                      <Link className="navLink" to="/user">
                       <FontAwesomeIcon icon={faUserAlt} />
                       <span className="hide-on-mobile">
                         Profile

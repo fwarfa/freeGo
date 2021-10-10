@@ -37,12 +37,11 @@ export default function LandingPage() {
             dashBoard.map((items, i) => (
               <>
                 <div className="col-sm-6">
-                  <div className="card" key={i}>
+                  <div className="card min-height-400" key={i}>
                     <div className="row no-gutters">
                       <div className="image-container">
                         <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
                       </div>
-                      {console.log("items are", items)}
                       <LandingPageItems items={items} />{" "}
                     </div>
                   </div>
