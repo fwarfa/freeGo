@@ -115,12 +115,26 @@ input {
 Login Form UPDATE
 -------------------------------------------------------------------------------- */
 
+body {
+  background: #f9f9f9!important;
+  font-family: 'Roboto', sans-serif;
+}
+
 .col-sm-6 {
   margin-bottom: 15px;
 }
 
 .card {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.card-form {
+  padding: 25px;
 }
 
 .lds-roller {

@@ -67,7 +67,7 @@ function App() {
 
   return (
     <Router>
-      <div className="container">
+      <div className="container-fluid">
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}

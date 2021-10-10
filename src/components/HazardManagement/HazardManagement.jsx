@@ -38,7 +38,7 @@ const HazardManagement = () => {
             <div className="image-container">
               <img src={item.image} alt="" />
             </div>
-            <div className="information-conatiner">
+            <div className="information-container">
               <h3 className="Hazard-Genre">{item.name}</h3>
               <h3 className="threat">
                 <span>{item.title}</span>

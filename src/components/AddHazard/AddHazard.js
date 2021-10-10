@@ -102,7 +102,7 @@ function AddHazard() {
     }
 
     return (
-        <div>
+        <div className="container">
             <button className="btn btn-secondary" onClick={handleHome}>Home</button>
             <br />
             <h1>
@@ -111,7 +111,7 @@ function AddHazard() {
                     "Edit Hazard"
                 }
             </h1>
-            <form onSubmit={getUserLocal}>
+            <form className="card card-form" onSubmit={getUserLocal}>
                 <div className="form-group">
                     <input 
                         className="form-control"
