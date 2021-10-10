@@ -75,8 +75,6 @@ function MapContainer({userLocation}) {
 
   return (
     <>
-      <h1>{address}</h1>
-
       <input
           onChange={event => setAddress(event.target.value)}
           className="form-control"

@@ -50,7 +50,6 @@ function RegisterForm() {
           {errors.registrationMessage}
         </h3>
       )}
-    
       <div className="form-group">
         <label htmlFor="first_name">
           First name:

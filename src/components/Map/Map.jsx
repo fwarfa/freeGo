@@ -35,7 +35,7 @@ function MapComponent({address}) {
 
   return (
     <>
-      <h1>{address}</h1>
+      <span>current address: {address}</span>
       <div className="map-popup-container">
         <Map center={address} zoom={14} style={{ height: "600px" }}>
           <TileLayer
