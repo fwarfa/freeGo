@@ -137,6 +137,30 @@ body {
   padding: 25px;
 }
 
+.d-inline-block {
+  display: inline-block !important;
+}
+
+.avatar.avatar-xxl {
+  width: 10rem;
+  min-width: 10rem;
+  height: 10rem;
+  line-height: 10rem;
+}
+
+.avatar {
+  display: inline-block;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  border: #dee2e6;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 1rem rgb(0 0 0 / 15%);
+  line-height: 3rem;
+}
+
 .lds-roller {
   position: absolute;
   top: 50%;
