@@ -39,7 +39,7 @@ export default function LandingPage() {
                 <div className="col-sm-6">
                   <div className="card min-height-400" key={i}>
                     <div className="row no-gutters">
-                      <div className="image-container">
+                      <div className="image-container col-sm-4">
                         <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
                       </div>
                       <LandingPageItems items={items} />{" "}
