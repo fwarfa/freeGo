@@ -42,7 +42,6 @@ function RegisterForm() {
   }
   }; // end registerUser
 
-  console.log("radio button state is", accept_terms)
    const canBeSubmitted = () => {
      return accept_terms ? setIsDisabled(true) : setIsDisabled(false);
    };
@@ -50,20 +49,19 @@ function RegisterForm() {
     setAccept_Terms(!accept_terms);
      return canBeSubmitted();
    };
-
-  return (
-    <form className="formPanel" onSubmit={registerUser}>
+   return (
+    <form className="formPanel card card-form" onSubmit={registerUser}>
       <h2>Register User</h2>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
         </h3>
       )}
-
-      <div>
+      <div className="form-group">
         <label htmlFor="first_name">
           First name:
           <input
+            className="form-control"
             type="text"
             name="first_name"
             value={first_name}
@@ -72,10 +70,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="last_name">
           Last Name:
           <input
+            className="form-control"
             type="text"
             name="last_name"
             value={last_name}
@@ -84,10 +83,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group"> 
         <label htmlFor="image">
           Add Profile Picture:
           <input
+            className="form-control"
             type="file"
             name="image"
             value={image}
@@ -95,10 +95,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+         <div className="form-group">
         <label htmlFor="text">
           Email:
           <input
+            className="form-control"
             type="email"
             name="email"
             value={email}
@@ -107,10 +108,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+        <div className="form-group">
         <label htmlFor="birthday">
           Birthdate:
           <input
+            className="form-control"
             type="date"
             name="birthday"
             value={birthday}
@@ -119,10 +121,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="country">
           Country:
           <select
+            className="form-control"
             type="text"
             name="country"
             value={country}
@@ -140,10 +143,11 @@ function RegisterForm() {
           </select>
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="username">
           Username:
           <input
+            className="form-control"
             type="text"
             name="username"
             value={username}
@@ -152,10 +156,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="password">
           Password:
           <input
+            className="form-control"
             type="text"
             name="password"
             value={password}
@@ -164,10 +169,11 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+       <div className="form-group">
         <label htmlFor="password">
           Re-enter Password:
           <input
+            className="form-control"
             type="text"
             name="password"
             value={password2}
@@ -176,7 +182,7 @@ function RegisterForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="accept_terms">
           <input
             type="radio"
@@ -290,9 +296,9 @@ function RegisterForm() {
           </div>
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <input
-          className="btn"
+          className="btn btn-primary"
           type="submit"
           name="submit"
           value="Sign Up"

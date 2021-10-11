@@ -62,12 +62,12 @@ function App() {
   });
 
   if (isLoading) {
-    return <div className="lds-roller">WE ARE CURRENTLY LOADING<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
 
   return (
     <Router>
-      <div>
+      <div className="container-fluid">
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
