@@ -295,7 +295,7 @@ function RegisterForm() {
           className="btn"
           type="submit"
           name="submit"
-          value="Register"
+          value="Sign Up"
           disabled={isDisabled}
         />
       </div>
