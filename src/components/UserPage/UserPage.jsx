@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import LogOutButton from '../LogOutButton/LogOutButton';
 import {useSelector, useDispatch} from 'react-redux';
-import LandingPageItems from "../LandingPageItems/LandingPageItems";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { useHistory } from "react-router-dom";
+import './UserPage.css';
 import PageHeader from '../PageHeader/PageHeader';
 
 function UserPage() {
@@ -24,6 +26,13 @@ function UserPage() {
     });
   }
 
+  /**
+   * Handle Nav Click
+   * Pass in a path as a string to navigate
+   */
+  const handleNavClick = (path) => {
+    history.push(path);
+  }
 
   return (
     <div className="container-fluid">
@@ -33,44 +42,47 @@ function UserPage() {
       />
       <div className="container margin-top-25">
         <div className="row">
-          <div className="col-lg-3 me-lg-auto">
+          <div className="col-lg-3 me-lg-auto user-settings-info">
             <div className="card border-0 shadow mb-6 mb-lg-0">
               <div className="card-header bg-gray-100 py-4 border-0 text-center">
                 <a class="d-inline-block" href="#">
                   <img class="d-block avatar avatar-xxl p-2 mb-2" src="https://d19m59y37dris4.cloudfront.net/directory/2-0-1/img/avatar/avatar-10.jpg" alt=""></img></a>
                 <h2>Welcome, {user.username}!</h2>
               </div>
-              <div className="card-body">
+              {/* <div className="card-body">
                 <p>Your ID is: {user.id}</p>
-              </div>
-              <div className="card-footer">
-                <LogOutButton className="btn btn-danger" />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-9 ps-lg-5">
-            <div className="row">
-              {dashBoard.length > 0 ? (
-                dashBoard.map((items, i) => (
-                  <>
-                    <div className="col-sm-6">
-                      <div className="card min-height-400" key={i}>
-                        <div className="row no-gutters">
-                          <div className="image-container">
-                            <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
-                          </div>
-                          {console.log("items are", items)}
-                          <LandingPageItems items={items} />{" "}
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ))
-              ) : (
-                <p>Loading...</p>
-              )}
-            </div>
+            <div classNameName="row">
+              <ul className="list-group user-settings-menu">
 
+                <li onClick={() => handleNavClick('/home')} className="list-group-item d-flex justify-content-between align-items-center">
+                  <div className="user-menu-item-group">
+                    <strong>Account Settings</strong><br />
+                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
+                  </div>
+                <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
+                </li>
+
+                <li onClick={() => handleNavClick('/hazardmanagement')} className="list-group-item d-flex justify-content-between align-items-center">
+                  <div className="user-menu-item-group">
+                    <strong>Manage Hazards</strong><br />
+                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
+                  </div>
+                <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
+                </li>
+
+                <li onClick={() => dispatch({ type: 'LOGOUT' })} className="list-group-item d-flex justify-content-between align-items-center">
+                  <div className="user-menu-item-group">
+                    <strong>Log Out</strong><br />
+                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
+                  </div>
+                  <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
