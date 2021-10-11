@@ -277,7 +277,7 @@ function RegisterForm() {
                   ) : (
                     <button
                       type="button"
-                      class="btn btn-danger"
+                      class="btn btn-primary"
                       data-dismiss="modal"
                       onClick={onCheckboxClick}
                     >
