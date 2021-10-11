@@ -94,7 +94,7 @@ function Nav() {
                   </span>
                 </Link>
 
-                <Link className="navLink" to="/notifications">
+                <Link className="navLink" to='/notifications/{user.id}'>
                   <FontAwesomeIcon icon={faBell} />
                   <span className="hide-on-mobile">
                     Notifications

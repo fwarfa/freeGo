@@ -32,28 +32,29 @@ import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
 import { geolocationOptions } from "../../constants/geolocationOptions";
-
+import { useInterval } from '../../hooks/useInterval';
+import Notification from '../Notification/Notification';
 
 function App() {
   const dispatch = useDispatch();
-  // const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
-  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-  const [userLocation, setUserLocation] = useState([44.97464249999999, -93.2726928]);
-  const [isLoading, setLoading] = useState(true);
   const user = useSelector(store => store.user);
-
-
-  useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
-  }, [dispatch]);
-
   // const { location: currentLocation, error: currentError } = useCurrentLocation(geolocationOptions);
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
 
   useEffect(() => {
-    if (!location) return;
+    dispatch({ type: 'FETCH_USER' });
+    dispatch({
+      type: "FETCH_HAZARD",
+    });
+  }, [dispatch]);
 
+  /**
+   * Use Effect for user location
+   * utilizes hook useWatchLocation
+   */
+  useEffect(() => {
+    if (!location) return;
     // Cancel location watch after 3sec
     setTimeout(() => {
       cancelLocationWatch();
@@ -61,8 +62,22 @@ function App() {
     }, 3000);
   }, [location, cancelLocationWatch]);
 
-  console.log('our current location is ', location);
+  /**
+   * Use Interval
+   * Queries our hazard table on an interval
+   * Interval = 10000 <-- 10 seconds
+   */
+  useInterval(async () => {
+    console.log('check if data is ready');
+    dispatch({
+      type: "FETCH_HAZARD",
+    });
+  }, 10000)
 
+  /**
+   * Is watching for location
+   * this is required due to map render prior to getting back user lat / lng from Navigator.geolocation
+   */
   if (isWatchinForLocation) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
@@ -151,7 +166,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <MapContainer address={userLocation} />
+              <MapContainer address={location} />
             ) : (
               // Otherwise, show the registration page
               <Redirect to="/user" />
@@ -176,6 +191,19 @@ function App() {
                 // If the user is already logged in,
                 // redirect them to the /user page
                 <HazardCardDetails />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
+          <Route exact path="/notifications/:id">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <Notification />
               ) : (
                 <Redirect to="/user" />
               )
