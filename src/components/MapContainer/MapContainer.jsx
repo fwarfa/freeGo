@@ -42,7 +42,7 @@ Geocode.enableDebug();
 function MapContainer({userLocation}) {
   const dispatch = useDispatch();
 
-  const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
+  const [address, setAddress] = useState('');
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
 
 
@@ -77,13 +77,17 @@ function MapContainer({userLocation}) {
       />
       <div className="container">
         <div className="form-group">
-          <input
-              onChange={event => setAddress(event.target.value)}
-              className="form-control"
-              value={address}
-              placeholder="Name"
-            />
-          <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+          <div class="input-group mb-3">
+            <input
+                onChange={event => setAddress(event.target.value)}
+                className="form-control"
+                value={address}
+                placeholder="Address"
+              />
+            <div class="input-group-append">
+            <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+            </div>
+          </div>
         </div>
         <MapComponent 
           address = {mapaddress}

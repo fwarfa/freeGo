@@ -112,7 +112,7 @@ function AddHazard() {
             }
             description = "Here you can add a hazard - temp description"
             />
-            {/* <button className="btn btn-secondary" onClick={handleHome}>Home</button> */}
+            <button className="btn btn-secondary" onClick={handleHome}> add icon Home</button>
             <br />
             
             {/* <h1>

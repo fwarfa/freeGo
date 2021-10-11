@@ -38,9 +38,9 @@ export default function LandingPageItems({ items }) {
               <i className="fa fa-map-marker"></i> {items.street}, {items.city}{" "}
               {items.state}
             </p>
-            { items.user_id === user.id &&
+            {/* { items.user_id === user.id &&
               <button className="btn btn-primary" onClick={() => handleClick(items.id)}>Edit</button>
-            }
+            } */}
           </div> 
         </div>
       </div>
