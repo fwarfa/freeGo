@@ -32,6 +32,7 @@ import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
 import { geolocationOptions } from "../../constants/geolocationOptions";
+import Notification from '../Notification/Notification';
 
 
 function App() {
@@ -53,7 +54,6 @@ function App() {
       setIsWatchForLocation(false);
     }, 3000);
   }, [location, cancelLocationWatch]);
-
 
   if (isWatchinForLocation) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
@@ -168,6 +168,19 @@ function App() {
                 // If the user is already logged in,
                 // redirect them to the /user page
                 <HazardCardDetails />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
+          <Route exact path="/notifications/:id">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <Notification />
               ) : (
                 <Redirect to="/user" />
               )
