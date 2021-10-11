@@ -36,24 +36,17 @@ import { geolocationOptions } from "../../constants/geolocationOptions";
 
 function App() {
   const dispatch = useDispatch();
-  // const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
-  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-  const [userLocation, setUserLocation] = useState([44.97464249999999, -93.2726928]);
-  const [isLoading, setLoading] = useState(true);
   const user = useSelector(store => store.user);
-
-
-  useEffect(() => {
-    dispatch({ type: 'FETCH_USER' });
-  }, [dispatch]);
-
   // const { location: currentLocation, error: currentError } = useCurrentLocation(geolocationOptions);
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
 
   useEffect(() => {
-    if (!location) return;
+    dispatch({ type: 'FETCH_USER' });
+  }, [dispatch]);
 
+  useEffect(() => {
+    if (!location) return;
     // Cancel location watch after 3sec
     setTimeout(() => {
       cancelLocationWatch();
@@ -61,7 +54,6 @@ function App() {
     }, 3000);
   }, [location, cancelLocationWatch]);
 
-  console.log('our current location is ', location);
 
   if (isWatchinForLocation) {
     return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
@@ -151,7 +143,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <MapContainer address={userLocation} />
+              <MapContainer address={location} />
             ) : (
               // Otherwise, show the registration page
               <Redirect to="/user" />
