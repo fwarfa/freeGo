@@ -61,10 +61,17 @@ VALUES
     ('ACCIDENT', 'accident in the area'),
     ('OTHER', 'incident near you');
 
--- QUERY NEED TO ALTER OUR LAT AND LNG COLUMNS 
+CREATE TABLE "notifications" (
+    "id" serial,
+    "user_id" integer,
+    "hazard_id" integer,
+    PRIMARY KEY ("id"),
+    CONSTRAINT "user_notification" FOREIGN KEY ("user_id") REFERENCES "user"("id"),
+    CONSTRAINT "hazard_id" FOREIGN KEY ("hazard_id") REFERENCES "hazard"("id")
+);
 
--- alter table hazard alter column latitude type double precision using latitude::double precision;
--- alter table hazard alter column longitude type double precision using longitude::double precision;
+alter table hazard alter column latitude type double precision using latitude::double precision;
+alter table hazard alter column longitude type double precision using longitude::double precision;
 
 -- QUERY TO GET ALL HAZARDS WITHIN A GIVEN RADIUS - in miles
 

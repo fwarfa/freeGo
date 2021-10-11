@@ -1,18 +1,19 @@
 import React from 'react';
-import { useInterval } from '../../hooks/useInterval';
 import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
 
-function Notification() {
-  const dispatch = useDispatch();
-  const dashBoard = useSelector((store) => store.dashBoardReducer);
 
-  useInterval(async () => {
-    console.log('check if data is ready');
-    dispatch({
-      type: "FETCH_HAZARD",
-    });
-  }, 10000)
+/**
+ * Notifications Component
+ * This component renders our hazard list in a list format / non card
+ */
+
+function Notification() {
+  const dashBoard = useSelector((store) => store.dashBoardReducer);
+  const getCardInfo = (id) => {
+    console.log("card info id is", id);
+    history.push(`/details/${id}`)
+  }
 
   return (
     <div className="container">

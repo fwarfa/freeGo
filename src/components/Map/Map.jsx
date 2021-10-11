@@ -20,17 +20,6 @@ function MapComponent({address}) {
   const dispatch = useDispatch();
   const [showpop, setshowpop] = useState(false);
   const [hazard, sethazard] = useState();
-
-  /**
-   * Dispatch Fetch Dashboard
-   * returns all hazards
-   */
-  useEffect(() => {
-    dispatch({
-      type: "FETCH_HAZARD", // <--- change to fetch_hazard
-    });
-  }, []);
-
   const dashBoard = useSelector(store => store.dashBoardReducer)
 
   return (
