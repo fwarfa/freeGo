@@ -28,6 +28,7 @@ import MapContainer from '../MapContainer/MapContainer';
 import './App.css';
 import HazardManagement from '../HazardManagement/HazardManagement';
 import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
+import ProfilePage from '../ProfilePage/ProfilePage';
 
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
@@ -194,6 +195,20 @@ function App() {
               // Otherwise, show the Landing page
             }
           </Route>
+
+          <Route exact path="/profilepage">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <ProfilePage />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
 
           <Route exact path="/notifications/:id">
             {

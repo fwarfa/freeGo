@@ -22,8 +22,20 @@ function* registerUser(action) {
   }
 }
 
+function* updateUser(action) {
+  try {
+    yield axios.put(`/api/user/${action.payload.id}`, action.payload);
+
+    yield put({ type: 'SET_TO_LOGIN_MODE' });
+  } 
+  catch (error) {
+    console.log(' to edit failed', error);
+  }
+}
+
 function* registrationSaga() {
   yield takeLatest('REGISTER', registerUser);
+  yield takeLatest('UPDATE_PROFILE', updateUser);
 }
 
 export default registrationSaga;
