@@ -1,7 +1,7 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import LandingPageItems from "../LandingPageItems/LandingPageItems";
-
+import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 
 /**
  * Notifications Component
@@ -10,6 +10,7 @@ import LandingPageItems from "../LandingPageItems/LandingPageItems";
 
 function Notification() {
   const dashBoard = useSelector((store) => store.dashBoardReducer);
+  console.log('dashboadr stasdf', dashBoard);
   const getCardInfo = (id) => {
     console.log("card info id is", id);
     history.push(`/details/${id}`)
@@ -17,27 +18,40 @@ function Notification() {
 
   return (
     <div className="container">
-      <div className="row">
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Alert</th>
+            <th>Threat</th>
+            <th>Date /Time</th>
+            <th>Location</th>
+            <th>REMOVE</th>
+          </tr>
+        </thead>
+
+      <tbody>
         {dashBoard.length > 0 ? (
           dashBoard.map((items, i) => (
-            <>
-              <div className="col-sm-6">
-                <div className="card min-height-400" key={i}>
-                  <div className="row no-gutters">
-                    <div className="image-container col-sm-4">
-                      <img src={items.image} alt="" onClick={() => getCardInfo(items.id)}/>
+              <tr>
+                <td>{items.name}</td>
+                <td>{items.threat_level}</td>
+                <td>{items.created_date}</td>
+                <td>
+                    <div className="map-card-location">
+                      <FontAwesomeIcon icon={faMapMarkedAlt} />
+                      {items.street}, {items.city}, {items.state}, {items.zip}
                     </div>
-                    <LandingPageItems items={items} />{" "}
-                  </div>
-                </div>
-              </div>
-            </>
+                  </td>
+                <td><button className="btn btn-danger">REMOVE</button></td>
+              </tr>
           ))
         ) : (
           <p>Loading...</p>
         )}
-      </div>
-    </div>
+    </tbody>
+    </table>
+  </div>
   );
 }
 

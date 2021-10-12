@@ -118,13 +118,13 @@ function Nav() {
                   <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li>
                       <Link className="navLink" to="/user">
-                      <FontAwesomeIcon icon={faUserAlt} />
-                      <span className="hide-on-mobile">
-                        Profile
-                      </span>
+                        <FontAwesomeIcon icon={faUserAlt} />
+                        <span className="hide-on-mobile">
+                          Profile
+                        </span>
                       </Link>
                     </li>
-                    <li><a className="dropdown-item" href="#">Another action</a></li>
+                    {/* <li><a className="dropdown-item" href="#">Another action</a></li> */}
                     <li><hr className="dropdown-divider"></hr></li>
                     <li><LogOutButton className="navLink btn btn-danger" /></li>
                   </ul>

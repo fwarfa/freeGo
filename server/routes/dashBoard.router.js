@@ -11,7 +11,7 @@ try {
   //creating query
   const query = `
         SELECT 
-            h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.description , h.user_id
+            h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.created_date, h.image, genre.title, genre.description , h.user_id
         FROM 
             "hazard" as h
         LEFT JOIN 
