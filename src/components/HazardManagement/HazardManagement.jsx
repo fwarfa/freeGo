@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import LandingPage from "../LandingPage/LandingPage";
+import "../HazardManagement/HazardManagement.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+
 const HazardManagement = () => {
     const history = useHistory()
   const dispatch = useDispatch();
@@ -34,7 +38,7 @@ const HazardManagement = () => {
     <div className="container">
       {hazard.length > 0 ? (
         hazard.map((item, i) => (
-          <div key={i}>
+          <div className="card hazard-management-card card" key={i}>
             <div className="image-container">
               <img src={item.image} alt="" />
             </div>
@@ -61,8 +65,10 @@ const HazardManagement = () => {
                 </p>
               </div>
             </div>
-            <button onClick={() => editItem(item.id)}>Edit</button>
-            <button onClick={() => deleteItem(item.id)}>Delete</button>
+            <div className="hazard-management-button-container">
+              <button className="btn-hazard-management-edit" onClick={() => editItem(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
+              <button className="btn-hazard-management-delete" onClick={() => deleteItem(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+            </div>
           </div>
         ))
       ) : (
