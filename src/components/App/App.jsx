@@ -44,9 +44,6 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    dispatch({
-      type: "FETCH_HAZARD",
-    });
   }, [dispatch]);
 
   /**
@@ -67,12 +64,12 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  // useInterval(async () => {
-  //   console.log('check if data is ready');
-  //   dispatch({
-  //     type: "FETCH_HAZARD",
-  //   });
-  // }, 10000)
+  useInterval(async () => {
+    dispatch({
+      type: "FETCH_HAZARD",
+      payload: location
+    });
+  }, 10000)
 
   /**
    * Is watching for location

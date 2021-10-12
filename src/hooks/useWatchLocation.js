@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 
 const useWatchLocation = (options = {}) => {
+  const dispatch = useDispatch();
   // store location in state
   const [location, setLocation] = useState();
   // store error message in state
@@ -15,6 +17,11 @@ const useWatchLocation = (options = {}) => {
     setLocation({
       latitude,
       longitude,
+    });
+
+    dispatch({
+      type: "FETCH_HAZARD",
+      payload: {latitude: latitude, longitude: longitude}
     });
   };
 
