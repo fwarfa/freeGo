@@ -85,6 +85,27 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+router.post("/flagged", rejectUnauthenticated, (req, res) => {
+  let userId = req.user.id
+  let hazardId = req.body.hazardId;
+  let description = req.body.description
+  let isAccurate = false;
+
+  const queryText = `
+    INSERT INTO "flagged_hazard" 
+        (who_flagged, hazard_id, description, is_accurate)
+    VALUES 
+        ($1, $2, $3, $4);
+    `;
+  pool
+    .query(queryText, [userId, hazardId, description, isAccurate])
+    .then(() => res.sendStatus(200))
+    .catch((err) => {
+      console.log("Post flagged hazard failed: ", err);
+      res.sendStatus(500);
+    });
+});
+
 router.put("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const name = req.body.name;

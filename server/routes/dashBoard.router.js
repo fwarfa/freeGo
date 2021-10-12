@@ -11,39 +11,42 @@ try {
   //creating query
   const query = `
         SELECT 
-            h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.description , h.user_id
+            h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.created_date, h.image, genre.title, genre.description , h.user_id
         FROM 
             "hazard" as h
         LEFT JOIN 
             "hazard_genre" as genre ON genre.id = h.genre_id
         WHERE acos(
-          sin(radians(44.97464249999999)) 
+          sin(radians($1)) 
             * sin(radians(h.latitude)) 
-            + cos(radians(44.97464249999999)) 
+            + cos(radians($1)) 
             * cos(radians(h.latitude)) 
-            * cos( radians(-93.2726928)
+            * cos( radians($2)
             - radians(h.longitude))
           ) * 3961 <= 383;` // <-- 383 is the amount of miles we are asking for change at your discreation
 
   //Making pool request to to my local db 
-  const dbData = await pool.query(query);
+  const dbData = await pool.query(query, [JSON.parse(req.query.userLatLng).latitude, JSON.parse(req.query.userLatLng).longitude]);
   //Making axios get request to open Minneapolis Api
   const openApiData = await axios.get(
     "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=1&outSR=4326&f=json"
   );
+  
 
   const dbRes = dbData.rows;
   const openDataApi = openApiData.data.features;
 
-  console.log("db response is", dbRes);
-  console.log("open Api data is", openDataApi);
+  
+
+  // console.log("db response is", dbRes);
+  // console.log("open Api data is", openDataApi);
 
   res.send(
     dbRes
     // openDataApi,
   );
 } catch (error) {
-  console.log("GET Minnespolis Open Api/db error is", error)
+  console.log("GET Minneapolis Open Api/db error is", error)
   
 }
 });

@@ -1,42 +1,30 @@
-.nav {
-  /* flex box layout */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  margin: 0 0 30px;
-  background-color: #00acb0;
-  overflow: hidden;
-}
-
-.nav a {
-  text-decoration: none;
-}
-
-.nav-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #f2f2f2;
-  padding-left: 10px;
-  margin: 0;
+.navbar {
+  background: white;
+  box-shadow: 0 0 0.625rem rgb(0 0 0 / 10%);
 }
 
 .navLink {
-  display: inline-block;
-  color: #f2f2f2;
-  background-color: #00acb0;
-  text-align: center;
-  padding: 24px 10px;
+  /* border: 1px solid grey; */
+  padding: 10px;
+  border-radius: 9px;
   text-decoration: none;
-  font-size: 15px;
-
-  /* these last two make the logout button in
-  the nav bar look like another link */
-  border: none;
-  cursor: pointer;
-  outline: 0;
+  color: #064c06;
 }
 
-.navLink:hover {
-  background-color: #008183;
+.svg-inline--fa {
+  margin-right: 5px;
+}
+
+.nav-item-flex {
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+  }
 }

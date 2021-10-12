@@ -26,7 +26,7 @@ export default function HazardManagementItem(items) {
       <div className="image-container">
         <img src={items.image} alt="" />
       </div>
-      <div className="information-conatiner">
+      <div className="col-sm-7">
         <h3 className="Hazard-Genre">{items.name}</h3>
         <h3 className="threat">
          <span>{items.title}</span>

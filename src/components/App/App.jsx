@@ -30,45 +30,59 @@ import HazardManagement from '../HazardManagement/HazardManagement';
 import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
 import ProfilePage from '../ProfilePage/ProfilePage';
 
+import useCurrentLocation from "../../hooks/useCurrentLocation";
+import useWatchLocation from "../../hooks/useWatchLocation";
+import { geolocationOptions } from "../../constants/geolocationOptions";
+import { useInterval } from '../../hooks/useInterval';
+import Notification from '../Notification/Notification';
 
 function App() {
   const dispatch = useDispatch();
-  // const [address, setAddress] = useState([44.97464249999999, -93.2726928]);
-  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-  const [userLocation, setUserLocation] = useState([44.97464249999999, -93.2726928]);
-  const [isLoading, setLoading] = useState(true);
   const user = useSelector(store => store.user);
+  // const { location: currentLocation, error: currentError } = useCurrentLocation(geolocationOptions);
+  const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
+  const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
   }, [dispatch]);
 
-  // Get Position
-  // Gets users current latitude and longitude
-  // It also ask the user for permission to find their location
-  let getPosition = function (options) {
-    return new Promise(function (resolve, reject) {
-      navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  /**
+   * Use Effect for user location
+   * utilizes hook useWatchLocation
+   */
+  useEffect(() => {
+    if (!location) return;
+    // Cancel location watch after 3sec
+    setTimeout(() => {
+      cancelLocationWatch();
+      setIsWatchForLocation(false);
+    }, 3000);
+  }, [location, cancelLocationWatch]);
+
+  /**
+   * Use Interval
+   * Queries our hazard table on an interval
+   * Interval = 10000 <-- 10 seconds
+   */
+  useInterval(async () => {
+    dispatch({
+      type: "FETCH_HAZARD",
+      payload: location
     });
-  }
+  }, 10000)
 
-  getPosition()
-  .then((position) => {
-    // console.log('our user location',[position.coords.latitude, position.coords.longitude]);
-    setUserLocation([position.coords.latitude, position.coords.longitude])
-    setLoading(false)
-  })
-  .catch((err) => {
-    console.error(err.message);
-  });
-
-  if (isLoading) {
-    return <div className="lds-roller">WE ARE CURRENTLY LOADING<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
+  /**
+   * Is watching for location
+   * this is required due to map render prior to getting back user lat / lng from Navigator.geolocation
+   */
+  if (isWatchinForLocation) {
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
 
   return (
     <Router>
-      <div>
+      <div className="container-fluid">
         <Nav />
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
@@ -150,7 +164,7 @@ function App() {
             {user.id ? (
               // If the user is already logged in,
               // redirect them to the /user page
-              <MapContainer address={userLocation} />
+              <MapContainer address={location} />
             ) : (
               // Otherwise, show the registration page
               <Redirect to="/user" />
@@ -188,6 +202,20 @@ function App() {
                 // If the user is already logged in,
                 // redirect them to the /user page
                 <ProfilePage />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
+
+          <Route exact path="/notifications/:id">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <Notification />
               ) : (
                 <Redirect to="/user" />
               )

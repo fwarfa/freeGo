@@ -25,17 +25,18 @@ function LoginForm() {
   }; // end login
 
   return (
-    <form className="formPanel" onSubmit={login}>
+    <form className="formPanel card card-form" onSubmit={login}>
       <h2>Login</h2>
       {errors.loginMessage && (
         <h3 className="alert" role="alert">
           {errors.loginMessage}
         </h3>
       )}
-      <div>
+      <div className="form-group">
         <label htmlFor="username">
           Username:
           <input
+            className="form-control"
             type="text"
             name="username"
             required
@@ -44,10 +45,11 @@ function LoginForm() {
           />
         </label>
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="password">
           Password:
           <input
+            className="form-control"
             type="password"
             name="password"
             required
@@ -57,7 +59,7 @@ function LoginForm() {
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <input className="btn btn-primary" type="submit" name="submit" value="Log In" />
       </div>
     </form>
   );
