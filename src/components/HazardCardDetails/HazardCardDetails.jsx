@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -8,6 +8,10 @@ export default function HazardCardDetails() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
+  const detail = useSelector((store) => store.cardDetails);
+  const [flaggedHazard, setFlaggedHazard] = useState({});
+
+
   useEffect(() => {
     dispatch({
       type: "FETCH_HAZARD_CARD_DETAIL",
@@ -15,21 +19,23 @@ export default function HazardCardDetails() {
     });
   }, []);
 
-  const editItem = (id) => {
-    console.log("edit item id is", id);
-    history.push(`/edithazard/${id}`);
+  const handleChange = (event) => {
+    console.log({...flaggedHazard, 
+      [event.target.name]: event.target.value});
+
+    setFlaggedHazard({
+      ...flaggedHazard, 
+      [event.target.name]: event.target.value
+    })
   };
 
-  const deleteItem = (id) => {
-    console.log("delete item id is", id);
-    dispatch({
-      type: "DELETE_HAZARD_ITEM",
-      payload: id,
+  const handleSubmit = (hazardId) => {
+    console.log({...flaggedHazard, hazardId});
+    dispatch({ 
+      type: 'ADD_FLAGGED_HAZARD', 
+      payload: {...flaggedHazard, hazardId}
     });
-    history.push('/home')
   };
-    const detail = useSelector((store) => store.cardDetails);
-
 
   return (
     <>
@@ -67,8 +73,40 @@ export default function HazardCardDetails() {
                 <div></div>
               </div>
               <div>
-                  <button onClick={() => editItem (items.id)} >Edit</button>
-                  <button onClick={() => deleteItem(items.id)}>Delete</button>
+                  <button 
+                    type="button" class="btn btn-primary" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal"
+                  >
+                    Report Hazard
+                  </button>
+
+                  {/* Modal */}
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Choose Reason For Inaccuracy</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div className="form-group">
+                            <label for="flagDescription">Reason:</label>
+                            <select className="form-control" name="description" id="flagDescription" value={flaggedHazard.description} onChange={handleChange}>
+                                <option value="">Select A Reason</option>
+                                <option value="Hazard No Longer Exists">Hazard No Longer Exists</option>
+                                <option value="Information Is Inaccurate">Information Is Inaccurate</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleSubmit(items.id)}>Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div> {/* End Modal */}
               </div>
             </div>
           </div>
