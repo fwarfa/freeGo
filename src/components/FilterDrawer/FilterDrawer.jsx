@@ -13,17 +13,22 @@ export default function FilterDrawer() {
 
  const onApplyBtn = () => {
    const filterData  = {
-     month, 
-     start,
-     end,
-     hazardGenre, 
-     location
+     month: month, 
+     created_date: date,
+     end: end,
+     name: hazardGenre, 
+     location: location
    }
 
+   console.log("data to be collected is", filterData)
+   setDisplayModal(!displayModal);
+   setLocation('')
+   setDate('')
+   setEnd('')
+   setHazardGenre('')
+   setMonth('')
+
  }
-
-
- const [alert, setAlert] = useState("");
  const [displayModal, setDisplayModal] = useState(false);
   return (
     <>
@@ -55,25 +60,39 @@ export default function FilterDrawer() {
           <h4>Start</h4>
           <input
             type="date"
-            name={date}
+            name="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </label>
         <label htmlFor="start">
           <h4>End</h4>
-          <input type="date" 
-          name={end}
-          
+          <input
+            type="date"
+            name="end"
+            value={end}
+            onChange={(e) => setEnd(e.target.value)}
           />
         </label>
         <label className="Show">
           <h4>Hazard Genre</h4>
-          <input type="text" placeholder="Enter hazard genre" />
+          <input
+            type="text"
+            placeholder="Enter hazard genre"
+            name="hazardGenre"
+            value={hazardGenre}
+            onChange={(e) => setHazardGenre(e.target.value)}
+          />
         </label>
         <label>
           <h4>Location</h4>
-          <input type="text" placeholder="Enter Location" />
+          <input
+            type="text"
+            placeholder="Enter Location"
+            value="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
         </label>
         <button
           type="button"
