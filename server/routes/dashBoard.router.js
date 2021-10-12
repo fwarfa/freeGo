@@ -29,17 +29,36 @@ try {
   const dbData = await pool.query(query, [JSON.parse(req.query.userLatLng).latitude, JSON.parse(req.query.userLatLng).longitude]);
   //Making axios get request to open Minneapolis Api
   const openApiData = await axios.get(
-    "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=1&outSR=4326&f=json"
+    "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=10&outSR=4326&f=json"
   );
   
 
-  const dbRes = dbData.rows;
+  const data = dbData.rows;
   const openDataApi = openApiData.data.features;
+  let ODAPIDMODIFIED = [];
 
-  
 
-  // console.log("db response is", dbRes);
-  // console.log("open Api data is", openDataApi);
+  openDataApi.map((item) => {
+    console.log("number", item);
+    ODAPIDMODIFIED.push({
+      approved: true,
+      name: item.attributes.description,
+      city: 'Minneapolis',
+      state: 'mn',
+      street: item.attributes.publicaddress,
+      zip: '',
+      treat_level: '',
+      latitude: item.attributes.centerLat,
+      longitude: item.attributes.centerLong,
+      created_date: '',
+      image: 'https://picsum.photos/200/300', 
+      title: item.attributes.description,
+      description: item.attributes.description,
+      user_id: 1
+    })
+  })
+
+  let dbRes = [...data, ...ODAPIDMODIFIED]
 
   res.send(
     dbRes
