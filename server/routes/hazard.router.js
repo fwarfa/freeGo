@@ -89,11 +89,11 @@ router.post("/flagged", rejectUnauthenticated, (req, res) => {
   let userId = req.user.id
   let hazardId = req.body.hazardId;
   let description = req.body.description
-  let isAccurate = req.body.isAccurate;
+  let isAccurate = false;
 
   const queryText = `
     INSERT INTO "flagged_hazard" 
-        (who_flagged, hazard_id, description, isAccurate)
+        (who_flagged, hazard_id, description, is_accurate)
     VALUES 
         ($1, $2, $3, $4);
     `;

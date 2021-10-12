@@ -8,7 +8,9 @@ export default function HazardCardDetails() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
+  const detail = useSelector((store) => store.cardDetails);
   const [flaggedHazard, setFlaggedHazard] = useState({});
+
 
   useEffect(() => {
     dispatch({
@@ -27,19 +29,13 @@ export default function HazardCardDetails() {
     })
   };
 
-  const handleReport = (id) => {
-    // history.push(`/edithazard/${id}`);
-  };
-
-  const deleteItem = (id) => {
-    console.log("delete item id is", id);
-    dispatch({
-      type: "DELETE_HAZARD_ITEM",
-      payload: id,
+  const handleSubmit = (hazardId) => {
+    console.log({...flaggedHazard, hazardId});
+    dispatch({ 
+      type: 'ADD_FLAGGED_HAZARD', 
+      payload: {...flaggedHazard, hazardId}
     });
-    history.push('/home')
   };
-    const detail = useSelector((store) => store.cardDetails);
 
   return (
     <>
@@ -95,8 +91,8 @@ export default function HazardCardDetails() {
                         </div>
                         <div class="modal-body">
                           <div className="form-group">
-                            <label for="reportReason">Reason:</label>
-                            <select className="form-control" name="reportReason" id="reportReason" value={flaggedHazard.reportReason} onChange={handleChange}>
+                            <label for="flagDescription">Reason:</label>
+                            <select className="form-control" name="description" id="flagDescription" value={flaggedHazard.description} onChange={handleChange}>
                                 <option value="">Select A Reason</option>
                                 <option value="Hazard No Longer Exists">Hazard No Longer Exists</option>
                                 <option value="Information Is Inaccurate">Information Is Inaccurate</option>
@@ -106,7 +102,7 @@ export default function HazardCardDetails() {
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-primary" onClick={() => dispatch({ type: 'ADD_REPORT' })}>Submit</button>
+                          <button type="button" class="btn btn-primary" onClick={() => handleSubmit(items.id)}>Submit</button>
                         </div>
                       </div>
                     </div>
