@@ -12,8 +12,30 @@
   margin-right: auto; 
   width: 25%;
   z-index: 9999;
+  cursor: pointer;
   text-align: center;
-  /* background: white;
+}
+
+.popup-map-item .row {
+  padding: 10px;
+  background: white;
   border-radius: 9px;
-  box-shadow: 1px 1px 1px 1px black; */
+  box-shadow: 1px 1px 1px 1px black;
+}
+
+.map-popup-container .image-container img {
+  height: 100px;
+  width: 100px;
+  border-radius: 9px;
+}
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+  width: 45%;
+  text-transform: uppercase;
+}
+
+.map-card-location {
+  font-size: 12px
 }
