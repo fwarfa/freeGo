@@ -4,6 +4,7 @@ import "../LandingPage/LandingPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
 import AddHazardButton from "../AddHazardButton/AddHazardButton";
+import FilterDrawer from "../FilterDrawer/FilterDrawer";
 
 export default function LandingPage() {
   const history = useHistory();
@@ -39,6 +40,7 @@ export default function LandingPage() {
           )}
         </div>
       </div>
+      <FilterDrawer />
     </>
   );
 }
