@@ -122,3 +122,26 @@ animation-duration: 11s;
       border-radius: 50%;
   }
 }
+
+
+@media only screen and (max-width: 600px) {
+  .page-header {
+    /* background-image: url(/static/media/pageheaderbackground.4e10f3e7.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 25vh;
+  }
+
+  .page-header-row {
+    padding: initial !important;
+  }
+
+  .page-header-row .bg-white {
+    background: none !important;
+  }
+  
+  .mb3, .text-muted {
+    color: white !important;
+  }
+
+}

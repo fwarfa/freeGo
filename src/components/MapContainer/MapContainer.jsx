@@ -76,7 +76,7 @@ function MapContainer({userLocation}) {
         description = "View hazards on map - temp description"
       />
       <div className="container">
-        <div className="form-group">
+        <div className="form-group map-container-group">
           <div class="input-group mb-3">
             <input
                 onChange={event => setAddress(event.target.value)}

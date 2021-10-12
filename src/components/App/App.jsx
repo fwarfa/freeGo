@@ -28,6 +28,7 @@ import MapContainer from '../MapContainer/MapContainer';
 import './App.css';
 import HazardManagement from '../HazardManagement/HazardManagement';
 import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
+import ProfilePage from '../ProfilePage/ProfilePage';
 
 import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
@@ -44,9 +45,6 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
-    dispatch({
-      type: "FETCH_HAZARD",
-    });
   }, [dispatch]);
 
   /**
@@ -67,12 +65,12 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  // useInterval(async () => {
-  //   console.log('check if data is ready');
-  //   dispatch({
-  //     type: "FETCH_HAZARD",
-  //   });
-  // }, 10000)
+  useInterval(async () => {
+    dispatch({
+      type: "FETCH_HAZARD",
+      payload: location
+    });
+  }, 10000)
 
   /**
    * Is watching for location
@@ -197,6 +195,20 @@ function App() {
               // Otherwise, show the Landing page
             }
           </Route>
+
+          <Route exact path="/profilepage">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <ProfilePage />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
 
           <Route exact path="/notifications/:id">
             {

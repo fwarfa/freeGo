@@ -1,13 +1,18 @@
 import { put, takeLatest } from "redux-saga/effects";
 import axios from "axios";
 
-function* fetchHomepageDashboard() {
+function* fetchHomepageDashboard(action) {
   try {
     //saving the axios get request to response
-    const response = yield axios.get("/api/dashBoard");
-
+    console.log('fetch hazard payload: ', action.payload);
+    const response = yield axios.get("/api/dashBoard", {
+      params: {
+        userLatLng: action.payload
+      }
+    });
+    
     //log response to the console.
-    console.log("dashBoard get response is", response.data);
+    // console.log("dashBoard get response is", response.data);
 
     //passing the response to my reducer
     yield put({ type: "SET_DASHBOARD", payload: response.data });
