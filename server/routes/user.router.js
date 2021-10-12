@@ -39,6 +39,42 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+
+
+router.put('/:id', (req, res, next) => {
+  console.log('req body is ', req.body);
+  
+
+  const id = req.user.id;
+  const username = req.body.username;
+  const first_name = req.body.first_name;
+  const last_name = req.body.last_name;
+  const email = req.body.email;
+  const birthday = req.body.birthday;
+  const country = req.body.country;
+  const image = req.body.image;
+
+  const queryText = `
+  UPDATE "user" 
+  SET
+    username = $1,
+    first_name = $2,
+    last_name = $3,
+    email = $4,
+    birthday = $5,
+    country = $6,
+    image = $7
+  WHERE id = $8;`;
+  
+    pool
+    .query(queryText, [username, first_name, last_name, email, birthday, country, image, id])
+    .then(() => res.sendStatus(201))
+    .catch((err) => {
+      console.log('User profile put failed: ', err);
+      res.sendStatus(500);
+    });
+});
+
 // Handles login form authenticate/login POST
 // userStrategy.authenticate('local') is middleware that we run on this route
 // this middleware will run our POST if successful

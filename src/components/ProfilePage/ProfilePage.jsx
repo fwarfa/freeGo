@@ -3,58 +3,50 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 export default function ProfilePage() {
-   
-    useEffect(() => {
-    userProfile();
-  }, []);
-
-  const [first_name, setFirst_Name] = useState('');
-  const [username, setUserName]= useState('')
-  const [last_name, setLast_Name] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const [country, setCountry] = useState('');
-  const [image, setImage] = useState('');
-
-  const history = useHistory();
-  const user = useSelector(store => store.user);
-
-  const dispatch = useDispatch();
+const history = useHistory();
+const user = useSelector(store => store.user);
+const editUser = useSelector(store => store.editUser);
+const dispatch = useDispatch();
 
 
-
+useEffect(() => {
+dispatch({
+    type: 'SET_USER_TO_EDIT',
+    payload: user
+    })
+  }, [])
 
   const userProfile = (event) => {
     event.preventDefault();
-    alert('changes been submitted');
+    console.log('user before submit is ', editUser)
+    alert('Changes Submitted');
 
     dispatch({
-      type: 'EDIT_PROFILE',
-      payload: {
-        username: username,
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-        birthday: birthday, 
-        country: country, 
-        image: image, 
-      }
+      type: 'UPDATE_PROFILE',
+      payload: editUser
+    });
+    dispatch({ 
+      type: 'FETCH_USER' 
     });
     }
-  
-  }; // end registerUser
 
+    const handleChange = (event) => {
+      dispatch({
+        type: 'UPDATE_EDIT_USER',
+        payload: {
+            ...editUser, 
+            [event.target.name]: event.target.value
+        }
+      });
+    }
 
     return (
     <>
-    {user.length > 0 ? (
-    user.map((items, i) => (
-        <div key={i}>
     <form className="formPanel" onSubmit={userProfile}>
-      <h2>Profile Page</h2>
+      <h2 onClick={user}>Profile Page</h2>
       <div>
         <image src={user.image}/>
-        <label htmlFor="image">
+        {/* <label htmlFor="image">
           Add Profile Picture: 
           <input
             type="file"
@@ -63,7 +55,7 @@ export default function ProfilePage() {
             value={image}
             onChange={(event) => setImage(event.target.value)}
           />
-        </label>
+        </label> */}
       </div>
       <div >
         <label htmlFor="first_name">
@@ -71,10 +63,9 @@ export default function ProfilePage() {
           <input
             type="text"
             name="first_name"
-            defaultValue={user.first_name}
-            value={first_name}
+            value={editUser.first_name}
             required
-            onChange={(event) => setFirst_Name(event.target.value)}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -84,10 +75,9 @@ export default function ProfilePage() {
           <input
             type="text"
             name="last_name"
-            defaultValue={user.last_name}
-            value={last_name}
+            value={editUser.last_name}
             required
-            onChange={(event) => setLast_Name(event.target.value)}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -97,10 +87,9 @@ export default function ProfilePage() {
           <input
             type="email"
             name="email"
-            defaultValue={user.email}
-            value={email}
+            value={editUser.email}
             required
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -110,10 +99,9 @@ export default function ProfilePage() {
           <input
             type="date"
             name="birthday"
-            defaultValue={user.birthday}
-            value={birthday}
+            value={editUser.birthday}
             required
-            onChange={(event) => setBirthday(event.target.value)}
+            onChange={handleChange}
           />
         </label>
       </div>
@@ -123,12 +111,11 @@ export default function ProfilePage() {
           <select
             type="text"
             name="country"
-            defaultValue={user.country}
-            value={country}
+            value={editUser.country}
             required
-            onChange={(event) => setCountry(event.target.value)}
+            onChange={handleChange}
           >
-          <option defaultValue="United States of America">United States of America</option>
+          {/* <option defaultValue="United States of America">United States of America</option> */}
           <option value="United States of America">United States of America</option>
           <option value="South America">South America</option>
           <option value="Canada">Canada</option>
@@ -141,22 +128,17 @@ export default function ProfilePage() {
           <input
             type="text"
             name="username"
-            defaultValue={user.username}
-            value={username}
+            // defaultValue={user.username}
+            value={editUser.username}
             required
-            onChange={(event) => setUserName(event.target.value)}
+            onChange={handleChange}
           />
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Profile" />
+        <input className="btn" type="submit" name="submit" value="Update" />
       </div>
     </form>   
-        </div>
-           ))
-      ) : (
-        <p>Loading...</p>
-      )}
       </>
-      
     )
+}    
