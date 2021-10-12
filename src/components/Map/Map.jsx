@@ -64,16 +64,16 @@ function MapComponent({address}) {
           showpop === true 
           ?
           <div className="popup-map-item card animate__animated animate__slideInUp">
-            {/* <button type="button" class="close" onClick={() => setshowpop(false)} aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button> */}
-            <div className="row no-gutters" onClick={() => getCardInfo(hazard.id)}>
+            <div className="row no-gutters">
               <div className="image-container col-sm-4">
-                <img src={hazard.image} alt=""/>
+                <img onClick={() => getCardInfo(hazard.id)} src={hazard.image} alt=""/>
               </div>
               <div className="information-conatiner col-sm-7">
+                <button type="button" class="close btn-map-close" onClick={() => setshowpop(false)} aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
                 <span className="badge badge-pill badge-primary">{hazard.threat_level}</span>
-                <div className="card-title">{hazard.name}</div>
+                <div onClick={() => getCardInfo(hazard.id)} className="card-title">{hazard.name}</div>
                 <div className="">
                   <div className="map-card-location">
                     <FontAwesomeIcon icon={faMapMarkedAlt} />
