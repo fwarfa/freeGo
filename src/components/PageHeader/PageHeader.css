@@ -140,8 +140,8 @@ animation-duration: 11s;
     background: none !important;
   }
   
-  .text-muted {
-    color: white;
+  .mb3, .text-muted {
+    color: white !important;
   }
 
 }
