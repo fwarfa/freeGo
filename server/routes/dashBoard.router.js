@@ -39,7 +39,7 @@ try {
 
 
   openDataApi.map((item) => {
-    console.log("number", item);
+    // console.log("number", item);
     ODAPIDMODIFIED.push({
       approved: true,
       name: item.attributes.description,
@@ -69,6 +69,23 @@ try {
   
 }
 });
+
+router.get("/hazard_genre",  async(req, res) => {
+  try {
+    const query = ` SELECT * FROM "hazard_genre"`
+
+    const dbData = await pool.query(query)
+
+    res.send(dbData.rows)
+    
+  } catch (error) {
+    console.log("get hazard error is", error.data)
+    
+  }
+
+})
+
+
 /**
  * POST route template
  */
