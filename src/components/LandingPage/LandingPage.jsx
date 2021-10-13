@@ -6,7 +6,7 @@ import LandingPageItems from "../LandingPageItems/LandingPageItems";
 import AddHazardButton from "../AddHazardButton/AddHazardButton";
 import FilterDrawer from "../FilterDrawer/FilterDrawer";
 
-export default function LandingPage() {
+export default function LandingPage({location}) {
   const history = useHistory();
   const dashBoard = useSelector((store) => store.dashBoardReducer);
 
@@ -40,7 +40,7 @@ export default function LandingPage() {
           )}
         </div>
       </div>
-      <FilterDrawer />
+      <FilterDrawer location={location} />
     </>
   );
 }

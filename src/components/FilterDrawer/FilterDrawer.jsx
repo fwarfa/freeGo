@@ -3,26 +3,30 @@ import '../FilterDrawer/FilterDrawer.css'
 import { useDispatch } from 'react-redux';
 
 
-export default function FilterDrawer() {
+export default function FilterDrawer({location}) {
  const dispatch = useDispatch()
  const [month, setMonth] = useState('');
  const [date, setDate] = useState('');
  const [end, setEnd] =  useState('')
  const [hazardGenre, setHazardGenre] = useState('')
- const [location, setLocation] = useState('')
+ const [locationName, setLocationName] = useState('')
 
  const onApplyBtn = () => {
-   const filterData  = {
-     month: month, 
-     created_date: date,
-     end: end,
-     name: hazardGenre, 
-     location: location
-   }
+  
+   dispatch({
+     type: "FETCH_HAZARD",
+     payload: {
+       month: month,
+       data: date,
+       end: end,
+       name: hazardGenre,
+       userLatLng: location,
+       locationName: locationName,
+     },
+   });
 
-   console.log("data to be collected is", filterData)
    setDisplayModal(!displayModal);
-   setLocation('')
+  setLocationName('');
    setDate('')
    setEnd('')
    setHazardGenre('')
@@ -90,8 +94,8 @@ export default function FilterDrawer() {
             type="text"
             placeholder="Enter Location"
             value="location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={locationName}
+            onChange={(e) => setLocationName(e.target.value)}
           />
         </label>
         <button

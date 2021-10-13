@@ -176,7 +176,7 @@ function App() {
               user.id ? (
                 // If the user is already logged in,
                 // redirect them to the /user page
-                <LandingPage />
+                <LandingPage location={location} />
               ) : (
                 <Redirect to="/user" />
               )

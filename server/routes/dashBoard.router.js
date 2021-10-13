@@ -7,6 +7,8 @@ const axios = require("axios");
  * GET route template
  */
 router.get("/", async (req, res) => {
+  console.log("req body length is", Object.keys(req.body).length)
+  
 try {
   //creating query
   const query = `
@@ -39,7 +41,6 @@ try {
 
 
   openDataApi.map((item) => {
-    console.log("number", item);
     ODAPIDMODIFIED.push({
       approved: true,
       name: item.attributes.description,
