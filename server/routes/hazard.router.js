@@ -7,11 +7,12 @@ const pool = require("../modules/pool");
 const router = express.Router();
 
 router.get("/:id", rejectUnauthenticated, (req, res) => {
-  const id = req.params.id;
-  const userId = req.user.id;
-  const query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
+
+  const params = [req.params.id, req.user.id]
+  const query = `SELECT * FROM "hazard" as h 
+WHERE h.id = $1  AND h.user_id = $2`;
   pool
-    .query(query, [id, userId])
+    .query(query, params)
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
 
@@ -29,7 +30,7 @@ router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(query, [userId])
     .then((result) => {
-      console.log("user hazard is ", result.rows);
+      // console.log("user hazard is ", result.rows);
 
       res.send(result.rows);
     })
@@ -54,7 +55,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const genreId = req.body.genre;
   const threatLevel = req.body.threatLevel;
 
-  console.log("user id is ", userId);
+  // console.log("user id is ", userId);
 
   const queryText = `
     INSERT INTO "hazard" 
@@ -122,7 +123,7 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   const genreId = req.body.genre;
   const threatLevel = req.body.threatLevel;
 
-  console.log("req body is ", req.body);
+  // console.log("req body is ", req.body);
 
   const query = `
   UPDATE "hazard"
@@ -184,7 +185,7 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
-router.get("/details/:id", async (req, res) => {
+router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
     console.log("get card by the id is", params);
@@ -199,4 +200,6 @@ LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
     console.log("GET details id error is", error)
   }
 });
+
+
 module.exports = router;
