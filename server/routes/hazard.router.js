@@ -59,7 +59,7 @@ router.get("/flagged", rejectUnauthenticated, (req, res) => {
     .query(query)
     .then((result) => {
       console.log("flagged hazards are ", result.rows);
-      res.send(result.rows[0]);
+      res.send(result.rows);
     })
     .catch((err) => {
       console.log("Get flagged hazard for admin failed", err);

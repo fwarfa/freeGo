@@ -86,7 +86,7 @@ function* fetchFlaggedHazards (action) {
 
     yield put({
       type:'SET_FLAGGED_HAZARDS',
-      payload: response
+      payload: response.data
     });
     
   } catch (error) {

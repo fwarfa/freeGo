@@ -39,12 +39,14 @@ const HazardManagement = () => {
 
   return (
     <div className="container">
+      {user.role === 1 &&
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
           <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Manage All Hazards</button>
           <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Manage Flagged Hazards</button>
         </div>
       </nav>
+      }
 
       <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -88,6 +90,7 @@ const HazardManagement = () => {
           )}
         </div>
 
+        {user.role === 1 &&
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         {flaggedHazards.length > 0 ? (
             flaggedHazards.map((flagged, i) => (
@@ -104,12 +107,13 @@ const HazardManagement = () => {
                   <div className="status">
                     <p className="threatLevel">
                       Status:{" "}
-                      {flagged.approved === true ? (
+                      {flagged.is_accurate ? (
                         <span>Approved</span>
                       ) : (
-                        <span>Not approved</span>
+                        <span>Flagged</span>
                       )}
                     </p>
+                    <p>Reason: {flagged.description}</p>
                   </div>
                   <div className="address">
                     <p>
@@ -128,27 +132,10 @@ const HazardManagement = () => {
             <p>No Flagged Hazards To Display...</p>
           )}
         </div>
+      }
       </div>
-
-      
     </div>
   );
 };
 
 export default HazardManagement;
-
-
-  // <nav>
-  //   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-  //     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Regular Hazards</button>
-  //     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Flagged Hazards</button>
-  //   </div>
-  // </nav>
-  // <div class="tab-content" id="nav-tabContent">
-  //   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-  //     <h1>Hello</h1>
-  //   </div>
-  //   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-  //     <h2>Bye</h2>
-  //   </div>
-  // </div>
