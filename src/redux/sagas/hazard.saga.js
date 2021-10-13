@@ -27,7 +27,7 @@ function* addHazard(action) {
 
 function* fetchHazardToEdit(action) {
   try {
-    let response = yield axios.get(`/api/hazard/${action.payload}`);
+    let response = yield axios.get(`/api/hazard/edit/${action.payload}`);
 
     yield put({
       type: 'SET_HAZARD_TO_EDIT',
@@ -63,7 +63,7 @@ function* fetchHazardCardDetails (action) {
     });
     
   } catch (error) {
-    
+    console.log('fetch flagged hazards failed', error);
   }
 }
 
@@ -80,12 +80,29 @@ function* addFlaggedHazard (action) {
   }
 }
 
+function* fetchFlaggedHazards (action) {
+  try {
+    const response = yield axios.get('/api/hazard/flagged', action.payload);
+
+    yield put({
+      type:'SET_FLAGGED_HAZARDS',
+      payload: response
+    });
+    
+  } catch (error) {
+    console.log('fetch flagged hazard request failed', error);
+  }
+}
+
+
+
 function* hazardSaga() {
   yield takeLatest('ADD_EDIT_HAZARD', addHazard);
   yield takeLatest('FETCH_HAZARD_TO_EDIT', fetchHazardToEdit);
   yield takeLatest ('FETCH_HAZARD_CARD_DETAIL', fetchHazardCardDetails);
   yield takeLatest('FETCH_USER_HAZARD', fetchUserHazard);
   yield takeLatest('ADD_FLAGGED_HAZARD', addFlaggedHazard);
+  yield takeLatest('FETCH_FLAGGED_HAZARDS', fetchFlaggedHazards);
 }
 
 export default hazardSaga;

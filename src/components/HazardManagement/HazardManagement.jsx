@@ -11,13 +11,16 @@ const HazardManagement = () => {
   const dispatch = useDispatch();
   const hazard = useSelector((store) => store.userHazard);
   const user = useSelector(store => store.user);
+  const flaggedHazards = useSelector(store => store.flaggedHazards);
   
 
   useEffect(() => {
-    console.log('user id is ', user.id);
     dispatch({ 
       type: "FETCH_USER_HAZARD",
       payload: user.id 
+    });
+    dispatch({ 
+      type: "FETCH_FLAGGED_HAZARDS"
     });
   }, []);
 
@@ -36,46 +39,116 @@ const HazardManagement = () => {
 
   return (
     <div className="container">
-      {hazard.length > 0 ? (
-        hazard.map((item, i) => (
-          <div className="card hazard-management-card card" key={i}>
-            <div className="image-container">
-              <img src={item.image} alt="" />
-            </div>
-            <div className="information-container">
-              <h3 className="Hazard-Genre">{item.name}</h3>
-              <h3 className="threat">
-                <span>{item.title}</span>
-              </h3>
-              <h3 className="threat">Threat Level {item.threat_level}</h3>
-              <div className="status">
-                <p className="threatLevel">
-                  Status:{" "}
-                  {item.approved === true ? (
-                    <span>Approved</span>
-                  ) : (
-                    <span>Not approved</span>
-                  )}
-                </p>
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Manage All Hazards</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Manage Flagged Hazards</button>
+        </div>
+      </nav>
+
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+          {hazard.length > 0 ? (
+            hazard.map((item, i) => (
+              <div className="card hazard-management-card card" key={i}>
+                <div className="image-container">
+                  <img src={item.image} alt="" />
+                </div>
+                <div className="information-container">
+                  <h3 className="Hazard-Genre">{item.name}</h3>
+                  <h3 className="threat">
+                    <span>{item.title}</span>
+                  </h3>
+                  <h3 className="threat">Threat Level {item.threat_level}</h3>
+                  <div className="status">
+                    <p className="threatLevel">
+                      Status:{" "}
+                      {item.approved === true ? (
+                        <span>Approved</span>
+                      ) : (
+                        <span>Not approved</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="address">
+                    <p>
+                      <i className="fa fa-map-marker"></i> {item.street},{" "}
+                      {item.city} {item.state}
+                    </p>
+                  </div>
+                </div>
+                <div className="hazard-management-button-container">
+                  <button className="btn-hazard-management-edit" onClick={() => editItem(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                </div>
               </div>
-              <div className="address">
-                <p>
-                  <i className="fa fa-map-marker"></i> {item.street},{" "}
-                  {item.city} {item.state}
-                </p>
+            ))
+          ) : (
+            <p>No Hazards To Display...</p>
+          )}
+        </div>
+
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+        {flaggedHazards.length > 0 ? (
+            flaggedHazards.map((flagged, i) => (
+              <div className="card hazard-management-card card" key={i}>
+                <div className="image-container">
+                  <img src={flagged.image} alt="" />
+                </div>
+                <div className="information-container">
+                  <h3 className="Hazard-Genre">{flagged.name}</h3>
+                  <h3 className="threat">
+                    <span>{flagged.title}</span>
+                  </h3>
+                  <h3 className="threat">Threat Level {flagged.threat_level}</h3>
+                  <div className="status">
+                    <p className="threatLevel">
+                      Status:{" "}
+                      {flagged.approved === true ? (
+                        <span>Approved</span>
+                      ) : (
+                        <span>Not approved</span>
+                      )}
+                    </p>
+                  </div>
+                  <div className="address">
+                    <p>
+                      <i className="fa fa-map-marker"></i> {flagged.street},{" "}
+                      {flagged.city} {flagged.state}
+                    </p>
+                  </div>
+                </div>
+                <div className="hazard-management-button-container">
+                  <button className="btn-hazard-management-edit" onClick={() => editItem(flagged.id)}><FontAwesomeIcon icon={faEdit} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(flagged.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                </div>
               </div>
-            </div>
-            <div className="hazard-management-button-container">
-              <button className="btn-hazard-management-edit" onClick={() => editItem(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
-              <button className="btn-hazard-management-delete" onClick={() => deleteItem(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>Loading...</p>
-      )}
+            ))
+          ) : (
+            <p>No Flagged Hazards To Display...</p>
+          )}
+        </div>
+      </div>
+
+      
     </div>
   );
 };
 
 export default HazardManagement;
+
+
+  // <nav>
+  //   <div class="nav nav-tabs" id="nav-tab" role="tablist">
+  //     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Regular Hazards</button>
+  //     <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Flagged Hazards</button>
+  //   </div>
+  // </nav>
+  // <div class="tab-content" id="nav-tabContent">
+  //   <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+  //     <h1>Hello</h1>
+  //   </div>
+  //   <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+  //     <h2>Bye</h2>
+  //   </div>
+  // </div>

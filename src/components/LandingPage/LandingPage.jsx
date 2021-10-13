@@ -8,6 +8,7 @@ import AddHazardButton from "../AddHazardButton/AddHazardButton";
 export default function LandingPage() {
   const history = useHistory();
   const dashBoard = useSelector((store) => store.dashBoardReducer);
+  const user = useSelector(store => store.user);
 
   const getCardInfo = (id) => {
     console.log("card info id is", id);
@@ -16,7 +17,9 @@ export default function LandingPage() {
 
   return (
     <>
+      {user.role !== 1 &&
       <AddHazardButton />
+      }
       <div className="container">
         <div className="row">
           {dashBoard.length > 0 ? (

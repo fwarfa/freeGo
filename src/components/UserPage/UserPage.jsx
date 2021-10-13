@@ -37,7 +37,7 @@ function UserPage() {
   return (
     <div className="container-fluid">
       <PageHeader 
-      title = "My Account"
+      title = {user.role === 1 ? "Admin" : "My Account"}
       description = "my account details"
       />
       <div className="container margin-top-25">

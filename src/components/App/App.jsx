@@ -65,12 +65,12 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  useInterval(async () => {
-    dispatch({
-      type: "FETCH_HAZARD",
-      payload: location
-    });
-  }, 10000)
+  // useInterval(async () => {
+  //   dispatch({
+  //     type: "FETCH_HAZARD",
+  //     payload: location
+  //   });
+  // }, 10000)
 
   /**
    * Is watching for location
@@ -124,16 +124,13 @@ function App() {
               <AddHazard />
           </ProtectedRoute>
 
-          <Route exact path="/hazardmanagement">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect to the /user page
+          <ProtectedRoute 
+            exact 
+            path="/hazardmanagement"
+          >
               <HazardManagement />
-            ) : (
-              // Otherwise, show the login page
-              <Redirect to="/user" />
-            )}
-          </Route>
+          </ProtectedRoute>
+          
           <ProtectedRoute exact path="/edithazard/:id">
               <AddHazard />
           </ProtectedRoute>

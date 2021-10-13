@@ -8,6 +8,7 @@ export default function HazardCardDetails() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
+  const user = useSelector(store => store.user);
   const detail = useSelector((store) => store.cardDetails);
   const [flaggedHazard, setFlaggedHazard] = useState({});
 
@@ -37,6 +38,10 @@ export default function HazardCardDetails() {
     });
   };
 
+  const changeStatus = () => {
+    alert('Status Changed!');
+  }
+
   return (
     <>
       {detail.length > 0 ? (
@@ -55,6 +60,9 @@ export default function HazardCardDetails() {
                 ) : (
                   <span>Status: Approved</span>
                 )}
+                {user.role === 1 &&
+                  <button onClick={() => changeStatus(items.id)}>Change Status</button>
+                }
               </h4>
               <div>
                 <h2>{items.name}</h2>
@@ -73,6 +81,7 @@ export default function HazardCardDetails() {
                 <div></div>
               </div>
               <div>
+              {user.role !== 1 &&
                   <button 
                     type="button" class="btn btn-primary" 
                     data-bs-toggle="modal" 
@@ -80,8 +89,7 @@ export default function HazardCardDetails() {
                   >
                     Report Hazard
                   </button>
-
-                  {/* Modal */}
+              }
                   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                       <div class="modal-content">
@@ -106,7 +114,7 @@ export default function HazardCardDetails() {
                         </div>
                       </div>
                     </div>
-                  </div> {/* End Modal */}
+                  </div> 
               </div>
             </div>
           </div>

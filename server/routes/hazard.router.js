@@ -6,37 +6,96 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
-router.get("/:id", rejectUnauthenticated, (req, res) => {
+router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
+  console.log('user hazard was hit!');
   const id = req.params.id;
   const userId = req.user.id;
-  const query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
-  pool
-    .query(query, [id, userId])
+  let query;
+
+  if (req.user.role === 1) {
+    query = `SELECT * FROM "hazard" WHERE id = $1`;
+    pool
+    .query(query, [id])
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
-
       res.send(result.rows[0]);
     })
     .catch((err) => {
-      console.log("Get hazard by id failed", err);
+      console.log("Get hazard by id for admin failed", err);
+      res.sendStatus(500);
+    });
+  }
+  else {
+    query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
+    pool
+      .query(query, [id, userId])
+      .then((result) => {
+        console.log("hazard by id is ", result.rows[0]);
+  
+        res.send(result.rows[0]);
+      })
+      .catch((err) => {
+        console.log("Get hazard by id failed", err);
+        res.sendStatus(500);
+      });
+  }
+});
+
+router.get("/flagged", rejectUnauthenticated, (req, res) => {
+  console.log('flagged was hit!');
+  
+    if (req.user.role !== 1) {
+      res.sendStatus(401)
+      return;
+    }
+
+    const query = `
+    SELECT * 
+    FROM "flagged_hazard"
+    JOIN "hazard"
+    ON "flagged_hazard".hazard_id = "hazard".id;
+        `;
+    pool
+    .query(query)
+    .then((result) => {
+      console.log("flagged hazards are ", result.rows);
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.log("Get flagged hazard for admin failed", err);
       res.sendStatus(500);
     });
 });
 
 router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   const userId = req.user.id;
-  const query = `SELECT * FROM "hazard" WHERE user_id = $1`;
-  pool
-    .query(query, [userId])
+
+  if (req.user.role === 1) {
+    let query = `SELECT * FROM "hazard";`;
+    pool.query(query)
     .then((result) => {
       console.log("user hazard is ", result.rows);
-
       res.send(result.rows);
     })
     .catch((err) => {
       console.log("Get User Hazard failed", err);
       res.sendStatus(500);
     });
+  }
+  else {
+    let query = `SELECT * FROM "hazard" WHERE user_id = $1`;
+    console.log('this is an user');
+    pool.query(query, [userId])
+    .then((result) => {
+      console.log("user hazard is ", result.rows);
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log("Get User Hazard failed", err);
+      res.sendStatus(500);
+    });
+  }
+    
 });
 
 router.post("/", rejectUnauthenticated, (req, res) => {
@@ -123,8 +182,53 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   const threatLevel = req.body.threatLevel;
 
   console.log("req body is ", req.body);
+  let query;
 
-  const query = `
+  if (req.user.role === 1) {
+  query = `
+  UPDATE "hazard"
+  SET 
+    name = $1, 
+    description = $2, 
+    street = $3, 
+    city = $4, 
+    state = $5, 
+    zip = $6, 
+    image = $7, 
+    approved = $8, 
+    latitude = $9, 
+    longitude = $10,
+    genre_id = $11,
+    threat_level = $12
+  WHERE id = $13;
+  `;
+
+  pool
+    .query(query, [
+      name,
+      description,
+      street,
+      city,
+      state,
+      zip,
+      image,
+      approved,
+      latitude,
+      longitude,
+      genreId,
+      threatLevel,
+      id
+    ])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("hazard PUT by id  for admin failed", err);
+      res.sendStatus(500);
+    });
+  }
+  else {
+  query = `
   UPDATE "hazard"
   SET 
     name = $1, 
@@ -165,23 +269,38 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       console.log("hazard PUT by id failed", err);
       res.sendStatus(500);
     });
+  }
 });
 
 router.delete("/:id", rejectUnauthenticated, (req, res) => {
   let id = req.params.id;
   let userId = req.user.id;
-  console.log("id is ", id);
+  let query;
 
-  const query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
-  pool
-    .query(query, [id, userId])
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      console.log("Events session DELETE failed", err);
-      res.sendStatus(500);
-    });
+  if (req.user.role === 1) {
+    query = `DELETE FROM "hazard" WHERE id = $1;`;
+    pool
+      .query(query, [id])
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("Events session DELETE failed", err);
+        res.sendStatus(500);
+      });
+  }
+  else {
+    query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
+    pool
+      .query(query, [id, userId])
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("Events session DELETE failed", err);
+        res.sendStatus(500);
+      });
+  }
 });
 
 router.get("/details/:id", async (req, res) => {
