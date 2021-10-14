@@ -53,11 +53,25 @@ function MapContainer({userLocation}) {
    */
 
   function getLocation() {
+    let newDate = new Date();
+
+
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+
         setmapaddress([lat, lng]);
+
+        dispatch({
+          type: "FETCH_HAZARD",
+          payload: {
+            date: newDate.getDate(),
+            genreTitle: genre,
+            userLatLng: {latitude: lat, longitude: lng},
+            threat_Level: threat_Level,
+          },
+        });
+        
       },
       (error) => {
         console.error(error);
@@ -81,9 +95,9 @@ function MapContainer({userLocation}) {
                 placeholder="Address / Location"
               />
             <input
-              onChange={event => set_genre(event.target.value)}
+              onChange={event => setgenre(event.target.value)}
               className="form-control"
-              value={address}
+              value={genre}
               placeholder="Genre"
             />
 
