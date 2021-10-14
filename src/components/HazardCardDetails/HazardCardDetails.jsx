@@ -9,6 +9,7 @@ export default function HazardCardDetails() {
   const dispatch = useDispatch();
   const id = params.id;
   const detail = useSelector((store) => store.cardDetails);
+  const genre = useSelector((store) => store.hazardGenre);
   const [flaggedHazard, setFlaggedHazard] = useState({});
 
 
@@ -18,6 +19,17 @@ export default function HazardCardDetails() {
       payload: id,
     });
   }, []);
+
+  useEffect(() => {
+    getHazardGenre()
+   
+  }, [])
+
+  const getHazardGenre = () => {
+     dispatch({
+       type: "FETCH_HAZARD_GENRE",
+     });
+  }
 
   const handleChange = (event) => {
     console.log({...flaggedHazard, 
@@ -73,40 +85,75 @@ export default function HazardCardDetails() {
                 <div></div>
               </div>
               <div>
-                  <button 
-                    type="button" class="btn btn-primary" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#exampleModal"
-                  >
-                    Report Hazard
-                  </button>
-
-                  {/* Modal */}
-                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Choose Reason For Inaccuracy</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div className="form-group">
-                            <label for="flagDescription">Reason:</label>
-                            <select className="form-control" name="description" id="flagDescription" value={flaggedHazard.description} onChange={handleChange}>
-                                <option value="">Select A Reason</option>
-                                <option value="Hazard No Longer Exists">Hazard No Longer Exists</option>
-                                <option value="Information Is Inaccurate">Information Is Inaccurate</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleSubmit(items.id)}>Submit</button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  onClick={getHazardGenre}
+                >
+                  Report Hazard
+                </button>
+                {/* Modal */}
+                <div
+                  class="modal fade"
+                  id="exampleModal"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                          Choose Reason For Inaccuracy
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <div className="form-group">
+                          <label for="flagDescription">Reason:</label>
+                          <select
+                            className="form-control"
+                            name="description"
+                            id="flagDescription"
+                            value={flaggedHazard.description}
+                            onChange={handleChange}
+                          >
+                            {genre.length > 0 ? genre.map((item, i) => (
+                              <option key={i} value={item.title}>{item.title}</option>
+                            )):
+                              <p>...</p>
+                            }
+                          </select>
                         </div>
                       </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                          onClick={() => handleSubmit(items.id)}
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </div>
-                  </div> {/* End Modal */}
+                  </div>
+                </div>{" "}
+                {/* End Modal */}
               </div>
             </div>
           </div>

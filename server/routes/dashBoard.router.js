@@ -47,8 +47,28 @@ router.get("/", async (req, res) => {
     if (req.query.date) {
        createdDate = req.query.date + "%";
     }
-
+    
     console.log("lng is", req.query.userLatLng)
+
+  openDataApi.map((item) => {
+    // console.log("number", item);
+    ODAPIDMODIFIED.push({
+      approved: true,
+      name: item.attributes.description,
+      city: 'Minneapolis',
+      state: 'mn',
+      street: item.attributes.publicaddress,
+      zip: '',
+      treat_level: '',
+      latitude: item.attributes.centerLat,
+      longitude: item.attributes.centerLong,
+      created_date: '',
+      image: 'https://picsum.photos/200/300', 
+      title: item.attributes.description,
+      description: item.attributes.description,
+      user_id: 1
+    })
+  })
 
     if (JSON.parse(req.query.userLatLng.location).latitude) {
      userLat= JSON.parse(req.query.userLatLng.location).latitude;
@@ -104,6 +124,23 @@ router.get("/", async (req, res) => {
     console.log("GET Minneapolis Open Api/db error is", error);
   }
 });
+
+router.get("/hazard_genre",  async(req, res) => {
+  try {
+    const query = ` SELECT * FROM "hazard_genre"`
+
+    const dbData = await pool.query(query)
+
+    res.send(dbData.rows)
+    
+  } catch (error) {
+    console.log("get hazard error is", error.data)
+    
+  }
+
+})
+
+
 /**
  * POST route template
  */

@@ -35,10 +35,23 @@ function* deleteHazardItem(action) {
     console.log("delete item error is", error);
   }
 }
+function* fetchHAzardGenre () {
+  try {
+    const response = yield axios.get("/api/dashBoard/hazard_genre")
+
+    console.log("get hazard response is", response.data)
+
+    yield put({type:"SET_HAZARD_GENRE", payload: response.data})
+    
+  } catch (error) {
+     console.log('GET Hazard Genre request failed', error);
+  }
+}
 
 function* fetchDashboard() {
   yield takeLatest("FETCH_HAZARD", fetchHomepageDashboard);
   yield takeLatest("DELETE_HAZARD_ITEM", deleteHazardItem);
+    yield takeLatest("FETCH_HAZARD_GENRE", fetchHAzardGenre)
 }
 
 export default fetchDashboard;
