@@ -84,6 +84,7 @@ function MapContainer({userLocation}) {
 
 
   function getLocation() {
+    let today = new Date();
     let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
     setCreated_Date({
       startDate: priorDate,

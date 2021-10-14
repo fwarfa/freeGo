@@ -91,6 +91,15 @@ export default function FilterDrawer() {
               </div>
             </div>
             <div className="col-sm">
+              <div>
+                <h4>Address / Location</h4>
+                <input
+                onChange={event => setAddress(event.target.value)}
+                  className="form-control"
+                  value={address}
+                  placeholder="Address / Location"
+                />
+              </div>
               <h4>Hazard Threat Level:</h4>
               <select
                 className="form-control"
@@ -113,42 +122,6 @@ export default function FilterDrawer() {
                   value={genreTitle}
                   onChange={(e) => setGenreTitle(e.target.value)}
                 />
-              </div>
-              <div>
-                <h4>Address / Location</h4>
-                <input
-                onChange={event => setAddress(event.target.value)}
-                  className="form-control"
-                  value={address}
-                  placeholder="Address / Location"
-                />
-                {/* <input
-                  className="form-control"
-                  placeholder="Street"
-                  value={street}
-                  onChange={(e) => setStreet(e.target.value)}
-                />
-                <input
-                  className="form-control"
-                  placeholder="city"
-                  name="city"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-                <input
-                  className="form-control"
-                  placeholder="state"
-                  name="state"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                />
-                <input
-                  className="form-control"
-                  placeholder="zip"
-                  name="zip"
-                  value={zip}
-                  onChange={(e) => setZip(e.target.value)}
-                /> */}
               </div>
             </div>
           </div>
