@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             * cos(radians(h.latitude)) 
             * cos( radians($2)
             - radians(h.longitude))
-          ) * 3961 <= 5
+          ) * 3961 <= 50
           AND
           LOWER(h.threat_level) LIKE LOWER($3)
           AND 

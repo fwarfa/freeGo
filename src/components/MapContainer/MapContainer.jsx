@@ -10,7 +10,7 @@ import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
 import { geolocationOptions } from "../../constants/geolocationOptions";
 import { useInterval } from '../../hooks/useInterval';
-import {  addDays } from 'date-fns';
+import {  addDays, subDays } from 'date-fns';
 
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -56,7 +56,7 @@ function MapContainer({userLocation}) {
 
   const [created_date, setCreated_Date] = useState([
     {
-      startDate: new Date(),
+      startDate: subDays(new Date(), 30),
       endDate: addDays(new Date(), 7),
       key: "selection",
     },
@@ -67,7 +67,6 @@ function MapContainer({userLocation}) {
    * Utilizes react-leaflet, Leaflet
    * Pulls precipitation and cloud data from Open Weather Map API
    */
-  console.log('user location is:', location);
 
     /**
    * Use Effect for user location
@@ -87,7 +86,7 @@ function MapContainer({userLocation}) {
     let today = new Date();
     let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
     setCreated_Date({
-      startDate: priorDate,
+      startDate: subDays(new Date(), 30),
       endDate: addDays(new Date(), 7),
       key: "selection",
     });
@@ -169,8 +168,6 @@ function MapContainer({userLocation}) {
             address = {location}
           />
         )}
-
-
       </div>
 
     </>
