@@ -20,19 +20,14 @@ export default function FilterDrawer() {
 
  const [displayModal, setDisplayModal] = useState(false);
  const [genreTitle, setGenreTitle] = useState("");
- const [street, setStreet] = useState('')
- const [city, setCity ] = useState('')
- const [state, setState] = useState('')
- const [zip, setZip] = useState('')
- const [threat_Level, setThreat_Level] = useState('')
-//  const [location, setLocation] = useState('')
+ const [address, setAddress] = useState('');
+ const [threat_Level, setThreat_Level] = useState('');
 
  Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
  Geocode.setLanguage("en");
 
  const applyBtn= () => {
-  if (street && city && state && zip) {
-    let address = `${street} ${city} ${state} ${zip}`;
+  if (address) {
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
@@ -57,13 +52,8 @@ export default function FilterDrawer() {
         }
     );
   }
-   setDisplayModal(!displayModal);
-   setGenreTitle('')
-   setStreet('')
-   setCity('')
-   setState('')
-   setZip('')
-   setThreat_Level('')
+  setDisplayModal(!displayModal);
+  setAddress(''); 
  }
 
   return (
@@ -101,7 +91,7 @@ export default function FilterDrawer() {
               </div>
             </div>
             <div className="col-sm">
-              <div for="threatLevel">Hazard Threat Level:</div>
+              <h4>Hazard Threat Level:</h4>
               <select
                 className="form-control"
                 name="threatLevel"
@@ -125,8 +115,14 @@ export default function FilterDrawer() {
                 />
               </div>
               <div>
-                <h4>Address</h4>
+                <h4>Address / Location</h4>
                 <input
+                onChange={event => setAddress(event.target.value)}
+                  className="form-control"
+                  value={address}
+                  placeholder="Address / Location"
+                />
+                {/* <input
                   className="form-control"
                   placeholder="Street"
                   value={street}
@@ -152,7 +148,7 @@ export default function FilterDrawer() {
                   name="zip"
                   value={zip}
                   onChange={(e) => setZip(e.target.value)}
-                />
+                /> */}
               </div>
             </div>
           </div>

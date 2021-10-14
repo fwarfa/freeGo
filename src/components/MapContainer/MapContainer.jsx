@@ -91,14 +91,13 @@ function MapContainer({userLocation}) {
                 className="form-control"
                 value={address}
                 placeholder="Address / Location"
-              />
+            />
             <input
               onChange={event => setgenre(event.target.value)}
               className="form-control"
               value={genre}
               placeholder="Genre"
             />
-
             <select
               className="form-control"
               name="threatLevel"
