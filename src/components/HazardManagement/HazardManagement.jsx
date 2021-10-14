@@ -28,7 +28,7 @@ const HazardManagement = () => {
     console.log("delete clicked for: ", id);
     dispatch({
       type: "DELETE_HAZARD_ITEM",
-      payload: id,
+      payload: id
     });
   };
 
@@ -36,6 +36,14 @@ const HazardManagement = () => {
     console.log("item to edit is", id);
     history.push(`/edithazard/${id}`)
   };
+
+  const unflagHazard = (id) => {
+    console.log('id is ', id);
+    dispatch({
+      type: "DELETE_FLAG",
+      payload: id
+    })
+  }
 
   return (
     <div className="container">
@@ -61,14 +69,14 @@ const HazardManagement = () => {
                   <h3 className="threat">
                     <span>{item.title}</span>
                   </h3>
-                  <h3 className="threat">Threat Level {item.threat_level}</h3>
+                  <h3 className="threat">Threat Level: {item.threat_level}</h3>
                   <div className="status">
                     <p className="threatLevel">
                       Status:{" "}
                       {item.approved === true ? (
                         <span>Approved</span>
                       ) : (
-                        <span>Not approved</span>
+                        <span>Pending</span>
                       )}
                     </p>
                   </div>
@@ -94,7 +102,7 @@ const HazardManagement = () => {
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
         {flaggedHazards.length > 0 ? (
             flaggedHazards.map((flagged, i) => (
-              <div className="card hazard-management-card card" key={i}>
+              <div className="card hazard-management-card card" key={i} >
                 <div className="image-container">
                   <img src={flagged.image} alt="" />
                 </div>
@@ -103,7 +111,7 @@ const HazardManagement = () => {
                   <h3 className="threat">
                     <span>{flagged.title}</span>
                   </h3>
-                  <h3 className="threat">Threat Level {flagged.threat_level}</h3>
+                  <h3 className="threat">Threat Level: {flagged.threat_level}</h3>
                   <div className="status">
                     <p className="threatLevel">
                       Status:{" "}
@@ -113,7 +121,8 @@ const HazardManagement = () => {
                         <span>Flagged</span>
                       )}
                     </p>
-                    <p>Reason: {flagged.description}</p>
+                    <p>Reason: {flagged.flag_description}</p>
+                    <button onClick={() => unflagHazard(flagged.id)}>Unflag</button>
                   </div>
                   <div className="address">
                     <p>

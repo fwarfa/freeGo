@@ -94,7 +94,23 @@ function* fetchFlaggedHazards (action) {
   }
 }
 
+function* deleteFlag(action) {
+  try {
+    yield axios.delete(`/api/hazard/flagged/${action.payload}`);
 
+    yield put({
+      type: "FETCH_HAZARD",
+    });
+    yield put({
+      type: "FETCH_USER_HAZARD",
+    }); 
+    yield put({
+      type: "FETCH_FLAGGED_HAZARDS",
+    });
+  } catch (error) {
+    console.log("delete flag error is", error);
+  }
+}
 
 function* hazardSaga() {
   yield takeLatest('ADD_EDIT_HAZARD', addHazard);
@@ -102,7 +118,8 @@ function* hazardSaga() {
   yield takeLatest ('FETCH_HAZARD_CARD_DETAIL', fetchHazardCardDetails);
   yield takeLatest('FETCH_USER_HAZARD', fetchUserHazard);
   yield takeLatest('ADD_FLAGGED_HAZARD', addFlaggedHazard);
-  yield takeLatest('FETCH_FLAGGED_HAZARDS', fetchFlaggedHazards);
+  yield takeLatest('FETCH_FLAGGED_HAZARDS', fetchFlaggedHazards); 
+  yield takeLatest('DELETE_FLAG', deleteFlag);
 }
 
 export default hazardSaga;

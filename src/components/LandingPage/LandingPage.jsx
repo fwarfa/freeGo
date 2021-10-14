@@ -17,9 +17,7 @@ export default function LandingPage() {
 
   return (
     <>
-      {user.role !== 1 &&
       <AddHazardButton />
-      }
       <div className="container">
         <div className="row">
           {dashBoard.length > 0 ? (

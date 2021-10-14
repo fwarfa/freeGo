@@ -38,8 +38,23 @@ export default function HazardCardDetails() {
     });
   };
 
-  const changeStatus = () => {
+  const changeStatus = (items) => {
+    let cardDetails = detail[0];
+    console.log({
+      ...cardDetails,
+      approved: (!items.approved)
+    });
+
+    dispatch({
+      type: 'ADD_EDIT_HAZARD',
+      payload: {
+        ...cardDetails,
+        approved: (!items.approved)
+      }
+  })
+
     alert('Status Changed!');
+    history.push('/home');
   }
 
   return (
@@ -55,26 +70,26 @@ export default function HazardCardDetails() {
                 <span>Moderate</span>
               </h4>
               <h4>
-                {items.approved === false ? (
-                  <span>Status: Not Approved</span>
-                ) : (
+                {items.approved === true ? (
                   <span>Status: Approved</span>
+                ) : (
+                  <span>Status: Pending</span>
                 )}
+                <br/>
                 {user.role === 1 &&
-                  <button onClick={() => changeStatus(items.id)}>Change Status</button>
+                  <button onClick={() => changeStatus(items)}>Change Status</button>
                 }
               </h4>
               <div>
                 <h2>{items.name}</h2>
                 <p>{items.description}</p>
               </div>
-              <h4>{items.title}</h4>
+              <h4>Hazard Genre: {items.title}</h4>
               <p>
                 {" "}
                 <i className="fa fa-map-marker"></i> {items.street},{" "}
                 {items.city} {items.state}
               </p>
-              <h4>Hazard Genre</h4>
               <div>
                 <div></div>
                 <div></div>
