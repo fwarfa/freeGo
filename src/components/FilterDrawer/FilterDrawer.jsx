@@ -9,16 +9,15 @@ import Geocode from "react-geocode";
 
 
 export default function FilterDrawer() {
+  const dispatch = useDispatch()
+  const [created_date, setCreated_Date] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
 
- const dispatch = useDispatch()
-
-const [created_date, setCreated_Date] = useState([
-  {
-    startDate: new Date(),
-    endDate: addDays(new Date(), 7),
-    key: "selection",
-  },
-]);
  const [displayModal, setDisplayModal] = useState(false);
  const [genreTitle, setGenreTitle] = useState("");
  const [street, setStreet] = useState('')
@@ -26,45 +25,38 @@ const [created_date, setCreated_Date] = useState([
  const [state, setState] = useState('')
  const [zip, setZip] = useState('')
  const [threat_Level, setThreat_Level] = useState('')
-
- const [location, setLocation] = useState('')
+//  const [location, setLocation] = useState('')
 
  Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
-
- // set response language. Defaults to english.
  Geocode.setLanguage("en");
 
  const applyBtn= () => {
-   
-     if (street && city && state && zip) {
-       let address = `${street} ${city} ${state} ${zip}`;
-       console.log("address is", address);
+  if (street && city && state && zip) {
+    let address = `${street} ${city} ${state} ${zip}`;
+    Geocode.fromAddress(address).then(
+      (response) => {
+        const { lat, lng } = response.results[0].geometry.location;
+        // setLocation({
+        //   latitude:lat,
+        //   longitude: lng,
+        // });
 
-       Geocode.fromAddress(address).then(
-         (response) => {
-           const { lat, lng } = response.results[0].geometry.location;
-           setLocation({
-             location: {
-               lat,
-               lng,
-             },
-           });
-         },
-         (err) => {
-           console.log(err);
-         }
-       );
-     }
-
-   dispatch({
-     type: "FETCH_HAZARD",
-     payload: {
-       date: created_date,
-       genreTitle: genreTitle,
-       userLatLng: location,
-       threat_Level: threat_Level,
-     },
-   });
+        
+        dispatch({
+          type: "FETCH_HAZARD",
+          payload: {
+            date: created_date,
+            genreTitle: genreTitle,
+            userLatLng: {latitude: lat, longitude: lng},
+            threat_Level: threat_Level,
+          },
+        });
+      },
+        (err) => {
+          console.log(err);
+        }
+    );
+  }
    setDisplayModal(!displayModal);
    setGenreTitle('')
    setStreet('')
@@ -72,7 +64,6 @@ const [created_date, setCreated_Date] = useState([
    setState('')
    setZip('')
    setThreat_Level('')
-
  }
 
   return (
@@ -98,7 +89,7 @@ const [created_date, setCreated_Date] = useState([
             onChange={(item) => setCreated_Date([item.selection])}
             showSelectionPreview={true}
             moveRangeOnFirstSelection={false}
-            months={2}
+            // months={2} <-- Do not need two months
             ranges={created_date}
             direction="horizontal"
           />

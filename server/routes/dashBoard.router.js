@@ -47,45 +47,30 @@ router.get("/", async (req, res) => {
     if (req.query.date) {
        createdDate = req.query.date + "%";
     }
+
+    console.log('req query', req.query);
+
+    // console.log('USER LAT', JSON.parse(req.query.userLatLng).latitude);
+    // console.log('USER LONG', JSON.parse(req.query.userLatLng).longitude);
     
-    console.log("lng is", req.query.userLatLng)
-
-  openDataApi.map((item) => {
-    // console.log("number", item);
-    ODAPIDMODIFIED.push({
-      approved: true,
-      name: item.attributes.description,
-      city: 'Minneapolis',
-      state: 'mn',
-      street: item.attributes.publicaddress,
-      zip: '',
-      treat_level: '',
-      latitude: item.attributes.centerLat,
-      longitude: item.attributes.centerLong,
-      created_date: '',
-      image: 'https://picsum.photos/200/300', 
-      title: item.attributes.description,
-      description: item.attributes.description,
-      user_id: 1
-    })
-  })
-
-    if (JSON.parse(req.query.userLatLng.location).latitude) {
-     userLat= JSON.parse(req.query.userLatLng.location).latitude;
+    if (JSON.parse(req.query.filterParams).latitude) {
+     userLat = JSON.parse(req.query.filterParams).latitude;
     }
-    if ( JSON.parse(req.query.userLatLng.location).longitude) {
-     userLong = JSON.parse(req.query.userLatLng.location).longitude;
+
+    if ( JSON.parse(req.query.filterParams).longitude) {
+     userLong = JSON.parse(req.query.filterParams).longitude;
     }
 
     //Making pool request to to my local db
     const dbData = await pool.query(query, [
-       userLat,
+      userLat,
       userLong,
       genreTitle,
       threat_level,
       description,
       createdDate,
     ]);
+    
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
       "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=50&outSR=4326&f=json"
