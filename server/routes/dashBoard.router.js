@@ -39,8 +39,9 @@ router.get("/", async (req, res) => {
     let userLong = "%";
     let startDate = '2010-01-01';
     let endDate = '2090-01-01';
-    let t = '%';
     let description = "%";
+
+    console.log('req query', req.query.filterParams);
 
     if(JSON.parse(req.query.filterParams).date) {
       JSON.parse(req.query.filterParams).date.map((postData) => {
@@ -49,21 +50,17 @@ router.get("/", async (req, res) => {
       })
     }
 
-    console.log('threat level', JSON.parse(req.query.filterParams).threat_level);
-
-    if (JSON.parse(req.query.filterParams).threat_level) {
-    
-    //  threat_level = req.query.threat_level + "%";
+    if (JSON.parse(req.query.filterParams).description) {
+      description = JSON.parse(req.query.filterParams).description + "%";
     }
 
-    // if (req.query.date) {
-    //    createdDate = req.query.date + "%";
-    // }
+    if (JSON.parse(req.query.filterParams).threat_Level) {
+      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+    }
 
-    // if (req.query.date) {
-    //   createdDate = req.query.date + "%";
-    // }
-
+    if (JSON.parse(req.query.filterParams).threat_Level) {
+      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+    }
 
     if (JSON.parse(req.query.filterParams).userLatLng.latitude) {
      userLat = JSON.parse(req.query.filterParams).userLatLng.latitude;
@@ -73,12 +70,11 @@ router.get("/", async (req, res) => {
      userLong = JSON.parse(req.query.filterParams).userLatLng.longitude;
     }
 
-    //Making pool request to to my local db
     const dbData = await pool.query(query, [
       userLat,
       userLong,
-      genreTitle,
       threat_level,
+      genreTitle,
       description,
       startDate,
       endDate,
@@ -91,6 +87,7 @@ router.get("/", async (req, res) => {
 
     const data = dbData.rows;
 
+    console.log('dbdata', data);
 
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
