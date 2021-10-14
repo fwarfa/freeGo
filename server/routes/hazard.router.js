@@ -11,34 +11,28 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const userId = req.user.id;
   let query;
+  let sqlParams;
 
   if (req.user.role === 1) {
     query = `SELECT * FROM "hazard" WHERE id = $1`;
-    pool
-    .query(query, [id])
-    .then((result) => {
-      console.log("hazard by id is ", result.rows[0]);
-      res.send(result.rows[0]);
-    })
-    .catch((err) => {
-      console.log("Get hazard by id for admin failed", err);
-      res.sendStatus(500);
-    });
+    sqlParams = [id];
   }
   else {
     query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
-    pool
-      .query(query, [id, userId])
-      .then((result) => {
-        console.log("hazard by id is ", result.rows[0]);
-  
-        res.send(result.rows[0]);
-      })
-      .catch((err) => {
-        console.log("Get hazard by id failed", err);
-        res.sendStatus(500);
-      });
-  }
+    sqlParams = [id, userId];
+  } 
+
+  pool
+    .query(query, sqlParams)
+    .then((result) => {
+      console.log("hazard by id is ", result.rows[0]);
+
+      res.send(result.rows[0]);
+    })
+    .catch((err) => {
+      console.log("Get hazard by id failed", err);
+      res.sendStatus(500);
+    });
 });
 
 router.get("/flagged", rejectUnauthenticated, (req, res) => {
@@ -115,30 +109,16 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const genreId = req.body.genre_id;
   const threatLevel = req.body.threat_level;
 
-  // console.log("user id is ", userId);
-
-  const queryText = `
+  const query = `
     INSERT INTO "hazard" 
         (name, description, street, city, state, zip, image, user_id, approved, latitude, longitude, genre_id, threat_level)
     VALUES 
         ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);
     `;
+  const sqlParams = [name, description, street, city, state, zip, image, userId, approved, latitude, longitude, genreId, threatLevel]
+  
   pool
-    .query(queryText, [
-      name,
-      description,
-      street,
-      city,
-      state,
-      zip,
-      image,
-      userId,
-      approved,
-      latitude,
-      longitude,
-      genreId,
-      threatLevel,
-    ])
+    .query(query, sqlParams)
     .then(() => res.sendStatus(200))
     .catch((err) => {
       console.log("Post hazard failed: ", err);
@@ -152,14 +132,14 @@ router.post("/flagged", rejectUnauthenticated, (req, res) => {
   let description = req.body.description
   let isAccurate = false;
 
-  const queryText = `
+  const query = `
     INSERT INTO "flagged_hazard" 
         (who_flagged, hazard_id, description, is_accurate)
     VALUES 
         ($1, $2, $3, $4);
     `;
   pool
-    .query(queryText, [userId, hazardId, description, isAccurate])
+    .query(query, [userId, hazardId, description, isAccurate])
     .then(() => res.sendStatus(200))
     .catch((err) => {
       console.log("Post flagged hazard failed: ", err);
@@ -185,85 +165,53 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
 
   console.log("req body is ", req.body);
   let query;
+  let sqlParams;
 
   if (req.user.role === 1) {
-  query = `
-  UPDATE "hazard"
-  SET 
-    name = $1, 
-    description = $2, 
-    street = $3, 
-    city = $4, 
-    state = $5, 
-    zip = $6, 
-    image = $7, 
-    approved = $8, 
-    latitude = $9, 
-    longitude = $10,
-    genre_id = $11,
-    threat_level = $12
-  WHERE id = $13;
-  `;
+    query = `
+    UPDATE "hazard"
+    SET 
+      name = $1, 
+      description = $2, 
+      street = $3, 
+      city = $4, 
+      state = $5, 
+      zip = $6, 
+      image = $7, 
+      approved = $8, 
+      latitude = $9, 
+      longitude = $10,
+      genre_id = $11,
+      threat_level = $12
+    WHERE id = $13;
+    `;
 
-  pool
-    .query(query, [
-      name,
-      description,
-      street,
-      city,
-      state,
-      zip,
-      image,
-      approved,
-      latitude,
-      longitude,
-      genreId,
-      threatLevel,
-      id
-    ])
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      console.log("hazard PUT by id  for admin failed", err);
-      res.sendStatus(500);
-    });
+    sqlParams = [name, description, street, city, state, zip, image, approved, latitude, longitude, genreId, threatLevel, id];
   }
   else {
-  query = `
-  UPDATE "hazard"
-  SET 
-    name = $1, 
-    description = $2, 
-    street = $3, 
-    city = $4, 
-    state = $5, 
-    zip = $6, 
-    image = $7, 
-    approved = $8, 
-    latitude = $9, 
-    longitude = $10,
-    genre_id = $11,
-    threat_level = $12
-  WHERE id = $13 AND user_id = $14;
-  `;
+    query = `
+    UPDATE "hazard"
+    SET 
+      name = $1, 
+      description = $2, 
+      street = $3, 
+      city = $4, 
+      state = $5, 
+      zip = $6, 
+      image = $7, 
+      approved = $8, 
+      latitude = $9, 
+      longitude = $10,
+      genre_id = $11,
+      threat_level = $12
+    WHERE id = $13 AND user_id = $14;
+    `;
+
+    sqlParams = [name, description, street, city, state, zip, image, approved, latitude, longitude, genreId, threatLevel, id, userId];
+  }
+
   pool
-    .query(query, [
-      name,
-      description,
-      street,
-      city,
-      state,
-      zip,
-      image,
-      approved,
-      latitude,
-      longitude,
-      genreId,
-      threatLevel,
-      id,
-      userId
-    ])
+    .query(query, sqlParams)
     .then((result) => {
       res.sendStatus(200);
     })
@@ -271,7 +219,6 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       console.log("hazard PUT by id failed", err);
       res.sendStatus(500);
     });
-  }
 });
 
 router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
@@ -280,24 +227,27 @@ router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
     res.sendStatus(401);
     return;
   }
-    const query = `DELETE FROM "flagged_hazard" WHERE id = $1;`;
-    pool.query(query, [id])
-      .then((result) => {
-        res.sendStatus(200);
-      })
-      .catch((err) => {
-        console.log("flagged hazard DELETE failed", err);
-        res.sendStatus(500);
-      });
+  const query = `DELETE FROM "flagged_hazard" WHERE id = $1;`;
+  pool.query(query, [id])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("flagged hazard DELETE failed", err);
+      res.sendStatus(500);
+    });
 });
 
 router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
     console.log("get card by the id is", params);
-    const query = `SELECT h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.id as genre_id, genre.description FROM "hazard" as h
-LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
- WHERE h.id = $1`;
+    const query = `
+    SELECT 
+      h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, 
+      h.latitude, h.longitude, h.image, genre.title, genre.id as genre_id, genre.description FROM "hazard" as h
+    LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
+    WHERE h.id = $1`;
 
     const dbData = await pool.query(query, params);
 
