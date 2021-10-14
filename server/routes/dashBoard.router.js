@@ -218,8 +218,6 @@ getBoundingBox = function (centerPoint, distance) {
   ];
 };
 
-console.log(getBoundingBox([44.977753, -93.265015], 8));
-
 module.exports = router;
 
 
