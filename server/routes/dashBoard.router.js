@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
     let genreTitle = "%";
     let threat_level = "%";
     let userLat = "%";
-    let userLong = "%";
+    let userLng = "%";
     let startDate = '2010-01-01';
     let endDate = '2090-01-01';
     let description = "%";
@@ -66,7 +66,7 @@ router.get("/", async (req, res) => {
     }
 
     if ( JSON.parse(req.query.filterParams).userLatLng) {
-     userLong = JSON.parse(req.query.filterParams).userLatLng.longitude;
+     userLng = JSON.parse(req.query.filterParams).userLatLng.longitude;
     }
 
     if ( JSON.parse(req.query.filterParams).latitude) {
@@ -74,12 +74,12 @@ router.get("/", async (req, res) => {
     }
 
     if ( JSON.parse(req.query.filterParams).longitude) {
-     userLong = JSON.parse(req.query.filterParams).longitude;
+     userLng = JSON.parse(req.query.filterParams).longitude;
     }
 
     const dbData = await pool.query(query, [
       userLat,
-      userLong,
+      userLng,
       threat_level,
       genreTitle,
       description,
@@ -90,8 +90,10 @@ router.get("/", async (req, res) => {
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
       // "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=50&outSR=4326&f=json"
-      "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=&geometry=  -93.36660894925227 ,   44.90588736037304 ,   -93.16342105074776 ,   45.04961863962696&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json"
+      `https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&geometry=` + getBoundingBox([userLat, userLng], 8) + `&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json&resultRecordCount=50`
       );
+
+      console.log(`https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=&geometry=` + getBoundingBox([userLat, userLng], 8) + `&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json`)
 
     const data = dbData.rows;
     const openDataApi = openApiData.data.features;
