@@ -41,15 +41,11 @@ Geocode.enableDebug();
 
 function MapContainer({userLocation}) {
   const dispatch = useDispatch();
-
   const [address, setAddress] = useState('');
+  const [genre, setgenre] = useState('');
+  const [threat_level, set_threat_level] = useState('%');
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-
-
-
-
   const dashBoard = useSelector(store => store.dashBoardReducer)
-  // console.log("dashboard is", dashBoard)
   /**
    * Map Component
    * Utilizes react-leaflet, Leaflet
@@ -57,11 +53,23 @@ function MapContainer({userLocation}) {
    */
 
   function getLocation() {
+    let newDate = new Date();
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+
         setmapaddress([lat, lng]);
+
+        dispatch({
+          type: "FETCH_HAZARD",
+          payload: {
+            date: newDate.getDate(),
+            genreTitle: genre,
+            userLatLng: {latitude: lat, longitude: lng},
+            threat_Level: threat_level,
+          },
+        });
+        
       },
       (error) => {
         console.error(error);
@@ -82,8 +90,27 @@ function MapContainer({userLocation}) {
                 onChange={event => setAddress(event.target.value)}
                 className="form-control"
                 value={address}
-                placeholder="Address"
-              />
+                placeholder="Address / Location"
+            />
+            <input
+              onChange={event => setgenre(event.target.value)}
+              className="form-control"
+              value={genre}
+              placeholder="Genre"
+            />
+            <select
+              className="form-control"
+              name="threatLevel"
+              id="threatLevel"
+              value={threat_level}
+              onChange={(e) => set_threat_level(e.target.value)}
+            >
+              <option selected>Select A Threat Level</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="severe">Severe</option>
+            </select>
+
             <div class="input-group-append">
             <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
             </div>

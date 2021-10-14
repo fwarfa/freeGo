@@ -9,7 +9,7 @@ function* fetchHomepageDashboard(action) {
   
        const response = yield axios.get("/api/dashBoard", {
       params: {
-        userLatLng: action.payload
+        filterParams: action.payload
       }
     });
     //passing the response to my reducer

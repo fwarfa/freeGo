@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             * cos(radians(h.latitude)) 
             * cos( radians($2)
             - radians(h.longitude))
-          ) * 3961 <= 383
+          ) * 3961 <= 5
           AND
           LOWER(h.threat_level) LIKE LOWER($3)
           AND 
@@ -31,67 +31,72 @@ router.get("/", async (req, res) => {
           AND 
          LOWER(h.description) LIKE LOWER($5)
           AND
-          LOWER(TO_CHAR(h.created_date, 'Month')) LIKE LOWER($6);`; // <-- 383 is the amount of miles we are asking for change at your discreation
+          h.created_date between $6 and $7;`; // <-- 383 is the amount of miles we are asking for change at your discreation
 
-    let createdDate = "%";
     let genreTitle = "%";
     let threat_level = "%";
     let userLat = "%";
     let userLong = "%";
-    let description = "" + "%"
+    let startDate = '2010-01-01';
+    let endDate = '2090-01-01';
+    let description = "%";
 
-    if (req.query.threat_level) {
-     threat_level = req.query.threat_level + "%";
+    console.log('req query date', JSON.parse(req.query.filterParams).date);
+
+    if(JSON.parse(req.query.filterParams).date) {
+      JSON.parse(req.query.filterParams).date.map((postData) => {
+        startDate = postData.startDate;
+        endDate = postData.endDate;
+      })
     }
 
-    if (req.query.date) {
-       createdDate = req.query.date + "%";
-    }
-    
-    console.log("lng is", req.query.userLatLng)
-
-  openDataApi.map((item) => {
-    // console.log("number", item);
-    ODAPIDMODIFIED.push({
-      approved: true,
-      name: item.attributes.description,
-      city: 'Minneapolis',
-      state: 'mn',
-      street: item.attributes.publicaddress,
-      zip: '',
-      treat_level: '',
-      latitude: item.attributes.centerLat,
-      longitude: item.attributes.centerLong,
-      created_date: '',
-      image: 'https://picsum.photos/200/300', 
-      title: item.attributes.description,
-      description: item.attributes.description,
-      user_id: 1
-    })
-  })
-
-    if (JSON.parse(req.query.userLatLng.location).latitude) {
-     userLat= JSON.parse(req.query.userLatLng.location).latitude;
-    }
-    if ( JSON.parse(req.query.userLatLng.location).longitude) {
-     userLong = JSON.parse(req.query.userLatLng.location).longitude;
+    if (JSON.parse(req.query.filterParams).description) {
+      description = JSON.parse(req.query.filterParams).description + "%";
     }
 
-    //Making pool request to to my local db
+    if (JSON.parse(req.query.filterParams).threat_Level) {
+      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+    }
+
+    if (JSON.parse(req.query.filterParams).threat_Level) {
+      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+    }
+
+    if (JSON.parse(req.query.filterParams).userLatLng) {
+     userLat = JSON.parse(req.query.filterParams).userLatLng.latitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).userLatLng) {
+     userLong = JSON.parse(req.query.filterParams).userLatLng.longitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).latitude) {
+      userLat = JSON.parse(req.query.filterParams).latitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).longitude) {
+     userLong = JSON.parse(req.query.filterParams).longitude;
+    }
+
     const dbData = await pool.query(query, [
-       userLat,
+      userLat,
       userLong,
-      genreTitle,
       threat_level,
+      genreTitle,
       description,
-      createdDate,
+      startDate,
+      endDate,
     ]);
+    
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
       "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=50&outSR=4326&f=json"
     );
 
     const data = dbData.rows;
+
+    console.log('dbdata', data);
+
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
@@ -115,6 +120,7 @@ router.get("/", async (req, res) => {
     });
 
     let dbRes = [...data, ...ODAPIDMODIFIED];
+    // let dbRes = [...data];
 
     res.send(
       dbRes
