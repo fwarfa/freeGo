@@ -41,7 +41,7 @@ router.get("/", async (req, res) => {
     let endDate = '2090-01-01';
     let description = "%";
 
-    console.log('req query', req.query.filterParams);
+    console.log('req query', req.query);
 
     if(JSON.parse(req.query.filterParams).date) {
       JSON.parse(req.query.filterParams).date.map((postData) => {
@@ -62,12 +62,20 @@ router.get("/", async (req, res) => {
       threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
     }
 
-    if (JSON.parse(req.query.filterParams).userLatLng.latitude) {
+    if (JSON.parse(req.query.filterParams).userLatLng) {
      userLat = JSON.parse(req.query.filterParams).userLatLng.latitude;
     }
 
-    if ( JSON.parse(req.query.filterParams).userLatLng.longitude) {
+    if ( JSON.parse(req.query.filterParams).userLatLng) {
      userLong = JSON.parse(req.query.filterParams).userLatLng.longitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).latitude) {
+      userLat = JSON.parse(req.query.filterParams).latitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).longitude) {
+     userLong = JSON.parse(req.query.filterParams).longitude;
     }
 
     const dbData = await pool.query(query, [
