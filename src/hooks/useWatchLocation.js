@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 
-const useWatchLocation = (options = {}) => {
+const useWatchLocation = (options, test = {}) => {
   const dispatch = useDispatch();
   // store location in state
   const [location, setLocation] = useState();
@@ -10,14 +10,16 @@ const useWatchLocation = (options = {}) => {
   // save the returned id from the geolocation's `watchPosition` to be able to cancel the watch instance
   const locationWatchId = useRef(null);
 
+  console.log('test');
+
   // Success handler for geolocation's `watchPosition` method
   const handleSuccess = (pos) => {
     const { latitude, longitude } = pos.coords;
 
-    setLocation({
+    setLocation([
       latitude,
       longitude,
-    });
+    ]);
 
     dispatch({
       type: "FETCH_HAZARD",

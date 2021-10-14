@@ -6,6 +6,10 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import MapComponent from '../Map/Map'
 import Geocode from "react-geocode";
 import PageHeader from '../PageHeader/PageHeader';
+import useCurrentLocation from "../../hooks/useCurrentLocation";
+import useWatchLocation from "../../hooks/useWatchLocation";
+import { geolocationOptions } from "../../constants/geolocationOptions";
+import { useInterval } from '../../hooks/useInterval';
 
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -44,22 +48,41 @@ function MapContainer({userLocation}) {
   const [address, setAddress] = useState('');
   const [genre, setgenre] = useState('');
   const [threat_level, set_threat_level] = useState('%');
-  const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
+  const [mapaddress, setmapaddress] = useState();
+  const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
+  const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
   const dashBoard = useSelector(store => store.dashBoardReducer)
+  
   /**
    * Map Component
    * Utilizes react-leaflet, Leaflet
    * Pulls precipitation and cloud data from Open Weather Map API
    */
+  console.log('user location is:', location);
+
+    /**
+   * Use Effect for user location
+   * utilizes hook useWatchLocation
+   */
+  useEffect(() => {
+    if (!location) return;
+    // Cancel location watch after 3sec
+    setTimeout(() => {
+      cancelLocationWatch();
+      setIsWatchForLocation(false);
+    }, 3000);
+  }, [location, cancelLocationWatch]);
+
 
   function getLocation() {
     let newDate = new Date();
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-
+        console.log('btn click address lat and long', lat, lng);
         setmapaddress([lat, lng]);
 
+        console.log('user filter location is:', mapaddress);
         dispatch({
           type: "FETCH_HAZARD",
           payload: {
@@ -75,6 +98,14 @@ function MapContainer({userLocation}) {
         console.error(error);
       }
     );
+  }
+
+  /**
+   * Is watching for location
+   * this is required due to map render prior to getting back user lat / lng from Navigator.geolocation
+   */
+   if (isWatchinForLocation) {
+    return <div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;
   }
 
   return (
@@ -116,9 +147,17 @@ function MapContainer({userLocation}) {
             </div>
           </div>
         </div>
-        <MapComponent 
-          address = {mapaddress}
-        />
+        {mapaddress ? (
+          <MapComponent 
+            address = {mapaddress}
+          />
+        ) : (
+          <MapComponent 
+            address = {location}
+          />
+        )}
+
+
       </div>
 
     </>
