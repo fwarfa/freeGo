@@ -3,19 +3,19 @@ import axios from "axios";
 
 function* fetchHomepageDashboard(action) {
   try {
+    console.log("action payload length is", Object.keys(action.payload).length)
     //saving the axios get request to response
     console.log('fetch hazard payload: ', action.payload);
-    const response = yield axios.get("/api/dashBoard", {
+  
+       const response = yield axios.get("/api/dashBoard", {
       params: {
         userLatLng: action.payload
       }
     });
-    
-    //log response to the console.
-    // console.log("dashBoard get response is", response.data);
-
     //passing the response to my reducer
     yield put({ type: "SET_DASHBOARD", payload: response.data });
+
+  
   } catch (error) {
     console.log("dashboard get error is", error.data);
   }

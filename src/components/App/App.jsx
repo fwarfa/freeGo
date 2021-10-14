@@ -65,12 +65,12 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  useInterval(async () => {
-    dispatch({
-      type: "FETCH_HAZARD",
-      payload: location
-    });
-  }, 10000)
+  // useInterval(async () => {
+  //   dispatch({
+  //     type: "FETCH_HAZARD",
+  //     payload: location
+  //   });
+  // }, 10000)
 
   /**
    * Is watching for location
@@ -176,7 +176,7 @@ function App() {
               user.id ? (
                 // If the user is already logged in,
                 // redirect them to the /user page
-                <LandingPage />
+                <LandingPage location={location} />
               ) : (
                 <Redirect to="/user" />
               )
