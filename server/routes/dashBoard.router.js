@@ -31,34 +31,46 @@ router.get("/", async (req, res) => {
           AND 
          LOWER(h.description) LIKE LOWER($5)
           AND
-          LOWER(TO_CHAR(h.created_date, 'Month')) LIKE LOWER($6);`; // <-- 383 is the amount of miles we are asking for change at your discreation
+          h.created_date between $6 and $7;`; // <-- 383 is the amount of miles we are asking for change at your discreation
 
-    let createdDate = "%";
     let genreTitle = "%";
     let threat_level = "%";
     let userLat = "%";
     let userLong = "%";
-    let description = "" + "%"
+    let startDate = '2010-01-01';
+    let endDate = '2090-01-01';
+    let t = '%';
+    let description = "%";
 
-    if (req.query.threat_level) {
-     threat_level = req.query.threat_level + "%";
+    if(JSON.parse(req.query.filterParams).date) {
+      JSON.parse(req.query.filterParams).date.map((postData) => {
+        startDate = postData.startDate;
+        endDate = postData.endDate;
+      })
     }
 
-    if (req.query.date) {
-       createdDate = req.query.date + "%";
-    }
+    console.log('threat level', JSON.parse(req.query.filterParams).threat_level);
 
-    console.log('req query', req.query);
-
-    // console.log('USER LAT', JSON.parse(req.query.userLatLng).latitude);
-    // console.log('USER LONG', JSON.parse(req.query.userLatLng).longitude);
+    if (JSON.parse(req.query.filterParams).threat_level) {
     
-    if (JSON.parse(req.query.filterParams).latitude) {
-     userLat = JSON.parse(req.query.filterParams).latitude;
+    //  threat_level = req.query.threat_level + "%";
     }
 
-    if ( JSON.parse(req.query.filterParams).longitude) {
-     userLong = JSON.parse(req.query.filterParams).longitude;
+    // if (req.query.date) {
+    //    createdDate = req.query.date + "%";
+    // }
+
+    // if (req.query.date) {
+    //   createdDate = req.query.date + "%";
+    // }
+
+
+    if (JSON.parse(req.query.filterParams).userLatLng.latitude) {
+     userLat = JSON.parse(req.query.filterParams).userLatLng.latitude;
+    }
+
+    if ( JSON.parse(req.query.filterParams).userLatLng.longitude) {
+     userLong = JSON.parse(req.query.filterParams).userLatLng.longitude;
     }
 
     //Making pool request to to my local db
@@ -68,7 +80,8 @@ router.get("/", async (req, res) => {
       genreTitle,
       threat_level,
       description,
-      createdDate,
+      startDate,
+      endDate,
     ]);
     
     //Making axios get request to open Minneapolis Api
@@ -77,6 +90,8 @@ router.get("/", async (req, res) => {
     );
 
     const data = dbData.rows;
+
+
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
@@ -99,7 +114,8 @@ router.get("/", async (req, res) => {
       });
     });
 
-    let dbRes = [...data, ...ODAPIDMODIFIED];
+    // let dbRes = [...data, ...ODAPIDMODIFIED];
+    let dbRes = [...data];
 
     res.send(
       dbRes

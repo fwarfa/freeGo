@@ -83,69 +83,79 @@ export default function FilterDrawer() {
         >
           <i className="fa fa-times-circle-o" aria-hidden="true"></i>
         </button>
-        <div htmlFor="start">
-          <h4>Duration</h4>
-          <DateRangePicker
-            onChange={(item) => setCreated_Date([item.selection])}
-            showSelectionPreview={true}
-            moveRangeOnFirstSelection={false}
-            // months={2} <-- Do not need two months
-            ranges={created_date}
-            direction="horizontal"
-          />
-        </div>
-        <div for="threatLevel">Hazard Threat Level:</div>
-        <select
-          className="form-control"
-          name="threatLevel"
-          id="threatLevel"
-          value={threat_Level}
-          onChange={(e) => setThreat_Level(e.target.value)}
-        >
-          <option selected>Select A Threat Level</option>
-          <option value="low">Low</option>
-          <option value="moderate">Moderate</option>
-          <option value="severe">Severe</option>
-        </select>
-        <div className="Show">
-          <h4>Hazard Genre</h4>
-          <input
-            className="form-control"
-            placeholder="Enter hazard genre"
-            name="hazardGenre"
-            value={genreTitle}
-            onChange={(e) => setGenreTitle(e.target.value)}
-          />
-        </div>
-        <div>
-          <h4>Address</h4>
-          <input
-            className="form-control"
-            placeholder="Street"
-            value={street}
-            onChange={(e) => setStreet(e.target.value)}
-          />
-          <input
-            className="form-control"
-            placeholder="city"
-            name="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-          <input
-            className="form-control"
-            placeholder="state"
-            name="state"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-          />
-          <input
-            className="form-control"
-            placeholder="zip"
-            name="zip"
-            value={zip}
-            onChange={(e) => setZip(e.target.value)}
-          />
+
+
+        <div className="container">
+          <div className="row">
+            <div className="col-sm">
+              <div htmlFor="start">
+                <h4>Duration</h4>
+                <DateRangePicker
+                  onChange={(item) => setCreated_Date([item.selection])}
+                  showSelectionPreview={true}
+                  moveRangeOnFirstSelection={false}
+                  // months={2} <-- Do not need two months
+                  ranges={created_date}
+                  direction="horizontal"
+                  />
+              </div>
+            </div>
+            <div className="col-sm">
+              <div for="threatLevel">Hazard Threat Level:</div>
+              <select
+                className="form-control"
+                name="threatLevel"
+                id="threatLevel"
+                value={threat_Level}
+                onChange={(e) => setThreat_Level(e.target.value)}
+              >
+                <option selected>Select A Threat Level</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="severe">Severe</option>
+              </select>
+              <div className="Show">
+                <h4>Hazard Genre</h4>
+                <input
+                  className="form-control"
+                  placeholder="Enter hazard genre"
+                  name="hazardGenre"
+                  value={genreTitle}
+                  onChange={(e) => setGenreTitle(e.target.value)}
+                />
+              </div>
+              <div>
+                <h4>Address</h4>
+                <input
+                  className="form-control"
+                  placeholder="Street"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                />
+                <input
+                  className="form-control"
+                  placeholder="city"
+                  name="city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                />
+                <input
+                  className="form-control"
+                  placeholder="state"
+                  name="state"
+                  value={state}
+                  onChange={(e) => setState(e.target.value)}
+                />
+                <input
+                  className="form-control"
+                  placeholder="zip"
+                  name="zip"
+                  value={zip}
+                  onChange={(e) => setZip(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <button type="button" class="btn btn-light" onClick={applyBtn}>
           Apply
