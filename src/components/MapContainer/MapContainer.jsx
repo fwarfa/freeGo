@@ -10,6 +10,7 @@ import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
 import { geolocationOptions } from "../../constants/geolocationOptions";
 import { useInterval } from '../../hooks/useInterval';
+import {  addDays } from 'date-fns';
 
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -51,7 +52,15 @@ function MapContainer({userLocation}) {
   const [mapaddress, setmapaddress] = useState();
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
-  const dashBoard = useSelector(store => store.dashBoardReducer)
+  const dashBoard = useSelector(store => store.dashBoardReducer);
+
+  const [created_date, setCreated_Date] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
   
   /**
    * Map Component
@@ -75,18 +84,21 @@ function MapContainer({userLocation}) {
 
 
   function getLocation() {
-    let newDate = new Date();
+    let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
+    setCreated_Date({
+      startDate: priorDate,
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    });
+
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log('btn click address lat and long', lat, lng);
-        setmapaddress([lat, lng]);
-
-        console.log('user filter location is:', mapaddress);
+        setmapaddress([lat, lng]);;
         dispatch({
           type: "FETCH_HAZARD",
           payload: {
-            date: newDate.getDate(),
+            date: created_date,
             genreTitle: genre,
             userLatLng: {latitude: lat, longitude: lng},
             threat_Level: threat_level,
