@@ -6,6 +6,7 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector } from "react-redux";
 import icon from 'leaflet/dist/images/marker-icon.png';
+import icon2 from '../Map/placeholder.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -72,7 +73,7 @@ function MapComponent({address}) {
                 <button type="button" class="close btn-map-close" onClick={() => setshowpop(false)} aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <span className="badge badge-pill badge-primary">{hazard.threat_level}</span>
+                <span className="badge badge-pill badge-primary" className={'badge-'+hazard.threat_level + ' badge badge-pill badge-primary'}>{hazard.threat_level}</span>
                 <div onClick={() => getCardInfo(hazard.id)} className="card-title">{hazard.name}</div>
                 <div className="">
                   <div className="map-card-location">

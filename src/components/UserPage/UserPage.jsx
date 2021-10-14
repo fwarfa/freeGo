@@ -58,7 +58,7 @@ function UserPage() {
             <div classNameName="row">
               <ul className="list-group user-settings-menu">
 
-                <li onClick={() => handleNavClick('/home')} className="list-group-item d-flex justify-content-between align-items-center">
+                <li onClick={() => handleNavClick('/profilepage')} className="list-group-item d-flex justify-content-between align-items-center">
                   <div className="user-menu-item-group">
                     <strong>Account Settings</strong><br />
                     <i>lorum ipsum lorum ipsum lorum ipsum </i>
