@@ -78,6 +78,8 @@ router.get("/", async (req, res) => {
      userLong = JSON.parse(req.query.filterParams).longitude;
     }
 
+
+    console.log('hello');
     const dbData = await pool.query(query, [
       userLat,
       userLong,
