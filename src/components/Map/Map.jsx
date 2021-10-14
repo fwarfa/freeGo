@@ -6,6 +6,7 @@ import FullscreenControl from 'react-leaflet-fullscreen';
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector } from "react-redux";
 import icon from 'leaflet/dist/images/marker-icon.png';
+import icon2 from '../Map/placeholder.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
