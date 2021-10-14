@@ -43,7 +43,7 @@ function MapContainer({userLocation}) {
   const dispatch = useDispatch();
   const [address, setAddress] = useState('');
   const [genre, setgenre] = useState('');
-  const [threat_level, set_threat_level] = useState('');
+  const [threat_level, set_threat_level] = useState('%');
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
   const dashBoard = useSelector(store => store.dashBoardReducer)
   /**
@@ -54,8 +54,6 @@ function MapContainer({userLocation}) {
 
   function getLocation() {
     let newDate = new Date();
-
-
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
@@ -68,7 +66,7 @@ function MapContainer({userLocation}) {
             date: newDate.getDate(),
             genreTitle: genre,
             userLatLng: {latitude: lat, longitude: lng},
-            threat_Level: threat_Level,
+            threat_Level: threat_level,
           },
         });
         
