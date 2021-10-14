@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             * cos(radians(h.latitude)) 
             * cos( radians($2)
             - radians(h.longitude))
-          ) * 3961 <= 5
+          ) * 3961 <= 500
           AND
           LOWER(h.threat_level) LIKE LOWER($3)
           AND 
@@ -41,10 +41,9 @@ router.get("/", async (req, res) => {
     let endDate = '2090-01-01';
     let description = "%";
 
-    console.log('req query date', JSON.parse(req.query.filterParams).date);
-
     if(JSON.parse(req.query.filterParams).date) {
-      JSON.parse(req.query.filterParams).date.map((postData) => {
+      console.log('JSON.parse(req.query.filterParams).date', JSON.parse(req.query.filterParams).date);
+      JSON.parse(req.query.filterParams).date?.map((postData) => {
         startDate = postData.startDate;
         endDate = postData.endDate;
       })
@@ -95,7 +94,7 @@ router.get("/", async (req, res) => {
 
     const data = dbData.rows;
 
-    console.log('dbdata', data);
+    // console.log('dbdata', data);
 
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
@@ -119,8 +118,8 @@ router.get("/", async (req, res) => {
       });
     });
 
-    let dbRes = [...data, ...ODAPIDMODIFIED];
-    // let dbRes = [...data];
+    // let dbRes = [...data, ...ODAPIDMODIFIED];
+    let dbRes = [...data];
 
     res.send(
       dbRes
