@@ -6,6 +6,7 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
+<<<<<<< HEAD
 router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
   console.log('user hazard was hit!');
   const id = req.params.id;
@@ -16,6 +17,15 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
     query = `SELECT * FROM "hazard" WHERE id = $1`;
     pool
     .query(query, [id])
+=======
+router.get("/:id", rejectUnauthenticated, (req, res) => {
+
+  const params = [req.params.id, req.user.id]
+  const query = `SELECT * FROM "hazard" as h 
+WHERE h.id = $1  AND h.user_id = $2`;
+  pool
+    .query(query, params)
+>>>>>>> main
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
       res.send(result.rows[0]);
@@ -89,7 +99,12 @@ router.get("/user/:id", rejectUnauthenticated, (req, res) => {
     console.log('this is an user');
     pool.query(query, [userId])
     .then((result) => {
+<<<<<<< HEAD
       console.log("user hazard is ", result.rows);
+=======
+      // console.log("user hazard is ", result.rows);
+
+>>>>>>> main
       res.send(result.rows);
     })
     .catch((err) => {
@@ -115,7 +130,7 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const genreId = req.body.genre_id;
   const threatLevel = req.body.threat_level;
 
-  console.log("user id is ", userId);
+  // console.log("user id is ", userId);
 
   const queryText = `
     INSERT INTO "hazard" 
@@ -291,7 +306,7 @@ router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
       });
 });
 
-router.get("/details/:id", async (req, res) => {
+router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
     console.log("get card by the id is", params);
@@ -306,4 +321,6 @@ LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
     console.log("GET details id error is", error)
   }
 });
+
+
 module.exports = router;

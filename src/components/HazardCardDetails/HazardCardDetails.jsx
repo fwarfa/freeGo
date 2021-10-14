@@ -10,6 +10,7 @@ export default function HazardCardDetails() {
   const id = params.id;
   const user = useSelector(store => store.user);
   const detail = useSelector((store) => store.cardDetails);
+  const genre = useSelector((store) => store.hazardGenre);
   const [flaggedHazard, setFlaggedHazard] = useState({});
 
 
@@ -19,6 +20,17 @@ export default function HazardCardDetails() {
       payload: id,
     });
   }, []);
+
+  useEffect(() => {
+    getHazardGenre()
+   
+  }, [])
+
+  const getHazardGenre = () => {
+     dispatch({
+       type: "FETCH_HAZARD_GENRE",
+     });
+  }
 
   const handleChange = (event) => {
     console.log({...flaggedHazard, 
@@ -127,6 +139,23 @@ export default function HazardCardDetails() {
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                           <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleSubmit(items.id)}>Submit</button>
                         </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-dismiss="modal"
+                          onClick={() => handleSubmit(items.id)}
+                        >
+                          Submit
+                        </button>
                       </div>
                     </div>
                   </div> 

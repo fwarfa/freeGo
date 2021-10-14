@@ -4,8 +4,9 @@ import "../LandingPage/LandingPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
 import AddHazardButton from "../AddHazardButton/AddHazardButton";
+import FilterDrawer from "../FilterDrawer/FilterDrawer";
 
-export default function LandingPage() {
+export default function LandingPage({location}) {
   const history = useHistory();
   const dashBoard = useSelector((store) => store.dashBoardReducer);
   const user = useSelector(store => store.user);
@@ -40,6 +41,7 @@ export default function LandingPage() {
           )}
         </div>
       </div>
+      <FilterDrawer location={location} />
     </>
   );
 }
