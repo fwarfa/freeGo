@@ -41,15 +41,11 @@ Geocode.enableDebug();
 
 function MapContainer({userLocation}) {
   const dispatch = useDispatch();
-
   const [address, setAddress] = useState('');
+  const [genre, setgenre] = useState('');
+  const [threat_level, set_threat_level] = useState('');
   const [mapaddress, setmapaddress] = useState([44.97464249999999, -93.2726928]);
-
-
-
-
   const dashBoard = useSelector(store => store.dashBoardReducer)
-  // console.log("dashboard is", dashBoard)
   /**
    * Map Component
    * Utilizes react-leaflet, Leaflet
@@ -82,8 +78,28 @@ function MapContainer({userLocation}) {
                 onChange={event => setAddress(event.target.value)}
                 className="form-control"
                 value={address}
-                placeholder="Address"
+                placeholder="Address / Location"
               />
+            <input
+              onChange={event => set_genre(event.target.value)}
+              className="form-control"
+              value={address}
+              placeholder="Genre"
+            />
+
+            <select
+              className="form-control"
+              name="threatLevel"
+              id="threatLevel"
+              value={threat_level}
+              onChange={(e) => set_threat_level(e.target.value)}
+            >
+              <option selected>Select A Threat Level</option>
+              <option value="low">Low</option>
+              <option value="moderate">Moderate</option>
+              <option value="severe">Severe</option>
+            </select>
+
             <div class="input-group-append">
             <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
             </div>
