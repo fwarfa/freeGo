@@ -34,10 +34,8 @@ const [created_date, setCreated_Date] = useState([
  // set response language. Defaults to english.
  Geocode.setLanguage("en");
 
-
-
  const applyBtn= () => {
-
+   
      if (street && city && state && zip) {
        let address = `${street} ${city} ${state} ${zip}`;
        console.log("address is", address);
@@ -45,8 +43,6 @@ const [created_date, setCreated_Date] = useState([
        Geocode.fromAddress(address).then(
          (response) => {
            const { lat, lng } = response.results[0].geometry.location;
-           console.log("lat and long is", lat, lng);
-
            setLocation({
              location: {
                lat,
@@ -78,10 +74,6 @@ const [created_date, setCreated_Date] = useState([
    setThreat_Level('')
 
  }
-
- console.log("location lat is", location.lat)
-
-
 
   return (
     <>

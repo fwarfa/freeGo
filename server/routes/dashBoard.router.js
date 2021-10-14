@@ -57,11 +57,6 @@ router.get("/", async (req, res) => {
      userLong = JSON.parse(req.query.userLatLng.location).longitude;
     }
 
-    //    let low = '' + '%';
-    // let genreTitle = '' + '%';
-    // let description = '' + '%';
-    // let createdDate = '' + '%';
-
     //Making pool request to to my local db
     const dbData = await pool.query(query, [
        userLat,
