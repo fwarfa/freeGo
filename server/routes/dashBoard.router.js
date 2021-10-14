@@ -93,9 +93,6 @@ router.get("/", async (req, res) => {
     );
 
     const data = dbData.rows;
-
-    // console.log('dbdata', data);
-
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
