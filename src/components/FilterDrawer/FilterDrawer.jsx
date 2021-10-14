@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import '../FilterDrawer/FilterDrawer.css'
 import { useDispatch } from 'react-redux';
-import { Calendar, DateRangePicker } from 'react-date-range';
-import { addDays } from 'date-fns';
+import {  DateRangePicker } from 'react-date-range';
+import {  addDays } from 'date-fns';
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'react-date-range/dist/styles.css'; // main style file
+import Geocode from "react-geocode";
 
 
-export default function FilterDrawer({location}) {
+export default function FilterDrawer() {
 
  const dispatch = useDispatch()
 
@@ -26,7 +27,38 @@ const [created_date, setCreated_Date] = useState([
  const [zip, setZip] = useState('')
  const [threat_Level, setThreat_Level] = useState('')
 
+ const [location, setLocation] = useState('')
+
+ Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
+
+ // set response language. Defaults to english.
+ Geocode.setLanguage("en");
+
+
+
  const applyBtn= () => {
+
+     if (street && city && state && zip) {
+       let address = `${street} ${city} ${state} ${zip}`;
+       console.log("address is", address);
+
+       Geocode.fromAddress(address).then(
+         (response) => {
+           const { lat, lng } = response.results[0].geometry.location;
+           console.log("lat and long is", lat, lng);
+
+           setLocation({
+             location: {
+               lat,
+               lng,
+             },
+           });
+         },
+         (err) => {
+           console.log(err);
+         }
+       );
+     }
 
    dispatch({
      type: "FETCH_HAZARD",
@@ -37,8 +69,19 @@ const [created_date, setCreated_Date] = useState([
        threat_Level: threat_Level,
      },
    });
+   setDisplayModal(!displayModal);
+   setGenreTitle('')
+   setStreet('')
+   setCity('')
+   setState('')
+   setZip('')
+   setThreat_Level('')
 
  }
+
+ console.log("location lat is", location.lat)
+
+
 
   return (
     <>

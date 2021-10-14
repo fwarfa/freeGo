@@ -48,11 +48,13 @@ router.get("/", async (req, res) => {
        createdDate = req.query.date + "%";
     }
 
-    if (JSON.parse(req.query.userLatLng).latitude) {
-     userLat= JSON.parse(req.query.userLatLng).latitude ;
+    console.log("lng is", req.query.userLatLng)
+
+    if (JSON.parse(req.query.userLatLng.location).latitude) {
+     userLat= JSON.parse(req.query.userLatLng.location).latitude;
     }
-    if ( JSON.parse(req.query.userLatLng).longitude) {
-     userLong = JSON.parse(req.query.userLatLng).longitude;
+    if ( JSON.parse(req.query.userLatLng.location).longitude) {
+     userLong = JSON.parse(req.query.userLatLng.location).longitude;
     }
 
     //    let low = '' + '%';
