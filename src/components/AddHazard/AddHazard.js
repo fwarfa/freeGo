@@ -188,7 +188,7 @@ function AddHazard() {
                     </div>
                     <div className="form-group">
                         <label for="threatLevel">Hazard Threat Level:</label>
-                        <select className="form-control" name="threatLevel" id="threatLevel" value={hazardReducer.threatLevel} onChange={handleChange}>
+                        <select className="form-control" name="threat_level" id="threatLevel" value={hazardReducer.threat_level} onChange={handleChange}>
                             <option selected disabled>Select A Threat Level</option>
                             <option value="low">Low</option>
                             <option value="moderate">Moderate</option>
@@ -197,7 +197,7 @@ function AddHazard() {
                     </div>
                     <div className="form-group">
                         <label for="genre">Hazard Genre:</label>
-                        <select className="form-control" name="genre" id="genre" value={hazardReducer.genre} onChange={handleChange}>
+                        <select className="form-control" name="genre_id" id="genre" value={hazardReducer.genre_id} onChange={handleChange}>
                             <option selected disabled >Select A Genre</option>
                             <option value="1">CRIME</option>
                             <option value="2">ROAD WORK</option>

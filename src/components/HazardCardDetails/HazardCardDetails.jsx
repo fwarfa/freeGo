@@ -8,6 +8,7 @@ export default function HazardCardDetails() {
   const params = useParams();
   const dispatch = useDispatch();
   const id = params.id;
+  const user = useSelector(store => store.user);
   const detail = useSelector((store) => store.cardDetails);
   const genre = useSelector((store) => store.hazardGenre);
   const [flaggedHazard, setFlaggedHazard] = useState({});
@@ -49,6 +50,25 @@ export default function HazardCardDetails() {
     });
   };
 
+  const changeStatus = (items) => {
+    let cardDetails = detail[0];
+    console.log({
+      ...cardDetails,
+      approved: (!items.approved)
+    });
+
+    dispatch({
+      type: 'ADD_EDIT_HAZARD',
+      payload: {
+        ...cardDetails,
+        approved: (!items.approved)
+      }
+  })
+
+    alert('Status Changed!');
+    history.push('/home');
+  }
+
   return (
     <>
       {detail.length > 0 ? (
@@ -62,75 +82,62 @@ export default function HazardCardDetails() {
                 <span>Moderate</span>
               </h4>
               <h4>
-                {items.approved === false ? (
-                  <span>Status: Not Approved</span>
-                ) : (
+                {items.approved === true ? (
                   <span>Status: Approved</span>
+                ) : (
+                  <span>Status: Pending</span>
                 )}
+                <br/>
+                {user.role === 1 &&
+                  <button onClick={() => changeStatus(items)}>Change Status</button>
+                }
               </h4>
               <div>
                 <h2>{items.name}</h2>
                 <p>{items.description}</p>
               </div>
-              <h4>{items.title}</h4>
+              <h4>Hazard Genre: {items.title}</h4>
               <p>
                 {" "}
                 <i className="fa fa-map-marker"></i> {items.street},{" "}
                 {items.city} {items.state}
               </p>
-              <h4>Hazard Genre</h4>
               <div>
                 <div></div>
                 <div></div>
                 <div></div>
               </div>
               <div>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  onClick={getHazardGenre}
-                >
-                  Report Hazard
-                </button>
-                {/* Modal */}
-                <div
-                  class="modal fade"
-                  id="exampleModal"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                          Choose Reason For Inaccuracy
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <div className="form-group">
-                          <label for="flagDescription">Reason:</label>
-                          <select
-                            className="form-control"
-                            name="description"
-                            id="flagDescription"
-                            value={flaggedHazard.description}
-                            onChange={handleChange}
-                          >
-                            {genre.length > 0 ? genre.map((item, i) => (
-                              <option key={i} value={item.title}>{item.title}</option>
-                            )):
-                              <p>...</p>
-                            }
-                          </select>
+              {user.role !== 1 &&
+                  <button 
+                    type="button" class="btn btn-primary" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal"
+                  >
+                    Report Hazard
+                  </button>
+              }
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Choose Reason For Inaccuracy</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div className="form-group">
+                            <label for="flagDescription">Reason:</label>
+                            <select className="form-control" name="description" id="flagDescription" value={flaggedHazard.description} onChange={handleChange}>
+                                <option value="">Select A Reason</option>
+                                <option value="Hazard No Longer Exists">Hazard No Longer Exists</option>
+                                <option value="Information Is Inaccurate">Information Is Inaccurate</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleSubmit(items.id)}>Submit</button>
                         </div>
                       </div>
                       <div class="modal-footer">
@@ -151,9 +158,7 @@ export default function HazardCardDetails() {
                         </button>
                       </div>
                     </div>
-                  </div>
-                </div>{" "}
-                {/* End Modal */}
+                  </div> 
               </div>
             </div>
           </div>

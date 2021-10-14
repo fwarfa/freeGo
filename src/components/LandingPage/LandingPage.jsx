@@ -9,6 +9,7 @@ import FilterDrawer from "../FilterDrawer/FilterDrawer";
 export default function LandingPage({location}) {
   const history = useHistory();
   const dashBoard = useSelector((store) => store.dashBoardReducer);
+  const user = useSelector(store => store.user);
 
   const getCardInfo = (id) => {
     console.log("card info id is", id);

@@ -7,6 +7,7 @@ import userHazard from './userHazarad.reducer';
 import openMinneapolisApi from './OpenMinneapolisAPI.reducer';
 import cardDetails from './HazardCardDetails.reducer';
 import editUser from './editUser.reducer'
+import flaggedHazards from './flaggedHazards.reducer'
 import hazardGenre from './hazardGenre.reducer';
 
 // rootReducer is the primary reducer for our entire project
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   cardDetails,
   userHazard,
   editUser,
+  flaggedHazards,
   hazardGenre
 });
 

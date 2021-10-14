@@ -124,16 +124,13 @@ function App() {
               <AddHazard />
           </ProtectedRoute>
 
-          <Route exact path="/hazardmanagement">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect to the /user page
+          <ProtectedRoute 
+            exact 
+            path="/hazardmanagement"
+          >
               <HazardManagement />
-            ) : (
-              // Otherwise, show the login page
-              <Redirect to="/user" />
-            )}
-          </Route>
+          </ProtectedRoute>
+          
           <ProtectedRoute exact path="/edithazard/:id">
               <AddHazard />
           </ProtectedRoute>

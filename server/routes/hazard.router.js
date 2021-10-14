@@ -6,6 +6,18 @@ const pool = require("../modules/pool");
 
 const router = express.Router();
 
+<<<<<<< HEAD
+router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
+  console.log('user hazard was hit!');
+  const id = req.params.id;
+  const userId = req.user.id;
+  let query;
+
+  if (req.user.role === 1) {
+    query = `SELECT * FROM "hazard" WHERE id = $1`;
+    pool
+    .query(query, [id])
+=======
 router.get("/:id", rejectUnauthenticated, (req, res) => {
 
   const params = [req.params.id, req.user.id]
@@ -13,31 +25,94 @@ router.get("/:id", rejectUnauthenticated, (req, res) => {
 WHERE h.id = $1  AND h.user_id = $2`;
   pool
     .query(query, params)
+>>>>>>> main
     .then((result) => {
       console.log("hazard by id is ", result.rows[0]);
-
       res.send(result.rows[0]);
     })
     .catch((err) => {
-      console.log("Get hazard by id failed", err);
+      console.log("Get hazard by id for admin failed", err);
+      res.sendStatus(500);
+    });
+  }
+  else {
+    query = `SELECT * FROM "hazard" WHERE id = $1 AND user_id = $2`;
+    pool
+      .query(query, [id, userId])
+      .then((result) => {
+        console.log("hazard by id is ", result.rows[0]);
+  
+        res.send(result.rows[0]);
+      })
+      .catch((err) => {
+        console.log("Get hazard by id failed", err);
+        res.sendStatus(500);
+      });
+  }
+});
+
+router.get("/flagged", rejectUnauthenticated, (req, res) => {
+  console.log('flagged was hit!');
+  
+    if (req.user.role !== 1) {
+      res.sendStatus(401)
+      return;
+    }
+
+    const query = `
+    SELECT 
+      f.id as id, f.who_flagged, f.is_accurate, f.description as flag_description, h.id as hazard_id,
+      h.user_id as user_created_by, h.genre_id, h.approved, h.city, h.state, h.street, h.zip, h.threat_level, h.name, h.image, h.created_date
+    FROM "flagged_hazard" as f
+    JOIN "hazard" as h
+    ON f.hazard_id = h.id;
+        `;
+    pool
+    .query(query)
+    .then((result) => {
+      console.log("flagged hazards are ", result.rows);
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log("Get flagged hazard for admin failed", err);
       res.sendStatus(500);
     });
 });
 
 router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   const userId = req.user.id;
-  const query = `SELECT * FROM "hazard" WHERE user_id = $1`;
-  pool
-    .query(query, [userId])
-    .then((result) => {
-      // console.log("user hazard is ", result.rows);
 
+  if (req.user.role === 1) {
+    let query = `SELECT * FROM "hazard";`;
+    pool.query(query)
+    .then((result) => {
+      console.log("user hazard is ", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {
       console.log("Get User Hazard failed", err);
       res.sendStatus(500);
     });
+  }
+  else {
+    let query = `SELECT * FROM "hazard" WHERE user_id = $1`;
+    console.log('this is an user');
+    pool.query(query, [userId])
+    .then((result) => {
+<<<<<<< HEAD
+      console.log("user hazard is ", result.rows);
+=======
+      // console.log("user hazard is ", result.rows);
+
+>>>>>>> main
+      res.send(result.rows);
+    })
+    .catch((err) => {
+      console.log("Get User Hazard failed", err);
+      res.sendStatus(500);
+    });
+  }
+    
 });
 
 router.post("/", rejectUnauthenticated, (req, res) => {
@@ -49,11 +124,11 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const zip = req.body.zip;
   const image = req.body.image;
   const userId = req.user.id;
-  const approved = true;
+  const approved = false;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
-  const genreId = req.body.genre;
-  const threatLevel = req.body.threatLevel;
+  const genreId = req.body.genre_id;
+  const threatLevel = req.body.threat_level;
 
   // console.log("user id is ", userId);
 
@@ -117,15 +192,60 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   const zip = req.body.zip;
   const image = req.body.image;
   const userId = req.user.id;
-  const approved = true;
+  const approved = req.body.approved;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
-  const genreId = req.body.genre;
-  const threatLevel = req.body.threatLevel;
+  const genreId = req.body.genre_id;
+  const threatLevel = req.body.threat_level;
 
-  // console.log("req body is ", req.body);
+  console.log("req body is ", req.body);
+  let query;
 
-  const query = `
+  if (req.user.role === 1) {
+  query = `
+  UPDATE "hazard"
+  SET 
+    name = $1, 
+    description = $2, 
+    street = $3, 
+    city = $4, 
+    state = $5, 
+    zip = $6, 
+    image = $7, 
+    approved = $8, 
+    latitude = $9, 
+    longitude = $10,
+    genre_id = $11,
+    threat_level = $12
+  WHERE id = $13;
+  `;
+
+  pool
+    .query(query, [
+      name,
+      description,
+      street,
+      city,
+      state,
+      zip,
+      image,
+      approved,
+      latitude,
+      longitude,
+      genreId,
+      threatLevel,
+      id
+    ])
+    .then((result) => {
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      console.log("hazard PUT by id  for admin failed", err);
+      res.sendStatus(500);
+    });
+  }
+  else {
+  query = `
   UPDATE "hazard"
   SET 
     name = $1, 
@@ -166,30 +286,31 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       console.log("hazard PUT by id failed", err);
       res.sendStatus(500);
     });
+  }
 });
 
-router.delete("/:id", rejectUnauthenticated, (req, res) => {
+router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
   let id = req.params.id;
-  let userId = req.user.id;
-  console.log("id is ", id);
-
-  const query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
-  pool
-    .query(query, [id, userId])
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((err) => {
-      console.log("Events session DELETE failed", err);
-      res.sendStatus(500);
-    });
+  if (req.user.role !== 1) {
+    res.sendStatus(401);
+    return;
+  }
+    const query = `DELETE FROM "flagged_hazard" WHERE id = $1;`;
+    pool.query(query, [id])
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("flagged hazard DELETE failed", err);
+        res.sendStatus(500);
+      });
 });
 
 router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
     console.log("get card by the id is", params);
-    const query = `SELECT h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.description FROM "hazard" as h
+    const query = `SELECT h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.image, genre.title, genre.id as genre_id, genre.description FROM "hazard" as h
 LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
  WHERE h.id = $1`;
 

@@ -18,10 +18,10 @@ export default function LandingPageItems({ items }) {
           <div className="card-title">{items.name}
           </div>
           <h3 className="threat">
-          <span>{items.title}</span>
+          <span>Hazard Genre: {items.title}</span>
           </h3>
           <h3 className="threat">
-            Threat Level {items.threat_level}
+            Threat Level: {items.threat_level}
           </h3>
           <div className="status">
             <p className="threatLevel">
@@ -29,7 +29,7 @@ export default function LandingPageItems({ items }) {
               {items.approved === true ? (
                 <span>Approved</span>
               ) : (
-                <span>Not approved</span>
+                <span>Pending</span>
               )}
             </p>
           </div>
@@ -38,9 +38,6 @@ export default function LandingPageItems({ items }) {
               <i className="fa fa-map-marker"></i> {items.street}, {items.city}{" "}
               {items.state}
             </p>
-            {/* { items.user_id === user.id &&
-              <button className="btn btn-primary" onClick={() => handleClick(items.id)}>Edit</button>
-            } */}
           </div> 
         </div>
       </div>
