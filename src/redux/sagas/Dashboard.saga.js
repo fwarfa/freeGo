@@ -6,23 +6,16 @@ function* fetchHomepageDashboard(action) {
     console.log("action payload length is", Object.keys(action.payload).length)
     //saving the axios get request to response
     console.log('fetch hazard payload: ', action.payload);
-    if(Object.keys(action.payload).length >= 6){
-      const response = yield axios.get("/api/dashBoard", {params: {filter: action.payload}});
-      console.log("response is is is", response.data)
-       //passing the response to my reducer
-    yield put({ type: "SET_DASHBOARD", payload: response.data });
-
-    }else{
+  
        const response = yield axios.get("/api/dashBoard", {
       params: {
         userLatLng: action.payload
       }
     });
-
     //passing the response to my reducer
     yield put({ type: "SET_DASHBOARD", payload: response.data });
 
-    }
+  
   } catch (error) {
     console.log("dashboard get error is", error.data);
   }

@@ -42,7 +42,7 @@
 .CenterAlign {
   top: 15%;
   position: absolute;
-  left: 90%;
+  left: 70%;
   transform: translate(-50%, -25%);
 }
 
@@ -71,7 +71,7 @@
   padding: 0 12px 12px;
   transition: all 0.3s ease-out;
   z-index: 10;
-  height: 50%;
+  height: 60%;
 }
 
 .Modal.Show {

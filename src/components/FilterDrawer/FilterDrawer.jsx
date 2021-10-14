@@ -1,39 +1,45 @@
 import React, {useState} from 'react'
 import '../FilterDrawer/FilterDrawer.css'
 import { useDispatch } from 'react-redux';
+import { Calendar, DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
+import 'react-date-range/dist/theme/default.css'; // theme css file
+import 'react-date-range/dist/styles.css'; // main style file
 
 
 export default function FilterDrawer({location}) {
- const dispatch = useDispatch()
- const [month, setMonth] = useState('');
- const [date, setDate] = useState('');
- const [end, setEnd] =  useState('')
- const [hazardGenre, setHazardGenre] = useState('')
- const [locationName, setLocationName] = useState('')
 
- const onApplyBtn = () => {
-  
+ const dispatch = useDispatch()
+
+const [created_date, setCreated_Date] = useState([
+  {
+    startDate: new Date(),
+    endDate: addDays(new Date(), 7),
+    key: "selection",
+  },
+]);
+ const [displayModal, setDisplayModal] = useState(false);
+ const [genreTitle, setGenreTitle] = useState("");
+ const [street, setStreet] = useState('')
+ const [city, setCity ] = useState('')
+ const [state, setState] = useState('')
+ const [zip, setZip] = useState('')
+ const [threat_Level, setThreat_Level] = useState('')
+
+ const applyBtn= () => {
+
    dispatch({
      type: "FETCH_HAZARD",
      payload: {
-       month: month,
-       data: date,
-       end: end,
-       name: hazardGenre,
+       date: created_date,
+       genreTitle: genreTitle,
        userLatLng: location,
-       locationName: locationName,
+       threat_Level: threat_Level,
      },
    });
 
-   setDisplayModal(!displayModal);
-  setLocationName('');
-   setDate('')
-   setEnd('')
-   setHazardGenre('')
-   setMonth('')
-
  }
- const [displayModal, setDisplayModal] = useState(false);
+
   return (
     <>
       <div
@@ -51,58 +57,71 @@ export default function FilterDrawer({location}) {
         >
           <i className="fa fa-times-circle-o" aria-hidden="true"></i>
         </button>
-        <label htmlFor="start">
-          <h4>Month</h4>
-          <input
-            type="month"
-            name="month"
-            value={month}
-            onChange={(e) => setMonth(e.target.value)}
+        <div htmlFor="start">
+          <h4>Duration</h4>
+          <DateRangePicker
+            onChange={(item) => setCreated_Date([item.selection])}
+            showSelectionPreview={true}
+            moveRangeOnFirstSelection={false}
+            months={2}
+            ranges={created_date}
+            direction="horizontal"
           />
-        </label>
-        <label htmlFor="start">
-          <h4>Start</h4>
-          <input
-            type="date"
-            name="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </label>
-        <label htmlFor="start">
-          <h4>End</h4>
-          <input
-            type="date"
-            name="end"
-            value={end}
-            onChange={(e) => setEnd(e.target.value)}
-          />
-        </label>
-        <label className="Show">
+        </div>
+        <div for="threatLevel">Hazard Threat Level:</div>
+        <select
+          className="form-control"
+          name="threatLevel"
+          id="threatLevel"
+          value={threat_Level}
+          onChange={(e) => setThreat_Level(e.target.value)}
+        >
+          <option selected>Select A Threat Level</option>
+          <option value="low">Low</option>
+          <option value="moderate">Moderate</option>
+          <option value="severe">Severe</option>
+        </select>
+        <div className="Show">
           <h4>Hazard Genre</h4>
           <input
-            type="text"
+            className="form-control"
             placeholder="Enter hazard genre"
             name="hazardGenre"
-            value={hazardGenre}
-            onChange={(e) => setHazardGenre(e.target.value)}
+            value={genreTitle}
+            onChange={(e) => setGenreTitle(e.target.value)}
           />
-        </label>
-        <label>
-          <h4>Location</h4>
+        </div>
+        <div>
+          <h4>Address</h4>
           <input
-            type="text"
-            placeholder="Enter Location"
-            value="location"
-            value={locationName}
-            onChange={(e) => setLocationName(e.target.value)}
+            className="form-control"
+            placeholder="Street"
+            value={street}
+            onChange={(e) => setStreet(e.target.value)}
           />
-        </label>
-        <button
-          type="button"
-          class="btn btn-light"
-          onClick={() => onApplyBtn()}
-        >
+          <input
+            className="form-control"
+            placeholder="city"
+            name="city"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <input
+            className="form-control"
+            placeholder="state"
+            name="state"
+            value={state}
+            onChange={(e) => setState(e.target.value)}
+          />
+          <input
+            className="form-control"
+            placeholder="zip"
+            name="zip"
+            value={zip}
+            onChange={(e) => setZip(e.target.value)}
+          />
+        </div>
+        <button type="button" class="btn btn-light" onClick={applyBtn}>
           Apply
         </button>
         <button
@@ -121,3 +140,4 @@ export default function FilterDrawer({location}) {
     </>
   );
 }
+
