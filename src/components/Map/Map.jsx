@@ -72,7 +72,7 @@ function MapComponent({address}) {
                 <button type="button" class="close btn-map-close" onClick={() => setshowpop(false)} aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <span className="badge badge-pill badge-primary">{hazard.threat_level}</span>
+                <span className="badge badge-pill badge-primary" className={'badge-'+hazard.threat_level + ' badge badge-pill badge-primary'}>{hazard.threat_level}</span>
                 <div onClick={() => getCardInfo(hazard.id)} className="card-title">{hazard.name}</div>
                 <div className="">
                   <div className="map-card-location">

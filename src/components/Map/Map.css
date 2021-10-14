@@ -36,6 +36,10 @@
   text-transform: uppercase;
 }
 
+.badge-moderate {
+  background-color: #fa8c16 !important;
+}
+
 .map-card-location {
   font-size: 12px
 }
