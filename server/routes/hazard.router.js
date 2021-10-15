@@ -108,7 +108,8 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const longitude = req.body.longitude;
   const genreId = req.body.genre_id;
   const threatLevel = req.body.threat_level;
-
+  console.log('add hazard hit');
+  
   const query = `
     INSERT INTO "hazard" 
         (name, description, street, city, state, zip, image, user_id, approved, latitude, longitude, genre_id, threat_level)
@@ -219,6 +220,31 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       console.log("hazard PUT by id failed", err);
       res.sendStatus(500);
     });
+});
+
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  let id = req.params.id;
+  let userId = req.user.id;
+  let query;
+  let sqlParams;
+
+  if (req.user.role === 1) {
+    query = `DELETE FROM "hazard" WHERE id = $1;`;
+    sqlParams = [id]
+  }
+  else {
+    query = `DELETE FROM "hazard" WHERE id = $1 AND user_id = $2;`;
+    sqlParams = [id, userId]
+  }
+    pool
+      .query(query, sqlParams)
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((err) => {
+        console.log("DELETE hazard failed", err);
+        res.sendStatus(500);
+      });
 });
 
 router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
