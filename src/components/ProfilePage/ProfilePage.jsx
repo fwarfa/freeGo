@@ -42,7 +42,7 @@ dispatch({
 
     return (
     <>
-    <form className="formPanel" onSubmit={userProfile}>
+    <form className="card card-form formPanel" onSubmit={userProfile}>
       <h2 onClick={user}>Profile Page</h2>
       <div>
         <image src={user.image}/>
@@ -61,6 +61,7 @@ dispatch({
         <label htmlFor="first_name">
           First name:
           <input
+            className="form-control"
             type="text"
             name="first_name"
             value={editUser.first_name}
@@ -73,6 +74,7 @@ dispatch({
         <label htmlFor="last_name">
           Last Name: 
           <input
+            className="form-control"
             type="text"
             name="last_name"
             value={editUser.last_name}
@@ -85,6 +87,7 @@ dispatch({
         <label htmlFor="text">
           Email: 
           <input
+            className="form-control"
             type="email"
             name="email"
             value={editUser.email}
@@ -97,6 +100,7 @@ dispatch({
         <label htmlFor="birthday">
           Birthdate:  
           <input
+            className="form-control"
             type="date"
             name="birthday"
             value={editUser.birthday}
@@ -109,6 +113,7 @@ dispatch({
         <label htmlFor="country">
           Country: 
           <select
+            className="form-control"
             type="text"
             name="country"
             value={editUser.country}
@@ -126,6 +131,7 @@ dispatch({
         <label htmlFor="username">
          Username:
           <input
+            className="form-control"
             type="text"
             name="username"
             // defaultValue={user.username}
@@ -136,7 +142,7 @@ dispatch({
         </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Update" />
+        <input className="btn btn-primary" type="submit" name="submit" value="Update" />
       </div>
     </form>   
       </>

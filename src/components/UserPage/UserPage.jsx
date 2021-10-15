@@ -61,7 +61,7 @@ function UserPage() {
                 <li onClick={() => handleNavClick('/profilepage')} className="list-group-item d-flex justify-content-between align-items-center">
                   <div className="user-menu-item-group">
                     <strong>Account Settings</strong><br />
-                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
+                    <i>Manage your account </i>
                   </div>
                 <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
                 </li>
@@ -69,7 +69,7 @@ function UserPage() {
                 <li onClick={() => handleNavClick('/hazardmanagement')} className="list-group-item d-flex justify-content-between align-items-center">
                   <div className="user-menu-item-group">
                     <strong>Manage Hazards</strong><br />
-                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
+                    <i>{user.role === 1 ? "Manage Hazards" : "Manage my Hazards"}</i>
                   </div>
                 <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
                 </li>
@@ -77,7 +77,6 @@ function UserPage() {
                 <li onClick={() => dispatch({ type: 'LOGOUT' })} className="list-group-item d-flex justify-content-between align-items-center">
                   <div className="user-menu-item-group">
                     <strong>Log Out</strong><br />
-                    <i>lorum ipsum lorum ipsum lorum ipsum </i>
                   </div>
                   <span className="badge badge-primary badge-pill"><FontAwesomeIcon icon={faChevronRight} /></span>
                 </li>

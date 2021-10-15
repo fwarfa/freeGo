@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LandingPageItems from "../LandingPageItems/LandingPageItems";
 import AddHazardButton from "../AddHazardButton/AddHazardButton";
 import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import PageHeader from '../PageHeader/PageHeader';
 
 export default function LandingPage({location}) {
   const history = useHistory();
@@ -18,6 +19,10 @@ export default function LandingPage({location}) {
 
   return (
     <>
+          <PageHeader 
+            title = 'Hazards'
+            description = 'Stay Safe'
+          />
       <AddHazardButton />
       <div className="container">
         <div className="row">

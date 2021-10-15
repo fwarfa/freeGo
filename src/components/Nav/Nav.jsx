@@ -126,7 +126,7 @@ function Nav() {
                     </li>
                     {/* <li><a className="dropdown-item" href="#">Another action</a></li> */}
                     <li><hr className="dropdown-divider"></hr></li>
-                    <li><LogOutButton className="navLink btn btn-danger" /></li>
+                    <li><LogOutButton className="navLink btn btn-danger btn-normalize" /></li>
                   </ul>
                 </li>
               </>

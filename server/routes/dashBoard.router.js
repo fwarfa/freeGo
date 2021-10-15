@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             * cos(radians(h.latitude)) 
             * cos( radians($2)
             - radians(h.longitude))
-          ) * 3961 <= 50
+          ) * 3961 <= 5
           AND
           LOWER(h.threat_level) LIKE LOWER($3)
           AND 
@@ -86,6 +86,10 @@ router.get("/", async (req, res) => {
       startDate,
       endDate,
     ]);
+
+    console.log('user lat', userLat);
+    console.log('user lng', userLng);
+    console.log('out envelope bounding box is:', getBoundingBox([userLat, userLng], 5));
     
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(

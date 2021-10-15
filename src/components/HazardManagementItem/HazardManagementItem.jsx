@@ -23,7 +23,7 @@ export default function HazardManagementItem(items) {
 
     return (
         <>
-      <div className="image-container">
+      <div className="image-container container-fluid ">
         <img src={items.image} alt="" />
       </div>
       <div className="col-sm-7">

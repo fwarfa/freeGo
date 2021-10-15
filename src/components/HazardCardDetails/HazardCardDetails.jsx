@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import PageHeader from '../PageHeader/PageHeader';
 
 export default function HazardCardDetails() {
   const history = useHistory()
@@ -12,6 +13,7 @@ export default function HazardCardDetails() {
   const detail = useSelector((store) => store.cardDetails);
   const genre = useSelector((store) => store.hazardGenre);
   const [flaggedHazard, setFlaggedHazard] = useState({});
+  const [hazard_title, set_hazard_title] = useState('');
 
 
   useEffect(() => {
@@ -70,7 +72,14 @@ export default function HazardCardDetails() {
   }
 
   return (
-    <>
+    <div className="container-fluid">
+        <PageHeader 
+        title = 'Hazard'
+        description = 'Hazard details'
+        />
+
+        <div className="row">
+          <div className="col-sm">
       {detail.length > 0 ? (
         detail.map((items, i) => (
           <div key={i}>
@@ -89,7 +98,7 @@ export default function HazardCardDetails() {
                 )}
                 <br/>
                 {user.role === 1 &&
-                  <button onClick={() => changeStatus(items)}>Change Status</button>
+                  <button className="btn btn-primary" onClick={() => changeStatus(items)}>Change Status</button>
                 }
               </h4>
               <div>
@@ -97,6 +106,7 @@ export default function HazardCardDetails() {
                 <p>{items.description}</p>
               </div>
               <h4>Hazard Genre: {items.title}</h4>
+              {/* {set_hazard_title(items.title)} */}
               <p>
                 {" "}
                 <i className="fa fa-map-marker"></i> {items.street},{" "}
@@ -166,6 +176,8 @@ export default function HazardCardDetails() {
       ) : (
         <p>Loading...</p>
       )}
-    </>
+          </div>
+        </div>
+    </div>
   );
 }
