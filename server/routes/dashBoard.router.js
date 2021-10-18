@@ -112,7 +112,7 @@ router.get("/", async (req, res) => {
           latitude: item.attributes.centerLat,
           longitude: item.attributes.centerLong,
           created_date: "",
-          image: "https://picsum.photos/200/300",
+          image: "https://picsum.photos/200/300?random=1",
           title: item.attributes.description,
           description: item.attributes.description,
           user_id: 1,
