@@ -144,4 +144,9 @@ animation-duration: 11s;
     color: white !important;
   }
 
+
+  .page-header-row .mb-3 {
+    color: white !important;
+  }
+
 }
