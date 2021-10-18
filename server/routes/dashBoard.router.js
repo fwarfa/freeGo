@@ -7,6 +7,7 @@ const axios = require("axios");
  * GET route template
  */
 router.get("/", async (req, res) => {
+  console.log('we be fetching!!!!');
   try {
     //creating query
     const query = `
@@ -40,6 +41,8 @@ router.get("/", async (req, res) => {
     let startDate = '2010-01-01';
     let endDate = '2090-01-01';
     let description = "%";
+
+    console.log('data filter paaParams', req.query);
 
     if(JSON.parse(req.query.filterParams).date) {
       console.log('JSON.parse(req.query.filterParams).date', JSON.parse(req.query.filterParams).date);
@@ -117,6 +120,7 @@ router.get("/", async (req, res) => {
         title: item.attributes.description,
         description: item.attributes.description,
         user_id: 1,
+        is_minn: true,
       });
     });
 

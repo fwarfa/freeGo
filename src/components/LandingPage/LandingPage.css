@@ -24,3 +24,8 @@
 i{
   color: darkcyan;
 }
+
+.badge-primary {
+  color: #fff;
+  background-color: #007bff;
+}

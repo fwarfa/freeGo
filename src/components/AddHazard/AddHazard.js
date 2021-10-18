@@ -96,9 +96,13 @@ function AddHazard() {
             type: 'ADD_EDIT_HAZARD',
             payload: hazardLocal
         })
+        // dispatch({
+        //     type: 'CLEAR_HAZARD'
+        // })
         dispatch({
-            type: 'CLEAR_HAZARD'
-        })
+            type: "FETCH_HAZARD",
+            payload: {latitude: hazardLocal.latitude, longitude: hazardLocal.latitude}
+        });
         history.push('/home');
     }
 

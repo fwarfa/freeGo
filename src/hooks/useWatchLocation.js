@@ -16,10 +16,9 @@ const useWatchLocation = (options, test = {}) => {
   const handleSuccess = (pos) => {
     const { latitude, longitude } = pos.coords;
 
-    setLocation([
-      latitude,
-      longitude,
-    ]);
+    setLocation(
+      {latitude: latitude, longitude: longitude}
+    );
 
     dispatch({
       type: "FETCH_HAZARD",

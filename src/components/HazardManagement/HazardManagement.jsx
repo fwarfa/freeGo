@@ -30,6 +30,7 @@ const HazardManagement = () => {
       type: "DELETE_HAZARD_ITEM",
       payload: id
     });
+    
   };
 
   const editItem = (id) => {

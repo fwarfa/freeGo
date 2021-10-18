@@ -65,12 +65,20 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  // useInterval(async () => {
-  //   dispatch({
-  //     type: "FETCH_HAZARD",
-  //     payload: location
-  //   });
-  // }, 10000)
+  useInterval(async () => {
+    console.log('location', location);
+    dispatch({
+      type: "FETCH_HAZARD",
+      payload: location
+    });
+  }, 20000)
+
+  console.log('location', location);
+
+  // date: created_date,
+  // genreTitle: genre,
+  // userLatLng: {latitude: lat, longitude: lng},
+  // threat_Level: threat_level,
 
   /**
    * Is watching for location
