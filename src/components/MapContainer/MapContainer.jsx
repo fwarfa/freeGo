@@ -136,7 +136,7 @@ function MapContainer({userLocation}) {
     <>
       <PageHeader 
         title = "Map"
-        description = "View hazards on map - temp description"
+        description = "All Hazards"
       />
       <div className="container">
         <div className="form-group map-container-group">
