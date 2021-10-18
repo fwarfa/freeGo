@@ -140,7 +140,7 @@ export default function FilterDrawer() {
             </div>
           </div>
           <div className="btn-container-filter">
-            <button type="button" class="btn btn-light" onClick={applyBtn}>
+            <button type="button" class="btn btn-primary" onClick={applyBtn}>
             Apply
             </button>
             <button
