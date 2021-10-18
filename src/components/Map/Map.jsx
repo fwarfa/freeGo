@@ -24,46 +24,31 @@ function MapComponent({address}) {
   const [showpop, setshowpop] = useState(false);
   const [hazard, sethazard] = useState();
   const dashBoard = useSelector(store => store.dashBoardReducer)
-  const [bound, set_bounds] = ([]);
-  
-console.log('dashboard stuff', dashBoard);
-
-
-  console.log('dashboard on map', dashBoard);
-  console.log('address', address);
-
-
   const getCardInfo = (id) => {
     history.push(`/details/${id}`)
   }
 
   if (address instanceof Array) {
+    // DO NOTHING
   } else {
     address = Object.keys(address).map((key) => address[key]);
   }
 
-
-
-  const bounds = latLngBounds([address.latitude, address.longitude])
+  const bounds = latLngBounds(L.latLng(address));
+  
+  if(dashBoard.length > 0) {
+    bounds.extend(address)
     dashBoard.forEach((data) => {
-    bounds.extend([data.latitude, data.longitude])
-    console.log('data', data);
-  })
-
-
-  // {dashBoard.length > 0 ? (
-  //   dashBoard.map((items, i) => (
-  //     set_bounds(...bound, [items.latitude, items.longitude])
-  //   ))
-  // ) : (
-  //   ''
-  // )}
-
+      bounds.extend([data.latitude, data.longitude])
+    })
+  } else {
+    bounds.extend(address)
+  }
 
   return (
     <>
       <div className="map-popup-container">
-        <Map center={address} zoom={14}  bounds={bounds} style={{ height: "600px" }}>
+        <Map center={address} zoom={14} bounds={bounds} style={{ height: "600px" }}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -72,7 +57,6 @@ console.log('dashboard stuff', dashBoard);
         {dashBoard.length > 0 ? (
           dashBoard.map((items, i) => (
             <div key={i}>
-              {/* {set_bounds([items.latitude, items.longitude])} */}
               <Marker 
                 position={[items.latitude, items.longitude]}
                 onClick={(e) => {
@@ -87,7 +71,6 @@ console.log('dashboard stuff', dashBoard);
           <p>Loading...</p>
         )}
         </Map>
-
         {
           showpop === true 
           ?
@@ -107,12 +90,10 @@ console.log('dashboard stuff', dashBoard);
                     <FontAwesomeIcon icon={faMapMarkedAlt} />
                     {hazard.street}, {hazard.city}, {hazard.state}, {hazard.zip}
                   </div>
-                  {/* {hazard.description}   */}
                 </div>
               </div>  
             </div>
           </div> 
-          
           :
           <div className="popup-map-item"></div>
         }        
