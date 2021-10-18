@@ -22,6 +22,7 @@ export default function FilterDrawer() {
  const [genreTitle, setGenreTitle] = useState("");
  const [address, setAddress] = useState('');
  const [threat_Level, setThreat_Level] = useState('');
+ const [distance, set_distance] = useState('5');
 
  Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
  Geocode.setLanguage("en");
@@ -112,6 +113,19 @@ export default function FilterDrawer() {
                 <option value="low">Low</option>
                 <option value="moderate">Moderate</option>
                 <option value="severe">Severe</option>
+              </select>
+              <h4>Distance:</h4>
+              <select
+                className="form-control"
+                name="distance"
+                id="distance"
+                value={distance}
+                onChange={(e) => set_distance(e.target.value)}
+              >
+                <option selected>Select A Threat Level</option>
+                <option value="1">1 Mile</option>
+                <option value="5">5 Miles</option>
+                <option value="10">10 Miles</option>
               </select>
               <div className="Show">
                 <h4>Hazard Genre</h4>
