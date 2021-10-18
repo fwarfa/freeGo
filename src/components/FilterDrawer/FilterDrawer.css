@@ -109,5 +109,12 @@
   .input-group>.form-control, .input-group>.form-select {
     width: 100%;
   }
+
+  .btn-container-filter {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 100px;
+  }
 }
 
