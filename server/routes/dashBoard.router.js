@@ -118,7 +118,7 @@ router.get("/", async (req, res) => {
             latitude: item.attributes.centerLat,
             longitude: item.attributes.centerLong,
             created_date: "",
-            image: "https://source.unsplash.com/200x300/?city,roads,crime/" + index,
+            image: "https://source.unsplash.com/400x300/?city,roads,crime/" + index,
             title: item.attributes.description,
             description: item.attributes.description,
             user_id: 1,
