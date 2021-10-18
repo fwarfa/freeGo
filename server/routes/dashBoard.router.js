@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
             * cos(radians(h.latitude)) 
             * cos( radians($2)
             - radians(h.longitude))
-          ) * 3961 <= 5
+          ) * 3961 <= $8
           AND
           LOWER(h.threat_level) LIKE LOWER($3)
           AND 
@@ -40,15 +40,14 @@ router.get("/", async (req, res) => {
     let startDate = '2010-01-01';
     let endDate = '2090-01-01';
     let description = "%";
+    let distance = "5";
 
-    console.log('req.query', req.query);
-
-    if(JSON.parse(req.query.filterParams).date) {
-      JSON.parse(req.query.filterParams).date?.map((postData) => {
-        startDate = postData.startDate;
-        endDate = postData.endDate;
-      })
-    }
+    // if(JSON.parse(req.query.filterParams).date) {
+    //   JSON.parse(req.query.filterParams).date?.map((postData) => {
+    //     startDate = postData.startDate;
+    //     endDate = postData.endDate;
+    //   })
+    // }
 
     if (JSON.parse(req.query.filterParams).description) {
       description = JSON.parse(req.query.filterParams).description + "%";
@@ -77,7 +76,12 @@ router.get("/", async (req, res) => {
     if ( JSON.parse(req.query.filterParams).longitude) {
      userLng = JSON.parse(req.query.filterParams).longitude;
     }
-
+    console.log('distance', distance);
+    if ( JSON.parse(req.query.filterParams).distance) {
+      distance = JSON.parse(req.query.filterParams).distance;
+      console.log('distance2', distance);
+    }
+ 
     const dbData = await pool.query(query, [
       userLat,
       userLng,
@@ -86,40 +90,43 @@ router.get("/", async (req, res) => {
       description,
       startDate,
       endDate,
+      distance,
     ]);
     
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
       // "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=50&outSR=4326&f=json"
-      `https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&geometry=` + getBoundingBox([userLat, userLng], 5) + `&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json&resultRecordCount=50`
+      `https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&geometry=` + getBoundingBox([userLat, userLng], distance) + `&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json&resultRecordCount=50`
     );
 
     const data = dbData.rows;
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
-    openDataApi.map((item) => {
-      if(containsAny(item.attributes.description, ["RAPE", "MURDER"])) {
-      } else {
-        ODAPIDMODIFIED.push({
-          approved: true,
-          name: item.attributes.description,
-          city: "Minneapolis",
-          state: "mn",
-          street: item.attributes.publicaddress,
-          zip: "",
-          treat_level: "",
-          latitude: item.attributes.centerLat,
-          longitude: item.attributes.centerLong,
-          created_date: "",
-          image: "https://picsum.photos/200/300?random=1",
-          title: item.attributes.description,
-          description: item.attributes.description,
-          user_id: 1,
-          is_minn: true,
-        });
-      }
-    });
+    if(openApiData) {
+      openDataApi.map((item) => {
+        if(containsAny(item.attributes.description, ["RAPE", "MURDER"])) {
+        } else {
+          ODAPIDMODIFIED.push({
+            approved: true,
+            name: item.attributes.description,
+            city: "Minneapolis",
+            state: "mn",
+            street: item.attributes.publicaddress,
+            zip: "",
+            treat_level: "",
+            latitude: item.attributes.centerLat,
+            longitude: item.attributes.centerLong,
+            created_date: "",
+            image: "https://picsum.photos/200/300?random=1",
+            title: item.attributes.description,
+            description: item.attributes.description,
+            user_id: 1,
+            is_minn: true,
+          });
+        }
+      });
+    }
 
     function containsAny(str, substrings) {
         for (var i = 0; i != substrings.length; i++) {

@@ -49,11 +49,11 @@ function MapContainer({userLocation}) {
   const [address, setAddress] = useState('');
   const [genre, setgenre] = useState('');
   const [threat_level, set_threat_level] = useState('%');
+  const [distance, set_distance] = useState('5');
   const [mapaddress, setmapaddress] = useState();
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
   const dashBoard = useSelector(store => store.dashBoardReducer);
-
   const [created_date, setCreated_Date] = useState([
     {
       startDate: subDays(new Date(), 30),
@@ -81,7 +81,7 @@ function MapContainer({userLocation}) {
     }, 3000);
   }, [location, cancelLocationWatch]);
 
-
+  console.log('map address', mapaddress);
   function getLocation() {
     let today = new Date();
     let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
@@ -94,7 +94,7 @@ function MapContainer({userLocation}) {
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        setmapaddress([lat, lng]);;
+        setmapaddress([lat, lng]);
         dispatch({
           type: "FETCH_HAZARD",
           payload: {
@@ -102,14 +102,26 @@ function MapContainer({userLocation}) {
             genreTitle: genre,
             userLatLng: {latitude: lat, longitude: lng},
             threat_Level: threat_level,
+            distance: distance,
           },
         });
-        
+        // setAddress('');
+        console.log('map address', mapaddress);
+        setgenre('')
+        set_threat_level('')
+        set_distance('')
+
+        // const [address, setAddress] = useState('');
+        // const [genre, setgenre] = useState('');
+        // const [threat_level, set_threat_level] = useState('%');
+        // const [distance, set_distance] = useState('%');
+        // const [mapaddress, setmapaddress] = useState();
       },
       (error) => {
         console.error(error);
       }
     );
+    console.log('map address', mapaddress);
   }
 
   /**
@@ -153,6 +165,20 @@ function MapContainer({userLocation}) {
               <option value="moderate">Moderate</option>
               <option value="severe">Severe</option>
             </select>
+
+            <select
+              className="form-control"
+              name="distance"
+              id="distance"
+              value={distance}
+              onChange={(e) => set_distance(e.target.value)}
+            >
+              <option selected>Select A Distance</option>
+              <option value="1">1 Mile</option>
+              <option value="5">5 Mile</option>
+              <option value="10">10 Mile</option>
+            </select>
+
 
             <div class="input-group-append">
             <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
