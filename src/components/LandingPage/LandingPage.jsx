@@ -18,7 +18,7 @@ export default function LandingPage({location}) {
 
   const getCardInfo2 = (item) => {
     history.push({
-      pathname: '/details/openapi',
+      pathname: '/details/external-api',
       state: item
     })
   }

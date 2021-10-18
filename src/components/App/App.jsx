@@ -28,6 +28,7 @@ import MapContainer from '../MapContainer/MapContainer';
 import './App.css';
 import HazardManagement from '../HazardManagement/HazardManagement';
 import HazardCardDetails from '../HazardCardDetails/HazardCardDetails';
+import HazardCardDetailsExternalAPI from '../HazardCardDetailsExternalAPI/HazardCardDetailsExternalAPI';
 import ProfilePage from '../ProfilePage/ProfilePage';
 
 import useCurrentLocation from "../../hooks/useCurrentLocation";
@@ -197,6 +198,21 @@ function App() {
               // Otherwise, show the Landing page
             }
           </Route>
+
+          <Route exact path="/details/external-api">
+            {
+              user.id ? (
+                // If the user is already logged in,
+                // redirect them to the /user page
+                <HazardCardDetailsExternalAPI />
+              ) : (
+                <Redirect to="/user" />
+              )
+              // Otherwise, show the Landing page
+            }
+          </Route>
+
+          
 
           <Route exact path="/profilepage">
             {

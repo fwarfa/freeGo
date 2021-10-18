@@ -3,62 +3,65 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import PageHeader from '../PageHeader/PageHeader';
+import { useLocation } from "react-router-dom";
 
-export default function HazardCardDetails() {
-  const history = useHistory()
-  const params = useParams();
-  const dispatch = useDispatch();
-  const id = params.id;
+export default function HazardCardDetailsExternalAPI() {
+  // const history = useHistory()
+  // const params = useParams();
+  // const dispatch = useDispatch();
+  // const id = params.id;
   const user = useSelector(store => store.user);
-  const detail = useSelector((store) => store.cardDetails);
-  const genre = useSelector((store) => store.hazardGenre);
-  const [flaggedHazard, setFlaggedHazard] = useState({});
-  const [hazard_title, set_hazard_title] = useState('');
+  // const genre = useSelector((store) => store.hazardGenre);
+  // const [flaggedHazard, setFlaggedHazard] = useState({});
+  // const [hazard_title, set_hazard_title] = useState('');
+  const location = useLocation();
+  const detail = location.state;
 
-  useEffect(() => {
-    dispatch({
-      type: "FETCH_HAZARD_CARD_DETAIL",
-      payload: id,
-    });
-  }, []);
 
-  useEffect(() => {
-    getHazardGenre()
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "FETCH_HAZARD_CARD_DETAIL",
+  //     payload: id,
+  //   });
+  // }, []);
 
-  const getHazardGenre = () => {
-     dispatch({
-       type: "FETCH_HAZARD_GENRE",
-     });
-  }
+  // useEffect(() => {
+  //   getHazardGenre()
+  // }, [])
 
-  const handleChange = (event) => {
-    setFlaggedHazard({
-      ...flaggedHazard, 
-      [event.target.name]: event.target.value
-    })
-  };
+  // const getHazardGenre = () => {
+  //    dispatch({
+  //      type: "FETCH_HAZARD_GENRE",
+  //    });
+  // }
 
-  const handleSubmit = (hazardId) => {
-    dispatch({ 
-      type: 'ADD_FLAGGED_HAZARD', 
-      payload: {...flaggedHazard, hazardId}
-    });
-  };
+  // const handleChange = (event) => {
+  //   setFlaggedHazard({
+  //     ...flaggedHazard, 
+  //     [event.target.name]: event.target.value
+  //   })
+  // };
 
-  const changeStatus = (items) => {
-    let cardDetails = detail[0];
-    dispatch({
-      type: 'ADD_EDIT_HAZARD',
-      payload: {
-        ...cardDetails,
-        approved: (!items.approved)
-      }
-  })
+  // const handleSubmit = (hazardId) => {
+  //   dispatch({ 
+  //     type: 'ADD_FLAGGED_HAZARD', 
+  //     payload: {...flaggedHazard, hazardId}
+  //   });
+  // };
 
-    alert('Status Changed!');
-    history.push('/home');
-  }
+  // const changeStatus = (items) => {
+  //   let cardDetails = detail[0];
+  //   dispatch({
+  //     type: 'ADD_EDIT_HAZARD',
+  //     payload: {
+  //       ...cardDetails,
+  //       approved: (!items.approved)
+  //     }
+  // })
+
+  //   alert('Status Changed!');
+  //   history.push('/home');
+  // }
 
   return (
     <div className="container-fluid">
@@ -69,9 +72,13 @@ export default function HazardCardDetails() {
 
         <div className="row">
           <div className="col-sm">
+
+            
             {detail.length > 0 ? (
+          
               detail.map((items, i) => (
                 <div key={i}>
+                      {console.log(items)}
                   <div>
                     <img src={items.image} alt="image" />
                   </div>
