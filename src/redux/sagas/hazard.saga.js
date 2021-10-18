@@ -3,7 +3,6 @@ import { put, takeLatest } from 'redux-saga/effects';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* addHazard(action) {
-  console.log('payload is ', action.payload);
   try {
     if (!action.payload.id) {
       yield axios.post('/api/hazard', action.payload);

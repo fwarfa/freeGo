@@ -42,7 +42,6 @@ router.get("/", async (req, res) => {
     let description = "%";
 
     if(JSON.parse(req.query.filterParams).date) {
-      console.log('JSON.parse(req.query.filterParams).date', JSON.parse(req.query.filterParams).date);
       JSON.parse(req.query.filterParams).date?.map((postData) => {
         startDate = postData.startDate;
         endDate = postData.endDate;
@@ -86,10 +85,6 @@ router.get("/", async (req, res) => {
       startDate,
       endDate,
     ]);
-
-    console.log('user lat', userLat);
-    console.log('user lng', userLng);
-    console.log('out envelope bounding box is:', getBoundingBox([userLat, userLng], 5));
     
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
@@ -102,23 +97,38 @@ router.get("/", async (req, res) => {
     let ODAPIDMODIFIED = [];
 
     openDataApi.map((item) => {
-      ODAPIDMODIFIED.push({
-        approved: true,
-        name: item.attributes.description,
-        city: "Minneapolis",
-        state: "mn",
-        street: item.attributes.publicaddress,
-        zip: "",
-        treat_level: "",
-        latitude: item.attributes.centerLat,
-        longitude: item.attributes.centerLong,
-        created_date: "",
-        image: "https://picsum.photos/200/300",
-        title: item.attributes.description,
-        description: item.attributes.description,
-        user_id: 1,
-      });
+      if(containsAny(item.attributes.description, ["RAPE", "MURDER"])) {
+      } else {
+        ODAPIDMODIFIED.push({
+          approved: true,
+          name: item.attributes.description,
+          city: "Minneapolis",
+          state: "mn",
+          street: item.attributes.publicaddress,
+          zip: "",
+          treat_level: "",
+          latitude: item.attributes.centerLat,
+          longitude: item.attributes.centerLong,
+          created_date: "",
+          image: "https://picsum.photos/200/300",
+          title: item.attributes.description,
+          description: item.attributes.description,
+          user_id: 1,
+          is_minn: true,
+        });
+      }
     });
+
+    function containsAny(str, substrings) {
+        for (var i = 0; i != substrings.length; i++) {
+          var substring = substrings[i];
+          if (str.indexOf(substring) != - 1) {
+            return substring;
+          }
+        }
+        return null; 
+    }
+
 
     let dbRes = [...data, ...ODAPIDMODIFIED];
     // let dbRes = [...data];

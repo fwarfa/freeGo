@@ -78,8 +78,6 @@ function AddHazard() {
             Geocode.fromAddress(address).then(
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
-                  console.log('lat and lng converted from address', lat, lng);
-
                   let hazardLocal = {...hazardReducer, latitude:lat, longitude: lng};
                   handleSubmit(hazardLocal);
                 },
@@ -99,7 +97,12 @@ function AddHazard() {
         dispatch({
             type: 'CLEAR_HAZARD'
         })
+        dispatch({
+            type: "FETCH_HAZARD",
+            payload: {latitude: hazardLocal.latitude, longitude: hazardLocal.latitude}
+        });
         history.push('/home');
+        location.reload();
     }
 
     return (

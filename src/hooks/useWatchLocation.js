@@ -10,16 +10,13 @@ const useWatchLocation = (options, test = {}) => {
   // save the returned id from the geolocation's `watchPosition` to be able to cancel the watch instance
   const locationWatchId = useRef(null);
 
-  console.log('test');
-
   // Success handler for geolocation's `watchPosition` method
   const handleSuccess = (pos) => {
     const { latitude, longitude } = pos.coords;
 
-    setLocation([
-      latitude,
-      longitude,
-    ]);
+    setLocation(
+      {latitude: latitude, longitude: longitude}
+    );
 
     dispatch({
       type: "FETCH_HAZARD",
