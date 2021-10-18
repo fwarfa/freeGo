@@ -41,6 +41,8 @@ router.get("/", async (req, res) => {
     let endDate = '2090-01-01';
     let description = "%";
 
+    console.log('req.query', req.query);
+
     if(JSON.parse(req.query.filterParams).date) {
       JSON.parse(req.query.filterParams).date?.map((postData) => {
         startDate = postData.startDate;

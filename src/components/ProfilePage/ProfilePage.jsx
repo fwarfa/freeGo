@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
 export default function ProfilePage() {
 const history = useHistory();
 const user = useSelector(store => store.user);
 const editUser = useSelector(store => store.editUser);
 const dispatch = useDispatch();
 
+// import { useHistory, useParams } from 'react-router-dom';
+// const history = useHistory();
+// history.push('/home');
 
-useEffect(() => {
-dispatch({
-    type: 'SET_USER_TO_EDIT',
-    payload: user
-    })
+  useEffect(() => {
+  dispatch({
+      type: 'SET_USER_TO_EDIT',
+      payload: user
+      })
+      dispatch({ 
+        type: 'FETCH_USER',
+      });
   }, [])
 
   const userProfile = (event) => {
@@ -25,8 +30,9 @@ dispatch({
       payload: editUser
     });
     dispatch({ 
-      type: 'FETCH_USER' 
+      type: 'FETCH_USER',
     });
+    history.push('/user');
     }
 
     const handleChange = (event) => {

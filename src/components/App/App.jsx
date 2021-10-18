@@ -21,7 +21,7 @@ import LoginPage from '../LoginPage/LoginPage';
 import RegisterPage from '../RegisterPage/RegisterPage';
 import AddHazard from '../AddHazard/AddHazard';
 import MapComponent from '../Map/Map';
-
+import {  addDays, subDays } from 'date-fns';
 import MapContainer from '../MapContainer/MapContainer';
 
 
@@ -43,6 +43,16 @@ function App() {
   // const { location: currentLocation, error: currentError } = useCurrentLocation(geolocationOptions);
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
+  const [genre, setgenre] = useState('');
+  const [threat_level, set_threat_level] = useState('%');
+  const [created_date, setCreated_Date] = useState([
+    {
+      startDate: subDays(new Date(), 30),
+      endDate: addDays(new Date(), 7),
+      key: "selection",
+    },
+  ]);
+
 
   useEffect(() => {
     dispatch({ type: 'FETCH_USER' });
@@ -60,7 +70,12 @@ function App() {
       setIsWatchForLocation(false);
       dispatch({
         type: "FETCH_HAZARD",
-        payload: location
+        payload: {
+          date: created_date,
+          genreTitle: genre,
+          userLatLng: location,
+          threat_Level: threat_level,
+        },
       });
     }, 3000);
   }, [location, cancelLocationWatch]);

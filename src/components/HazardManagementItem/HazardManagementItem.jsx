@@ -12,14 +12,11 @@ export default function HazardManagementItem(items) {
   const [deleteItems, setDeleteItems] = useState([]);
 
  const handleDelete = () => {
-    console.log("delete clicked for: ", deleteItems);
     dispatch({
       type: "DELETE_SESSION",
       payload: deleteItems,
     });
   };
-
- 
 
     return (
         <>
