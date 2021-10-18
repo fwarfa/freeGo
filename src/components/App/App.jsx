@@ -121,14 +121,14 @@ function App() {
             exact 
             path="/addhazard"
           >
-              <AddHazard />
+            <AddHazard />
           </ProtectedRoute>
 
           <ProtectedRoute 
             exact 
             path="/hazardmanagement"
           >
-              <HazardManagement />
+            <HazardManagement />
           </ProtectedRoute>
           
           <ProtectedRoute exact path="/edithazard/:id">
