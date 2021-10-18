@@ -37,7 +37,6 @@ function MapComponent({address}) {
   const bounds = latLngBounds(L.latLng(address));
   
   if(dashBoard.length > 0) {
-    bounds.extend(address)
     dashBoard.forEach((data) => {
       bounds.extend([data.latitude, data.longitude])
     })
