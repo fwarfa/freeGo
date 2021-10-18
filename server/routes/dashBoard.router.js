@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
     }
 
     if (JSON.parse(req.query.filterParams).threat_Level) {
-      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+      threat_level = JSON.parse(req.query.filterParams).threat_Level;
     }
 
     if (JSON.parse(req.query.filterParams).userLatLng) {
@@ -139,7 +139,16 @@ router.get("/", async (req, res) => {
         }
         return null; 
     }
+    console.log('threat_level', threat_level);
+    // console.log('open data', ODAPIDMODIFIED);
 
+    ODAPIDMODIFIED.map((item, index) => {
+        console.log('item', item);
+        if(item.treat_level == 'low') {
+          console.log('threat level2', item);
+          ODAPIDMODIFIED.splice(index, 1);
+        }
+    });
 
     let dbRes = [...data, ...ODAPIDMODIFIED];
     // let dbRes = [...data];

@@ -104,8 +104,6 @@ function MapContainer({userLocation}) {
             distance: distance,
           },
         });
-        setgenre('')
-        set_threat_level('')
       },
       (error) => {
         console.error(error);
@@ -155,11 +153,10 @@ function MapContainer({userLocation}) {
               />
               { /* threat level */}
               <select
+                onChange={event => set_threat_level(event.target.value)}
                 className="form-control"
-                name="threatLevel"
-                id="threatLevel"
                 value={threat_level}
-                onChange={(e) => set_threat_level(e.target.value)}
+                placeholder="Threat Level"
               >
                 <option selected>Select A Threat Level</option>
                 <option value="low">Low</option>
