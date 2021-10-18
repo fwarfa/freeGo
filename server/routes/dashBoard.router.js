@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
     }
 
     if (JSON.parse(req.query.filterParams).threat_Level) {
-      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+      threat_level = JSON.parse(req.query.filterParams).threat_Level;
     }
 
     if (JSON.parse(req.query.filterParams).userLatLng) {
@@ -76,10 +76,8 @@ router.get("/", async (req, res) => {
     if ( JSON.parse(req.query.filterParams).longitude) {
      userLng = JSON.parse(req.query.filterParams).longitude;
     }
-    console.log('distance',  Number(distance));
     if ( JSON.parse(req.query.filterParams).distance) {
       distance = JSON.parse(req.query.filterParams).distance;
-      console.log('distance2', Number(distance));
     }
  
     const dbData = await pool.query(query, [
@@ -103,6 +101,10 @@ router.get("/", async (req, res) => {
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
+    // Example Threat Levels and Genre's for external API - THIS is just to demonstrate fitlers - these values are fake on the external API hazards
+    const fakeThreatLevels = ['low', 'moderate', 'severe'];
+    const genre = []
+
     if(openApiData) {
       openDataApi.map((item, index) => {
         if(containsAny(item.attributes.description, ["RAPE", "MURDER"])) {
@@ -114,11 +116,11 @@ router.get("/", async (req, res) => {
             state: "mn",
             street: item.attributes.publicaddress,
             zip: "",
-            treat_level: "",
+            treat_level: fakeThreatLevels[Math.floor(Math.random()*fakeThreatLevels.length)],
             latitude: item.attributes.centerLat,
             longitude: item.attributes.centerLong,
             created_date: "",
-            image: "https://source.unsplash.com/400x300/?city,roads,crime/" + index,
+            image: "https://source.unsplash.com/400x300/?roads/" + index,
             title: item.attributes.description,
             description: item.attributes.description,
             user_id: 1,
@@ -137,7 +139,16 @@ router.get("/", async (req, res) => {
         }
         return null; 
     }
+    console.log('threat_level', threat_level);
+    // console.log('open data', ODAPIDMODIFIED);
 
+    ODAPIDMODIFIED.map((item, index) => {
+        console.log('item', item);
+        if(item.treat_level == 'low') {
+          console.log('threat level2', item);
+          ODAPIDMODIFIED.splice(index, 1);
+        }
+    });
 
     let dbRes = [...data, ...ODAPIDMODIFIED];
     // let dbRes = [...data];

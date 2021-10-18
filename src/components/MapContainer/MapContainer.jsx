@@ -53,7 +53,6 @@ function MapContainer({userLocation}) {
   const [mapaddress, setmapaddress] = useState();
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
-  const dashBoard = useSelector(store => store.dashBoardReducer);
   const [expanded, set_expanded] = useState('Expand Filters')
   const [created_date, setCreated_Date] = useState([
     {
@@ -82,7 +81,6 @@ function MapContainer({userLocation}) {
     }, 3000);
   }, [location, cancelLocationWatch]);
 
-  console.log('map address', mapaddress);
   function getLocation() {
     let today = new Date();
     let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
@@ -106,14 +104,11 @@ function MapContainer({userLocation}) {
             distance: distance,
           },
         });
-        setgenre('')
-        set_threat_level('')
       },
       (error) => {
         console.error(error);
       }
     );
-    console.log('map address', mapaddress);
   }
 
   function click() {
@@ -158,11 +153,10 @@ function MapContainer({userLocation}) {
               />
               { /* threat level */}
               <select
+                onChange={event => set_threat_level(event.target.value)}
                 className="form-control"
-                name="threatLevel"
-                id="threatLevel"
                 value={threat_level}
-                onChange={(e) => set_threat_level(e.target.value)}
+                placeholder="Threat Level"
               >
                 <option selected>Select A Threat Level</option>
                 <option value="low">Low</option>
