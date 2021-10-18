@@ -19,7 +19,7 @@ const useWatchLocation = (options, test = {}) => {
     );
 
     dispatch({
-      type: "FETCH_HAZARD",
+      type: "FETCH_HAZARDs",
       payload: {latitude: latitude, longitude: longitude}
     });
   };
