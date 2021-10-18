@@ -45,7 +45,14 @@
 }
 
 .map-container-group{
-  margin: 10px;
+  padding: 10px;
+}
+.map-container-group .form-control {
+  margin-bottom: 10px;
+}
+
+.filter-expand {
+  margin: 10px 0px;
 }
 
 .btn-map-close {

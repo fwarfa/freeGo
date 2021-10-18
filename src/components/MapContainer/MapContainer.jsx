@@ -139,49 +139,57 @@ function MapContainer({userLocation}) {
         description = "All Hazards"
       />
       <div className="container">
-        <div className="form-group map-container-group">
-          <div class="input-group mb-3">
-            <input
-                onChange={event => setAddress(event.target.value)}
+        <a class="btn filter-expand btn-primary" data-toggle="collapse" href="#collapseFilters" role="button" aria-expanded="false" aria-controls="collapseFilters">
+        Expand Filter
+        </a>
+        <div class="collapse" id="collapseFilters">
+          <div className="form-group map-container-group card">
+            <div class="input-group mb-3">
+              { /* address */}
+              <input
+                  onChange={event => setAddress(event.target.value)}
+                  className="form-control"
+                  value={address}
+                  placeholder="Address / Location"
+              />
+              { /* genre */}
+              <input
+                onChange={event => setgenre(event.target.value)}
                 className="form-control"
-                value={address}
-                placeholder="Address / Location"
-            />
-            <input
-              onChange={event => setgenre(event.target.value)}
-              className="form-control"
-              value={genre}
-              placeholder="Genre"
-            />
-            <select
-              className="form-control"
-              name="threatLevel"
-              id="threatLevel"
-              value={threat_level}
-              onChange={(e) => set_threat_level(e.target.value)}
-            >
-              <option selected>Select A Threat Level</option>
-              <option value="low">Low</option>
-              <option value="moderate">Moderate</option>
-              <option value="severe">Severe</option>
-            </select>
+                value={genre}
+                placeholder="Genre"
+              />
+              { /* threat level */}
+              <select
+                className="form-control"
+                name="threatLevel"
+                id="threatLevel"
+                value={threat_level}
+                onChange={(e) => set_threat_level(e.target.value)}
+              >
+                <option selected>Select A Threat Level</option>
+                <option value="low">Low</option>
+                <option value="moderate">Moderate</option>
+                <option value="severe">Severe</option>
+              </select>
+              { /* distance */}
+              <select
+                className="form-control"
+                name="distance"
+                id="distance"
+                value={distance}
+                onChange={(e) => set_distance(e.target.value)}
+              >
+                <option selected>Select A Distance</option>
+                <option value="1">1 Mile</option>
+                <option value="5">5 Mile</option>
+                <option value="10">10 Mile</option>
+              </select>
 
-            <select
-              className="form-control"
-              name="distance"
-              id="distance"
-              value={distance}
-              onChange={(e) => set_distance(e.target.value)}
-            >
-              <option selected>Select A Distance</option>
-              <option value="1">1 Mile</option>
-              <option value="5">5 Mile</option>
-              <option value="10">10 Mile</option>
-            </select>
-
-
-            <div class="input-group-append">
-            <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+              { /* submit */}
+              <div class="input-group-append">
+                <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+              </div>
             </div>
           </div>
         </div>
