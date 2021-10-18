@@ -3,10 +3,6 @@ import axios from "axios";
 
 function* fetchHomepageDashboard(action) {
   try {
-    console.log("action payload length is", Object.keys(action.payload).length)
-    //saving the axios get request to response
-    console.log('fetch hazard payload: ', action.payload);
-  
        const response = yield axios.get("/api/dashBoard", {
       params: {
         filterParams: action.payload
@@ -38,11 +34,7 @@ function* deleteHazardItem(action) {
 function* fetchHAzardGenre () {
   try {
     const response = yield axios.get("/api/dashBoard/hazard_genre")
-
-    console.log("get hazard response is", response.data)
-
     yield put({type:"SET_HAZARD_GENRE", payload: response.data})
-    
   } catch (error) {
      console.log('GET Hazard Genre request failed', error);
   }

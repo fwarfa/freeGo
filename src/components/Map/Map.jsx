@@ -28,11 +28,9 @@ function MapComponent({address}) {
 
 
   const getCardInfo = (id) => {
-    console.log("card info id is", id);
     history.push(`/details/${id}`)
   }
 
-  console.log('hazard', hazard);
   return (
     <>
       <div className="map-popup-container">

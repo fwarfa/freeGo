@@ -7,7 +7,6 @@ const pool = require("../modules/pool");
 const router = express.Router();
 
 router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
-  console.log('user hazard was hit!');
   const id = req.params.id;
   const userId = req.user.id;
   let query;
@@ -25,8 +24,6 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
   pool
     .query(query, sqlParams)
     .then((result) => {
-      console.log("hazard by id is ", result.rows[0]);
-
       res.send(result.rows[0]);
     })
     .catch((err) => {
@@ -36,8 +33,6 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
 });
 
 router.get("/flagged", rejectUnauthenticated, (req, res) => {
-  console.log('flagged was hit!');
-  
     if (req.user.role !== 1) {
       res.sendStatus(401)
       return;
@@ -54,7 +49,6 @@ router.get("/flagged", rejectUnauthenticated, (req, res) => {
     pool
     .query(query)
     .then((result) => {
-      console.log("flagged hazards are ", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {
@@ -70,7 +64,6 @@ router.get("/user/:id", rejectUnauthenticated, (req, res) => {
     let query = `SELECT * FROM "hazard";`;
     pool.query(query)
     .then((result) => {
-      console.log("user hazard is ", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {
@@ -80,10 +73,8 @@ router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   }
   else {
     let query = `SELECT * FROM "hazard" WHERE user_id = $1`;
-    console.log('this is an user');
     pool.query(query, [userId])
     .then((result) => {
-      console.log("user hazard is ", result.rows);
       res.send(result.rows);
     })
     .catch((err) => {
@@ -108,7 +99,6 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   const longitude = req.body.longitude;
   const genreId = req.body.genre_id;
   const threatLevel = req.body.threat_level;
-  console.log('add hazard hit');
   
   const query = `
     INSERT INTO "hazard" 
@@ -164,7 +154,6 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   const genreId = req.body.genre_id;
   const threatLevel = req.body.threat_level;
 
-  console.log("req body is ", req.body);
   let query;
   let sqlParams;
 
@@ -267,7 +256,6 @@ router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
 router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
-    console.log("get card by the id is", params);
     const query = `
     SELECT 
       h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, 

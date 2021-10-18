@@ -18,7 +18,6 @@ dispatch({
 
   const userProfile = (event) => {
     event.preventDefault();
-    console.log('user before submit is ', editUser)
     alert('Changes Submitted');
 
     dispatch({

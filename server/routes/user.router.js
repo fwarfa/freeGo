@@ -42,9 +42,6 @@ router.post('/register', (req, res, next) => {
 
 
 router.put('/:id', (req, res, next) => {
-  console.log('req body is ', req.body);
-  
-
   const id = req.user.id;
   const username = req.body.username;
   const first_name = req.body.first_name;

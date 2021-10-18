@@ -10,9 +10,7 @@ import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 
 function Notification() {
   const dashBoard = useSelector((store) => store.dashBoardReducer);
-  console.log('dashboadr stasdf', dashBoard);
   const getCardInfo = (id) => {
-    console.log("card info id is", id);
     history.push(`/details/${id}`)
   }
 
