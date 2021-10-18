@@ -105,9 +105,28 @@ function AddHazard() {
         location.reload();
     }
 
+    const handleFiller = () => {
+        dispatch({
+            type: 'UPDATE_EDIT_HAZARD',
+            payload: {
+                ...hazardReducer, 
+                name: 'Car Accident',
+                description: 'Red Honda hit tree on 10th Ave',
+                street: '2210 10th Ave S',
+                city: 'St. Cloud',
+                state: 'MN',
+                zip: '56301',
+                image: '',
+                threat_level: 'low',
+                genre_id: '3'
+            }
+        })
+    }
+
     return (
         <div className="container-fluid">
             <PageHeader 
+            
             title =
             {params.id === undefined ?
                 "Add Hazard" :
@@ -118,12 +137,12 @@ function AddHazard() {
             <button className="btn btn-secondary" onClick={handleHome}> add icon Home</button>
             <br />
             
-            {/* <h1>
+            <h1 onClick={handleFiller}>
                 {params.id === undefined ?
                     "Add Hazard" :
                     "Edit Hazard"
                 }
-            </h1> */}
+            </h1>
             <div className="container">
                 <form className="card card-form" onSubmit={getUserLocal}>
                     <div className="form-group">
