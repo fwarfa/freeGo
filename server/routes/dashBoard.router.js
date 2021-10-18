@@ -124,8 +124,8 @@ router.get("/", async (req, res) => {
       });
     });
 
-    // let dbRes = [...data, ...ODAPIDMODIFIED];
-    let dbRes = [...data];
+    let dbRes = [...data, ...ODAPIDMODIFIED];
+    // let dbRes = [...data];
 
     res.send(
       dbRes
