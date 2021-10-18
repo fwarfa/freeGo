@@ -29,3 +29,15 @@ i{
   color: #fff;
   background-color: #007bff;
 }
+
+.hazard-card img {
+  width: 200px;
+  height: 200px;
+}
+
+@media only screen and (max-width: 600px) {
+  .hazard-card img {
+    width: 100%;
+    height: 200px;
+  }
+}

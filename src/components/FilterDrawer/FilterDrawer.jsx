@@ -139,18 +139,19 @@ export default function FilterDrawer() {
               </div>
             </div>
           </div>
-          <button type="button" class="btn btn-light" onClick={applyBtn}>
-          Apply
-        </button>
-        <button
-          type="button"
-          class="btn btn-success"
-          onClick={() => setDisplayModal(!displayModal)}
-        >
-          Cancel
-        </button>
+          <div className="btn-container-filter">
+            <button type="button" class="btn btn-primary" onClick={applyBtn}>
+            Apply
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onClick={() => setDisplayModal(!displayModal)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
-
       </div>
       <div
         className={`Overlay ${displayModal ? "Show" : ""}`}

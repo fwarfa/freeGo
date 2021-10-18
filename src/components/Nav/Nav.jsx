@@ -119,7 +119,7 @@ function Nav() {
                     <li>
                       <Link className="navLink" to="/user">
                         <FontAwesomeIcon icon={faUserAlt} />
-                        <span className="hide-on-mobile">
+                        <span className="">
                           Profile
                         </span>
                       </Link>
