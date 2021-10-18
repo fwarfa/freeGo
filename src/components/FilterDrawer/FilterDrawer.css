@@ -95,3 +95,19 @@
 .Alert:empty {
   padding: 0;
 }
+
+@media only screen and (max-width: 600px) {
+  .rdrDateRangePickerWrapper {
+    display: block !important;
+  }
+
+  .map-container-group .input-group {
+    width: 100%;
+    display: block;
+  }
+
+  .input-group>.form-control, .input-group>.form-select {
+    width: 100%;
+  }
+}
+

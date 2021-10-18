@@ -125,8 +125,7 @@ export default function FilterDrawer() {
               </div>
             </div>
           </div>
-        </div>
-        <button type="button" class="btn btn-light" onClick={applyBtn}>
+          <button type="button" class="btn btn-light" onClick={applyBtn}>
           Apply
         </button>
         <button
@@ -136,6 +135,8 @@ export default function FilterDrawer() {
         >
           Cancel
         </button>
+        </div>
+
       </div>
       <div
         className={`Overlay ${displayModal ? "Show" : ""}`}

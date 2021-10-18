@@ -72,12 +72,14 @@ export default function HazardCardDetails() {
             {detail.length > 0 ? (
               detail.map((items, i) => (
                 <div key={i}>
+
+                  {console.log(items)}
                   <div>
                     <img src={items.image} alt="image" />
                   </div>
                   <div>
                     <h4>
-                      <span>Moderate</span>
+                      <span>Threat Level: {items.threat_level}</span>
                     </h4>
                     <h4>
                       {items.approved === true ? (
@@ -91,13 +93,13 @@ export default function HazardCardDetails() {
                       }
                     </h4>
                     <div>
-                      <h2>{items.name}</h2>
-                      <p>{items.description}</p>
+                      <h2>Title: {items.name}</h2>
+                      <h4>Description: {items.description}</h4>
                     </div>
                     <h4>Hazard Genre: {items.title}</h4>
                     {/* {set_hazard_title(items.title)} */}
                     <p>
-                      {" "}
+                      <h4>Hazard Location:</h4>
                       <i className="fa fa-map-marker"></i> {items.street},{" "}
                       {items.city} {items.state}
                     </p>
