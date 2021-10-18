@@ -66,14 +66,11 @@ function App() {
    * Interval = 10000 <-- 10 seconds
    */
   useInterval(async () => {
-    console.log('location', location);
     dispatch({
       type: "FETCH_HAZARD",
       payload: location
     });
   }, 20000)
-
-  console.log('location', location);
 
   // date: created_date,
   // genreTitle: genre,

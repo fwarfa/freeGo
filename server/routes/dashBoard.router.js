@@ -7,7 +7,6 @@ const axios = require("axios");
  * GET route template
  */
 router.get("/", async (req, res) => {
-  console.log('we be fetching!!!!');
   try {
     //creating query
     const query = `
@@ -42,10 +41,7 @@ router.get("/", async (req, res) => {
     let endDate = '2090-01-01';
     let description = "%";
 
-    console.log('data filter paaParams', req.query);
-
     if(JSON.parse(req.query.filterParams).date) {
-      console.log('JSON.parse(req.query.filterParams).date', JSON.parse(req.query.filterParams).date);
       JSON.parse(req.query.filterParams).date?.map((postData) => {
         startDate = postData.startDate;
         endDate = postData.endDate;
@@ -89,10 +85,6 @@ router.get("/", async (req, res) => {
       startDate,
       endDate,
     ]);
-
-    console.log('user lat', userLat);
-    console.log('user lng', userLng);
-    console.log('out envelope bounding box is:', getBoundingBox([userLat, userLng], 5));
     
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(

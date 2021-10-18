@@ -25,7 +25,6 @@ const HazardManagement = () => {
   }, []);
 
   const deleteItem = (id) => {
-    console.log("delete clicked for: ", id);
     dispatch({
       type: "DELETE_HAZARD_ITEM",
       payload: id
@@ -34,12 +33,10 @@ const HazardManagement = () => {
   };
 
   const editItem = (id) => {
-    console.log("item to edit is", id);
     history.push(`/edithazard/${id}`)
   };
 
   const unflagHazard = (id) => {
-    console.log('id is ', id);
     dispatch({
       type: "DELETE_FLAG",
       payload: id
