@@ -25,10 +25,10 @@ export default function LandingPage({location}) {
 
   return (
     <>
-          <PageHeader 
-            title = 'Hazards'
-            description = 'Stay Safe'
-          />
+      <PageHeader 
+        title = 'Hazards'
+        description = 'Stay Safe'
+      />
       <AddHazardButton />
       <div className="container">
         <div className="row">
@@ -62,7 +62,7 @@ export default function LandingPage({location}) {
               </>
             ))
           ) : (
-            <p>Loading...</p>
+            <p>NO RESULTS...</p>
           )}
         </div>
       </div>

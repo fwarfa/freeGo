@@ -26,9 +26,16 @@ function MapComponent({address}) {
   const [hazard, sethazard] = useState();
   const dashBoard = useSelector(store => store.dashBoardReducer)
 
+  console.log('dashboard on map', dashBoard);
+  console.log('address', address);
 
   const getCardInfo = (id) => {
     history.push(`/details/${id}`)
+  }
+
+  if (address instanceof Array) {
+  } else {
+    address = Object.keys(address).map((key) => address[key]);
   }
 
   return (
