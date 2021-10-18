@@ -58,6 +58,10 @@ function App() {
     setTimeout(() => {
       cancelLocationWatch();
       setIsWatchForLocation(false);
+      dispatch({
+        type: "FETCH_HAZARD",
+        payload: location
+      });
     }, 3000);
   }, [location, cancelLocationWatch]);
 
@@ -66,12 +70,12 @@ function App() {
    * Queries our hazard table on an interval
    * Interval = 10000 <-- 10 seconds
    */
-  useInterval(async () => {
-    dispatch({
-      type: "FETCH_HAZARD",
-      payload: location
-    });
-  }, 20000)
+  // useInterval(async () => {
+  //   dispatch({
+  //     type: "FETCH_HAZARD",
+  //     payload: location
+  //   });
+  // }, 20000)
 
   // date: created_date,
   // genreTitle: genre,
