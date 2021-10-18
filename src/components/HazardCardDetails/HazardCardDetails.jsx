@@ -139,23 +139,6 @@ export default function HazardCardDetails() {
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleSubmit(items.id)}>Submit</button>
                               </div>
                             </div>
-                            <div class="modal-footer">
-                              <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-bs-dismiss="modal"
-                                onClick={() => handleSubmit(items.id)}
-                              >
-                                Submit
-                              </button>
-                            </div>
                           </div>
                         </div> 
                     </div>
