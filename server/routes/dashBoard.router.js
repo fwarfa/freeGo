@@ -76,10 +76,10 @@ router.get("/", async (req, res) => {
     if ( JSON.parse(req.query.filterParams).longitude) {
      userLng = JSON.parse(req.query.filterParams).longitude;
     }
-    console.log('distance', distance);
+    console.log('distance',  Number(distance));
     if ( JSON.parse(req.query.filterParams).distance) {
       distance = JSON.parse(req.query.filterParams).distance;
-      console.log('distance2', distance);
+      console.log('distance2', Number(distance));
     }
  
     const dbData = await pool.query(query, [
@@ -90,7 +90,7 @@ router.get("/", async (req, res) => {
       description,
       startDate,
       endDate,
-      distance,
+      Number(distance),
     ]);
     
     //Making axios get request to open Minneapolis Api

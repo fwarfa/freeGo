@@ -54,6 +54,7 @@ function MapContainer({userLocation}) {
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
   const dashBoard = useSelector(store => store.dashBoardReducer);
+  const [expanded, set_expanded] = useState('Expand Filters')
   const [created_date, setCreated_Date] = useState([
     {
       startDate: subDays(new Date(), 30),
@@ -105,23 +106,18 @@ function MapContainer({userLocation}) {
             distance: distance,
           },
         });
-        // setAddress('');
-        console.log('map address', mapaddress);
         setgenre('')
         set_threat_level('')
-        set_distance('')
-
-        // const [address, setAddress] = useState('');
-        // const [genre, setgenre] = useState('');
-        // const [threat_level, set_threat_level] = useState('%');
-        // const [distance, set_distance] = useState('%');
-        // const [mapaddress, setmapaddress] = useState();
       },
       (error) => {
         console.error(error);
       }
     );
     console.log('map address', mapaddress);
+  }
+
+  function click() {
+    set_expanded('Close Filters')
   }
 
   /**
@@ -138,10 +134,11 @@ function MapContainer({userLocation}) {
         title = "Map"
         description = "All Hazards"
       />
+
       <div className="container">
-        <a class="btn filter-expand btn-primary" data-toggle="collapse" href="#collapseFilters" role="button" aria-expanded="false" aria-controls="collapseFilters">
-        Expand Filter
-        </a>
+        <button class="btn filter-expand btn-primary" type="button" onClick={() => click()} data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+          Filters
+        </button>
         <div class="collapse" id="collapseFilters">
           <div className="form-group map-container-group card">
             <div class="input-group mb-3">
@@ -181,9 +178,13 @@ function MapContainer({userLocation}) {
                 onChange={(e) => set_distance(e.target.value)}
               >
                 <option selected>Select A Distance</option>
-                <option value="1">1 Mile</option>
-                <option value="5">5 Mile</option>
-                <option value="10">10 Mile</option>
+                <option value=".25">Quarter Mile</option>
+                <option value=".5">Half Mile</option>
+                <option value="1">1 Miles</option>
+                <option value="5">5 Miles</option>
+                <option value="10">10 Miles</option>
+                <option value="20">20 Miles</option>
+                <option value="50">50 Miles</option>
               </select>
 
               { /* submit */}
