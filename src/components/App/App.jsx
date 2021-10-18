@@ -203,7 +203,7 @@ function App() {
             }
           </Route>
 
-          <Route exact path="/details/external-api">
+          <Route exact path="/detail-external">
             {
               user.id ? (
                 // If the user is already logged in,
