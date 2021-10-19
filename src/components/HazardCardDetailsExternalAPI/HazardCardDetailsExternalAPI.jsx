@@ -78,7 +78,7 @@ export default function HazardCardDetailsExternalAPI() {
                 <div className="container-fluid">
   
                   <div>
-                    <img src={detail.image} alt="image" />
+                    <img className="external-api-img" src={detail.image} alt="image" />
                   </div>
                   <div> 
                     <h4>
