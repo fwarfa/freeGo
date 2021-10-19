@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Map, TileLayer, Marker, Popup, } from 'react-leaflet'
-import L from 'leaflet';
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import L, {latLngBounds} from 'leaflet';
 import { useHistory } from "react-router-dom";
-import FullscreenControl from 'react-leaflet-fullscreen';
+// import FullscreenControl from 'react-leaflet-fullscreen';
 import "leaflet/dist/leaflet.css";
 import { useDispatch, useSelector } from "react-redux";
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -20,28 +20,34 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 function MapComponent({address}) {
-  const dispatch = useDispatch();
   const history = useHistory();
   const [showpop, setshowpop] = useState(false);
   const [hazard, sethazard] = useState();
   const dashBoard = useSelector(store => store.dashBoardReducer)
-
-  console.log('dashboard on map', dashBoard);
-  console.log('address', address);
-
   const getCardInfo = (id) => {
     history.push(`/details/${id}`)
   }
 
   if (address instanceof Array) {
+    // DO NOTHING
   } else {
     address = Object.keys(address).map((key) => address[key]);
+  }
+
+  const bounds = latLngBounds(L.latLng(address));
+  
+  if(dashBoard.length > 0) {
+    dashBoard.forEach((data) => {
+      bounds.extend([data.latitude, data.longitude])
+    })
+  } else {
+    bounds.extend(address)
   }
 
   return (
     <>
       <div className="map-popup-container">
-        <Map center={address} zoom={14} style={{ height: "600px" }}>
+        <Map center={address} zoom={14} bounds={bounds} style={{ height: "600px" }}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -63,9 +69,7 @@ function MapComponent({address}) {
         ) : (
           <p>Loading...</p>
         )}
-        <FullscreenControl />
         </Map>
-
         {
           showpop === true 
           ?
@@ -85,12 +89,10 @@ function MapComponent({address}) {
                     <FontAwesomeIcon icon={faMapMarkedAlt} />
                     {hazard.street}, {hazard.city}, {hazard.state}, {hazard.zip}
                   </div>
-                  {/* {hazard.description}   */}
                 </div>
               </div>  
             </div>
           </div> 
-          
           :
           <div className="popup-map-item"></div>
         }        

@@ -58,7 +58,7 @@ router.get("/", async (req, res) => {
     }
 
     if (JSON.parse(req.query.filterParams).threat_Level) {
-      threat_level = JSON.parse(req.query.filterParams).threat_Level + "%";
+      threat_level = JSON.parse(req.query.filterParams).threat_Level;
     }
 
     if (JSON.parse(req.query.filterParams).userLatLng) {
@@ -76,10 +76,8 @@ router.get("/", async (req, res) => {
     if ( JSON.parse(req.query.filterParams).longitude) {
      userLng = JSON.parse(req.query.filterParams).longitude;
     }
-    console.log('distance', distance);
     if ( JSON.parse(req.query.filterParams).distance) {
       distance = JSON.parse(req.query.filterParams).distance;
-      console.log('distance2', distance);
     }
  
     const dbData = await pool.query(query, [
@@ -90,7 +88,7 @@ router.get("/", async (req, res) => {
       description,
       startDate,
       endDate,
-      distance,
+      Number(distance),
     ]);
     
     //Making axios get request to open Minneapolis Api
@@ -103,6 +101,10 @@ router.get("/", async (req, res) => {
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
+    // Example Threat Levels and Genre's for external API - THIS is just to demonstrate fitlers - these values are fake on the external API hazards
+    const fakeThreatLevels = ['low', 'moderate', 'severe'];
+    const genre = []
+
     if(openApiData) {
       openDataApi.map((item, index) => {
         if(containsAny(item.attributes.description, ["RAPE", "MURDER"])) {
@@ -114,11 +116,11 @@ router.get("/", async (req, res) => {
             state: "mn",
             street: item.attributes.publicaddress,
             zip: "",
-            treat_level: "",
+            threat_level: fakeThreatLevels[Math.floor(Math.random()*fakeThreatLevels.length)],
             latitude: item.attributes.centerLat,
             longitude: item.attributes.centerLong,
             created_date: "",
-            image: "https://source.unsplash.com/400x300/?city,roads,crime/" + index,
+            image: "https://source.unsplash.com/400x300/?roads/" + index,
             title: item.attributes.description,
             description: item.attributes.description,
             user_id: 1,
@@ -138,14 +140,24 @@ router.get("/", async (req, res) => {
         return null; 
     }
 
+    const ODAPIDMODIFIEDFILTERED = [];
+    ODAPIDMODIFIED.map((item, index) => {
+        if(item.threat_level === threat_level) {
+          ODAPIDMODIFIEDFILTERED.push(item);
+        } 
+    });
 
-    let dbRes = [...data, ...ODAPIDMODIFIED];
-    // let dbRes = [...data];
-
+    let dbRes = []
+    console.log('ODAPIDMODIFIEDFILTERED', ODAPIDMODIFIEDFILTERED);
+    if(ODAPIDMODIFIEDFILTERED.length > 0) {
+      dbRes = [...data, ...ODAPIDMODIFIEDFILTERED];
+    } else {
+      dbRes = [...data, ...ODAPIDMODIFIED];
+    }
     res.send(
       dbRes
-      // openDataApi,
     );
+    
   } catch (error) {
     console.log("GET Minneapolis Open Api/db error is", error);
   }

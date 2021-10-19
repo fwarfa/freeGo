@@ -44,6 +44,7 @@ export default function HazardCardDetails() {
       type: 'ADD_FLAGGED_HAZARD', 
       payload: {...flaggedHazard, hazardId}
     });
+    history.push("/home");
   };
 
   const changeStatus = (items) => {

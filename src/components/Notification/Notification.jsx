@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
+import { useDispatch } from 'react-redux';
 
 /**
  * Notifications Component
@@ -9,9 +10,22 @@ import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
  */
 
 function Notification() {
+  const dispatch = useDispatch()
   const dashBoard = useSelector((store) => store.dashBoardReducer);
   const getCardInfo = (id) => {
     history.push(`/details/${id}`)
+  }
+  const removeNotification = (id) => {
+    // dispatch({
+    //   type:"SET_NOTIFICATION_DASHBOARD"
+    // })
+    dispatch({
+      type: "DELETE_HAZARD_ITEM",
+      payload: id,
+    });
+    
+    
+
   }
 
   return (
@@ -41,7 +55,7 @@ function Notification() {
                       {items.street}, {items.city}, {items.state}, {items.zip}
                     </div>
                   </td>
-                <td><button className="btn btn-danger">REMOVE</button></td>
+                <td><button className="btn btn-danger" onClick={() => removeNotification(items.id)}>REMOVE</button></td>
               </tr>
           ))
         ) : (
