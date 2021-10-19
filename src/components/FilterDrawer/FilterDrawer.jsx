@@ -57,19 +57,20 @@ export default function FilterDrawer() {
   setAddress(''); 
  }
 
- const getHazardGenre = () => {
+ const getHazardCategory = () => {
    dispatch({
      type: "FETCH_HAZARD_GENRE",
    });
  };
 
  const filter =() => {
-   getHazardGenre()
+   getHazardCategory();
    setDisplayModal(!displayModal);
 
  }
  const hazardCategory = useSelector((store) => store.hazardGenre);
  console.log("hazard category is", hazardCategory)
+ console.log("genreTitle is", genreTitle);
 
   return (
     <>
@@ -149,16 +150,14 @@ export default function FilterDrawer() {
                 <select
                   className="form-control"
                   name="hazardCategory"
-                  placeholder="Choose category"
                   value={genreTitle}
                   onChange={(e) => setGenreTitle(e.target.value)}
                 >
-                  <option value="" disabled>
-                    Choose hazard category
-                  </option>
                   {hazardCategory.length > 0
                     ? hazardCategory.map((item, i) => (
-                        <option key={i}>{item.title}</option>
+                        <option value={item.title} key={i}>
+                          {item.title}
+                        </option>
                       ))
                     : null}
                 </select>
