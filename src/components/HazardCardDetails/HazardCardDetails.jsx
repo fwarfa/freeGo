@@ -44,6 +44,8 @@ export default function HazardCardDetails() {
       type: 'ADD_FLAGGED_HAZARD', 
       payload: {...flaggedHazard, hazardId}
     });
+    alert('Successfully Flagged! Admin will review this shortly')
+    history.push('/home');
   };
 
   const changeStatus = (items) => {

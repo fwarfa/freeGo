@@ -129,14 +129,16 @@ export default function FilterDrawer() {
                 <option value="10">10 Miles</option>
               </select>
               <div className="Show">
-                <h4>Hazard Genre</h4>
-                <input
-                  className="form-control"
-                  placeholder="Enter hazard genre"
-                  name="hazardGenre"
-                  value={genreTitle}
-                  onChange={(e) => setGenreTitle(e.target.value)}
-                />
+                <div className="form-group">
+                    <label for="hazardGenre">Hazard Genre:</label>
+                    <select className="form-control" name="hazardGenre" id="hazardGenre" value={genreTitle} onChange={(e) => setGenreTitle(e.target.value)}>
+                        <option selected>Select A Genre</option>
+                        <option value="CRIME">CRIME</option>
+                        <option value="ROADWORK">ROAD WORK</option>
+                        <option value="ACCIDENT">ACCIDENT</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
               </div>
             </div>
           </div>

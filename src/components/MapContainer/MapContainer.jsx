@@ -145,12 +145,15 @@ function MapContainer({userLocation}) {
                   placeholder="Address / Location"
               />
               { /* genre */}
-              <input
-                onChange={event => setgenre(event.target.value)}
-                className="form-control"
-                value={genre}
-                placeholder="Genre"
-              />
+              <div className="form-group">
+                  <select className="form-control" name="genre" id="genre" value={genre} onChange={(event) => setgenre(event.target.value)}>
+                      <option selected>Select A Genre</option>
+                      <option value="CRIME">CRIME</option>
+                      <option value="ROADWORK">ROAD WORK</option>
+                      <option value="ACCIDENT">ACCIDENT</option>
+                      <option value="OTHER">OTHER</option>
+                  </select>
+              </div>
               { /* threat level */}
               <select
                 onChange={event => set_threat_level(event.target.value)}
