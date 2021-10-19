@@ -69,9 +69,6 @@ export default function FilterDrawer() {
 
  }
  const hazardCategory = useSelector((store) => store.hazardGenre);
- console.log("hazard category is", hazardCategory)
- console.log("genreTitle is", genreTitle);
-
   return (
     <>
       <div className="Button CenterAlign" onClick={filter}>

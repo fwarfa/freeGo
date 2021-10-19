@@ -54,7 +54,6 @@ function MapContainer({userLocation}) {
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
   const dashBoard = useSelector(store => store.dashBoardReducer);
-  console.log("genre is", genre)
  
   const [created_date, setCreated_Date] = useState([
     {
