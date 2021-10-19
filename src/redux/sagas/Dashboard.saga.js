@@ -3,6 +3,8 @@ import axios from "axios";
 
 function* fetchHomepageDashboard(action) {
   try {
+      console.log('fetch payload is ', action.payload);
+      
        const response = yield axios.get("/api/dashBoard", {
       params: {
         filterParams: action.payload

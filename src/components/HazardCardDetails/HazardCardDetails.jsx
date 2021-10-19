@@ -115,7 +115,7 @@ export default function HazardCardDetails() {
                           data-bs-toggle="modal" 
                           data-bs-target="#exampleModal"
                         >
-                          Report Hazard
+                          Flag Hazard
                         </button>
                     }
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

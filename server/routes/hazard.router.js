@@ -259,7 +259,7 @@ router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
     const query = `
     SELECT 
       h.id, h.approved,h.name, h.city, h.state, h.street, h.zip, h.threat_level, 
-      h.latitude, h.longitude, h.image, genre.title, genre.id as genre_id, genre.description FROM "hazard" as h
+      h.latitude, h.longitude, h.image, genre.title, genre.id as genre_id, h.description FROM "hazard" as h
     LEFT JOIN "hazard_genre" as genre ON genre.id = h.genre_id
     WHERE h.id = $1`;
 
