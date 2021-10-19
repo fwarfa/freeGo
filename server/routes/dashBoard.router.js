@@ -116,7 +116,7 @@ router.get("/", async (req, res) => {
             state: "mn",
             street: item.attributes.publicaddress,
             zip: "",
-            treat_level: fakeThreatLevels[Math.floor(Math.random()*fakeThreatLevels.length)],
+            threat_level: fakeThreatLevels[Math.floor(Math.random()*fakeThreatLevels.length)],
             latitude: item.attributes.centerLat,
             longitude: item.attributes.centerLong,
             created_date: "",
@@ -139,24 +139,25 @@ router.get("/", async (req, res) => {
         }
         return null; 
     }
-    console.log('threat_level', threat_level);
-    // console.log('open data', ODAPIDMODIFIED);
 
+    const ODAPIDMODIFIEDFILTERED = [];
     ODAPIDMODIFIED.map((item, index) => {
-        console.log('item', item);
-        if(item.treat_level == 'low') {
-          console.log('threat level2', item);
-          ODAPIDMODIFIED.splice(index, 1);
-        }
+        if(item.threat_level === threat_level) {
+          ODAPIDMODIFIEDFILTERED.push(item);
+        } 
     });
 
-    let dbRes = [...data, ...ODAPIDMODIFIED];
-    // let dbRes = [...data];
-    
+    let dbRes = []
+    console.log('ODAPIDMODIFIEDFILTERED', ODAPIDMODIFIEDFILTERED);
+    if(ODAPIDMODIFIEDFILTERED.length > 0) {
+      dbRes = [...data, ...ODAPIDMODIFIEDFILTERED];
+    } else {
+      dbRes = [...data, ...ODAPIDMODIFIED];
+    }
     res.send(
       dbRes
-      // openDataApi,
     );
+    
   } catch (error) {
     console.log("GET Minneapolis Open Api/db error is", error);
   }

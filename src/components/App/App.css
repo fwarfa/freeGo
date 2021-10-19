@@ -278,4 +278,8 @@ Mobile Styles
   .hide-on-mobile {
     display: none !important;
   }
+
+  .external-api-img {
+    width: 200px;
+  }
 }

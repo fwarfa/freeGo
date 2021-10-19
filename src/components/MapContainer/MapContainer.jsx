@@ -53,7 +53,9 @@ function MapContainer({userLocation}) {
   const [mapaddress, setmapaddress] = useState();
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
+  const dashBoard = useSelector(store => store.dashBoardReducer);
   const [expanded, set_expanded] = useState('Expand Filters')
+
   const [created_date, setCreated_Date] = useState([
     {
       startDate: subDays(new Date(), 30),
@@ -61,7 +63,16 @@ function MapContainer({userLocation}) {
       key: "selection",
     },
   ]);
-  
+
+  //making fetch request to  get the hazard genre/category 
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_HAZARD_GENRE",
+    });
+
+  }, [])
+
+   const hazardCategory = useSelector((store) => store.hazardGenre);
   /**
    * Map Component
    * Utilizes react-leaflet, Leaflet
@@ -137,24 +148,36 @@ function MapContainer({userLocation}) {
         <div class="collapse" id="collapseFilters">
           <div className="form-group map-container-group card">
             <div class="input-group mb-3">
-              { /* address */}
+              {/* address */}
               <input
-                  onChange={event => setAddress(event.target.value)}
-                  className="form-control"
-                  value={address}
-                  placeholder="Address / Location"
+                onChange={(event) => setAddress(event.target.value)}
+                className="form-control"
+                value={address}
+                placeholder="Address / Location"
               />
-              { /* genre */}
-              <div className="form-group">
-                  <select className="form-control" name="genre" id="genre" value={genre} onChange={(event) => setgenre(event.target.value)}>
-                      <option selected>Select A Genre</option>
-                      <option value="CRIME">CRIME</option>
-                      <option value="ROADWORK">ROAD WORK</option>
-                      <option value="ACCIDENT">ACCIDENT</option>
-                      <option value="OTHER">OTHER</option>
-                  </select>
-              </div>
-              { /* threat level */}
+              {/* genre */}
+              {/* <input
+                onChange={event => setgenre(event.target.value)}
+                className="form-control"
+                value={genre}
+                placeholder="Hazard Category"
+              /> */}
+              <select
+                onChange={(event) => setgenre(event.target.value)}
+                className="form-control"
+                value={genre}
+                id="genre"
+                name="genre"
+              >
+                {hazardCategory.length > 0
+                  ? hazardCategory.map((item, i) => (
+                      <option key={i} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))
+                  : null}
+              </select>
+              {/* threat level */}
               <select
                 onChange={event => set_threat_level(event.target.value)}
                 className="form-control"
@@ -166,7 +189,7 @@ function MapContainer({userLocation}) {
                 <option value="moderate">Moderate</option>
                 <option value="severe">Severe</option>
               </select>
-              { /* distance */}
+              {/* distance */}
               <select
                 className="form-control"
                 name="distance"
@@ -184,24 +207,21 @@ function MapContainer({userLocation}) {
                 <option value="50">50 Miles</option>
               </select>
 
-              { /* submit */}
+              {/* submit */}
               <div class="input-group-append">
-                <button className="btn btn-primary" onClick={getLocation}>Find Location</button>
+                <button className="btn btn-primary" onClick={getLocation}>
+                  Find Location
+                </button>
               </div>
             </div>
           </div>
         </div>
         {mapaddress ? (
-          <MapComponent 
-            address = {mapaddress}
-          />
+          <MapComponent address={mapaddress} />
         ) : (
-          <MapComponent 
-            address = {location}
-          />
+          <MapComponent address={location} />
         )}
       </div>
-
     </>
   );
 }
