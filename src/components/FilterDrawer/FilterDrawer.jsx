@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import '../FilterDrawer/FilterDrawer.css'
 import { useDispatch } from 'react-redux';
 import {  DateRangePicker } from 'react-date-range';
@@ -6,6 +6,7 @@ import {  addDays } from 'date-fns';
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'react-date-range/dist/styles.css'; // main style file
 import Geocode from "react-geocode";
+import { useSelector } from 'react-redux';
 
 
 export default function FilterDrawer() {
@@ -26,7 +27,7 @@ export default function FilterDrawer() {
 
  Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
  Geocode.setLanguage("en");
-
+ 
  const applyBtn= () => {
   if (address) {
     Geocode.fromAddress(address).then(
@@ -36,7 +37,6 @@ export default function FilterDrawer() {
         //   latitude:lat,
         //   longitude: lng,
         // });
-
         
         dispatch({
           type: "FETCH_HAZARD",
@@ -57,12 +57,23 @@ export default function FilterDrawer() {
   setAddress(''); 
  }
 
+ const getHazardGenre = () => {
+   dispatch({
+     type: "FETCH_HAZARD_GENRE",
+   });
+ };
+
+ const filter =() => {
+   getHazardGenre()
+   setDisplayModal(!displayModal);
+
+ }
+ const hazardCategory = useSelector((store) => store.hazardGenre);
+ console.log("hazard category is", hazardCategory)
+
   return (
     <>
-      <div
-        className="Button CenterAlign"
-        onClick={() => setDisplayModal(!displayModal)}
-      >
+      <div className="Button CenterAlign" onClick={filter}>
         <i className="fa fa-filter" aria-hidden="true"></i>
       </div>
 
@@ -74,7 +85,6 @@ export default function FilterDrawer() {
         >
           <i className="fa fa-times-circle-o" aria-hidden="true"></i>
         </button>
-
 
         <div className="container">
           <div className="row">
@@ -88,14 +98,14 @@ export default function FilterDrawer() {
                   // months={2} <-- Do not need two months
                   ranges={created_date}
                   direction="horizontal"
-                  />
+                />
               </div>
             </div>
             <div className="col-sm">
               <div>
                 <h4>Address / Location</h4>
                 <input
-                onChange={event => setAddress(event.target.value)}
+                  onChange={(event) => setAddress(event.target.value)}
                   className="form-control"
                   value={address}
                   placeholder="Address / Location"
@@ -128,20 +138,36 @@ export default function FilterDrawer() {
                 <option value="10">10 Miles</option>
               </select>
               <div className="Show">
-                <h4>Hazard Genre</h4>
-                <input
+                <h4>Hazard category:</h4>
+                {/* <input
                   className="form-control"
                   placeholder="Enter hazard genre"
                   name="hazardGenre"
                   value={genreTitle}
                   onChange={(e) => setGenreTitle(e.target.value)}
-                />
+                /> */}
+                <select
+                  className="form-control"
+                  name="hazardCategory"
+                  placeholder="Choose category"
+                  value={genreTitle}
+                  onChange={(e) => setGenreTitle(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Choose hazard category
+                  </option>
+                  {hazardCategory.length > 0
+                    ? hazardCategory.map((item, i) => (
+                        <option key={i}>{item.title}</option>
+                      ))
+                    : null}
+                </select>
               </div>
             </div>
           </div>
           <div className="btn-container-filter">
             <button type="button" class="btn btn-primary" onClick={applyBtn}>
-            Apply
+              Apply
             </button>
             <button
               type="button"
