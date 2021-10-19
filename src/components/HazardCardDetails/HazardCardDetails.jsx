@@ -44,7 +44,8 @@ export default function HazardCardDetails() {
       type: 'ADD_FLAGGED_HAZARD', 
       payload: {...flaggedHazard, hazardId}
     });
-    history.push("/home");
+    alert('Successfully Flagged! Admin will review this shortly')
+    history.push('/home');
   };
 
   const changeStatus = (items) => {
@@ -116,7 +117,7 @@ export default function HazardCardDetails() {
                           data-bs-toggle="modal" 
                           data-bs-target="#exampleModal"
                         >
-                          Report Hazard
+                          Flag Hazard
                         </button>
                     }
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -107,6 +107,7 @@ export default function FilterDrawer() {
                   className="form-control"
                   value={address}
                   placeholder="Address / Location"
+                  required
                 />
               </div>
               <h4>Hazard Threat Level:</h4>
@@ -130,7 +131,7 @@ export default function FilterDrawer() {
                 value={distance}
                 onChange={(e) => set_distance(e.target.value)}
               >
-                <option selected>Select A Threat Level</option>
+                <option selected>Select A Distance</option>
                 <option value="1">1 Mile</option>
                 <option value="5">5 Miles</option>
                 <option value="10">10 Miles</option>
