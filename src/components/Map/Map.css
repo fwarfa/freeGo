@@ -40,6 +40,10 @@
   background-color: #fa8c16 !important;
 }
 
+.badge-severe {
+  background-color: #fa3816 !important;
+}
+
 .map-card-location {
   font-size: 12px
 }
