@@ -21,33 +21,19 @@ function* fetchHomepageDashboard(action) {
 
 function* deleteHazardItem(action) {
   try {
-    if (action.payload.is_accurate === false) {
-      console.log('this was hit');
-      
-      yield put({
-        type: "DELETE_FLAG",
-        payload: action.payload.id
-      });
+    yield axios.delete(`/api/hazard/${action.payload}`);
 
-      yield axios.delete(`/api/hazard/${action.payload.hazard_id}`);
-    }
-    else {
-      yield axios.delete(`/api/hazard/${action.payload.id}`);
-    }
-    
     yield put({
       type: "FETCH_HAZARD",
     });
     yield put({
       type: "FETCH_USER_HAZARD",
     });
-    yield put({
-      type: "FETCH_FLAGGED_HAZARDS",
-    });
   } catch (error) {
     console.log("delete item error is", error);
   }
 }
+
 function* fetchHAzardGenre () {
   try {
     const response = yield axios.get("/api/dashBoard/hazard_genre")
