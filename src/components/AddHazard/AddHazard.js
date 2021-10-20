@@ -54,11 +54,11 @@ function AddHazard() {
         }
     }, [params.id]);
 
-    const handleHome = () => {
+    const handleBack = () => {
         dispatch({
             type: 'CLEAR_HAZARD'
-        })
-        history.push('/home');
+        });
+        history.goBack();
     }
 
     const handleChange = (event) =>{
@@ -134,7 +134,7 @@ function AddHazard() {
             }
             description = "Here you can add a hazard - temp description"
             />
-            <button className="btn btn-secondary" onClick={handleHome}> add icon Home</button>
+            <button className="btn btn-secondary" onClick={handleBack}>Back</button>
             <br />
             
             <h1 onClick={handleFiller}>

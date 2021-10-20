@@ -23,17 +23,55 @@ const HazardManagement = () => {
     });
   }, []);
 
-  const deleteItem = (id) => {
+  const deleteHazard = (id) => {
+    for (let flag of flaggedHazards) {
+      if (id === flag.hazard_id) {
+        if (user.role !== 1) {
+          alert('Your hazard has been flagged! You may not delete its been reviewed by an Admin.');
+          return;
+        }
+        else {
+          deleteFlagged(flag);
+          return;
+        }
+      }
+    }
+      dispatch({
+        type: "DELETE_HAZARD_ITEM",
+        payload: id
+      });
+    }
+
+  const deleteFlagged = (item) => {
+    dispatch({
+      type: "DELETE_FLAG",
+      payload: item.id
+    });
     dispatch({
       type: "DELETE_HAZARD_ITEM",
-      payload: id
+      payload: item.hazard_id
     });
-    
+  }
+
+  const editHazard = (id) => {
+    for (let flag of flaggedHazards) {
+      if (id === flag.hazard_id) {
+        if (user.role !== 1) {
+          alert('Your hazard has been flagged! You may not delete its been reviewed by an Admin.');
+          return;
+        }
+        else {
+          history.push(`/edithazard/${flag.hazard_id}`);
+          return;
+        }
+      }
+    }
+    history.push(`/edithazard/${id}`);
   };
 
-  const editItem = (id) => {
-    history.push(`/edithazard/${id}`)
-  };
+  const editFlagged = (item) => {
+    history.push(`/edithazard/${item.hazard_id}`);
+  }
 
   const unflagHazard = (id) => {
     dispatch({
@@ -85,8 +123,8 @@ const HazardManagement = () => {
                   </div>
                 </div>
                 <div className="hazard-management-button-container">
-                  <button className="btn-hazard-management-edit" onClick={() => editItem(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
-                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                  <button className="btn-hazard-management-edit" onClick={() => editHazard(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteHazard(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
                 </div>
               </div>
             ))
@@ -129,8 +167,8 @@ const HazardManagement = () => {
                   </div>
                 </div>
                 <div className="hazard-management-button-container">
-                  <button className="btn-hazard-management-edit" onClick={() => editItem(flagged.id)}><FontAwesomeIcon icon={faEdit} /></button>
-                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(flagged.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                  <button className="btn-hazard-management-edit" onClick={() => editFlagged(flagged)}><FontAwesomeIcon icon={faEdit} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteFlagged(flagged)}><FontAwesomeIcon icon={faTrashAlt} /></button>
                 </div>
               </div>
             ))

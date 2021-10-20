@@ -33,11 +33,6 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
 });
 
 router.get("/flagged", rejectUnauthenticated, (req, res) => {
-    if (req.user.role !== 1) {
-      res.sendStatus(401)
-      return;
-    }
-
     const query = `
     SELECT 
       f.id as id, f.who_flagged, f.is_accurate, f.description as flag_description, h.id as hazard_id,

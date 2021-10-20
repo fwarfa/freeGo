@@ -161,7 +161,7 @@ function RegisterForm() {
           Password:
           <input
             className="form-control"
-            type="text"
+            type="password"
             name="password"
             value={password}
             required
@@ -174,7 +174,7 @@ function RegisterForm() {
           Re-enter Password:
           <input
             className="form-control"
-            type="text"
+            type="password"
             name="password"
             value={password2}
             required

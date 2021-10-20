@@ -33,6 +33,7 @@ function* deleteHazardItem(action) {
     console.log("delete item error is", error);
   }
 }
+
 function* fetchHAzardGenre () {
   try {
     const response = yield axios.get("/api/dashBoard/hazard_genre")
