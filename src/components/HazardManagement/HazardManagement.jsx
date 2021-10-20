@@ -23,10 +23,10 @@ const HazardManagement = () => {
     });
   }, []);
 
-  const deleteItem = (id) => {
+  const deleteItem = (item) => {
     dispatch({
       type: "DELETE_HAZARD_ITEM",
-      payload: id
+      payload: item
     });
     
   };
@@ -86,7 +86,7 @@ const HazardManagement = () => {
                 </div>
                 <div className="hazard-management-button-container">
                   <button className="btn-hazard-management-edit" onClick={() => editItem(item.id)}><FontAwesomeIcon icon={faEdit} /></button>
-                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(item.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(item)}><FontAwesomeIcon icon={faTrashAlt} /></button>
                 </div>
               </div>
             ))
@@ -130,7 +130,7 @@ const HazardManagement = () => {
                 </div>
                 <div className="hazard-management-button-container">
                   <button className="btn-hazard-management-edit" onClick={() => editItem(flagged.id)}><FontAwesomeIcon icon={faEdit} /></button>
-                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(flagged.id)}><FontAwesomeIcon icon={faTrashAlt} /></button>
+                  <button className="btn-hazard-management-delete" onClick={() => deleteItem(flagged)}><FontAwesomeIcon icon={faTrashAlt} /></button>
                 </div>
               </div>
             ))

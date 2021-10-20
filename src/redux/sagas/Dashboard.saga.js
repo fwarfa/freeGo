@@ -21,8 +21,20 @@ function* fetchHomepageDashboard(action) {
 
 function* deleteHazardItem(action) {
   try {
-    yield axios.delete(`/api/hazard/${action.payload}`);
+    if (action.payload.is_accurate === false) {
+      console.log('this was hit');
+      
+      yield put({
+        type: "DELETE_FLAG",
+        payload: action.payload.id
+      });
 
+      yield axios.delete(`/api/hazard/${action.payload.hazard_id}`);
+    }
+    else {
+      yield axios.delete(`/api/hazard/${action.payload.id}`);
+    }
+    
     yield put({
       type: "FETCH_HAZARD",
     });
