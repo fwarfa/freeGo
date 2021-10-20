@@ -33,10 +33,10 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
 });
 
 router.get("/flagged", rejectUnauthenticated, (req, res) => {
-    if (req.user.role !== 1) {
-      res.sendStatus(401)
-      return;
-    }
+    // if (req.user.role !== 1) {
+    //   res.sendStatus(401)
+    //   return;
+    // }
 
     const query = `
     SELECT 

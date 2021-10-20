@@ -41,6 +41,9 @@ function* deleteHazardItem(action) {
     yield put({
       type: "FETCH_USER_HAZARD",
     });
+    yield put({
+      type: "FETCH_FLAGGED_HAZARDS",
+    });
   } catch (error) {
     console.log("delete item error is", error);
   }
