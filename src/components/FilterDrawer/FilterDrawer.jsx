@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import '../FilterDrawer/FilterDrawer.css'
 import { useDispatch } from 'react-redux';
 import {  DateRangePicker } from 'react-date-range';
@@ -8,7 +8,10 @@ import 'react-date-range/dist/styles.css'; // main style file
 import Geocode from "react-geocode";
 import { useSelector } from 'react-redux';
 
-
+/**
+ * Filter Drawer
+ * @returns 
+ */
 export default function FilterDrawer() {
   const dispatch = useDispatch()
   const [created_date, setCreated_Date] = useState([
@@ -25,19 +28,21 @@ export default function FilterDrawer() {
  const [threat_Level, setThreat_Level] = useState('');
  const [distance, set_distance] = useState('5');
 
- Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
+ /**
+  * There is a Google API key that was pushed to git - so in git history it is exposed, BUT the key is no longer valid and has since been replaced
+  */
+ Geocode.setApiKey(Process.env.REACT_APP_GOOGLE_API_KEY);
  Geocode.setLanguage("en");
  
+ /**
+  * Apply Button
+  * Dispatches Fetch Hazards with user selected criteria
+  */
  const applyBtn= () => {
   if (address) {
     Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        // setLocation({
-        //   latitude:lat,
-        //   longitude: lng,
-        // });
-        
         dispatch({
           type: "FETCH_HAZARD",
           payload: {
@@ -57,19 +62,29 @@ export default function FilterDrawer() {
   setAddress(''); 
  }
 
- const getHazardCategory = () => {
-   dispatch({
-     type: "FETCH_HAZARD_GENRE",
-   });
- };
+  /**
+    * Get Hazard Category
+    * Dispatches out to retrieve our genres 
+    */
+  const getHazardCategory = () => {
+    dispatch({
+      type: "FETCH_HAZARD_GENRE",
+    });
+  };
 
- const filter =() => {
-   getHazardCategory();
-   setDisplayModal(!displayModal);
+  /**
+   * Filter
+   * Calls get Hazard Category
+   * and sets the Display Modal state
+   */
+  const filter =() => {
+    getHazardCategory();
+    setDisplayModal(!displayModal);
+  }
 
- }
- const hazardCategory = useSelector((store) => store.hazardGenre);
-  return (
+  const hazardCategory = useSelector((store) => store.hazardGenre);
+  
+ return (
     <>
       <div className="Button CenterAlign" onClick={filter}>
         <i className="fa fa-filter" aria-hidden="true"></i>
@@ -132,19 +147,16 @@ export default function FilterDrawer() {
                 onChange={(e) => set_distance(e.target.value)}
               >
                 <option selected>Select A Distance</option>
-                <option value="1">1 Mile</option>
+                <option value=".25">Quarter Mile</option>
+                <option value=".5">Half Mile</option>
+                <option value="1">1 Miles</option>
                 <option value="5">5 Miles</option>
                 <option value="10">10 Miles</option>
+                <option value="20">20 Miles</option>
+                <option value="50">50 Miles</option>
               </select>
               <div className="Show">
                 <h4>Hazard category:</h4>
-                {/* <input
-                  className="form-control"
-                  placeholder="Enter hazard genre"
-                  name="hazardGenre"
-                  value={genreTitle}
-                  onChange={(e) => setGenreTitle(e.target.value)}
-                /> */}
                 <select
                   className="form-control"
                   name="hazardCategory"
