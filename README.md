@@ -67,4 +67,10 @@ When navigating to the site, the user will be taken to the Login page. An existi
 <img width="990" alt="Screen Shot 2021-10-20 at 11 33 03 PM" src="https://user-images.githubusercontent.com/78863626/138212024-ac2ba793-d657-48b2-adcd-86d7cdde8098.png">
 In here the, the users will have access to all the hazards being reported by other users and external API resources. 
 
+# Acknowledgement
+
+We would like to thank Prime Digital Academy who equipped and helped us to make this application a reality.
+
+# Support 
+If you would like to support this project, please contact Sulaiman Bada at sulaimanbada8048@gmail.com
 
