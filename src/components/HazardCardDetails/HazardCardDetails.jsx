@@ -8,30 +8,23 @@ export default function HazardCardDetails() {
   const history = useHistory()
   const params = useParams();
   const dispatch = useDispatch();
-  const id = params.id;
+  const [flaggedHazard, setFlaggedHazard] = useState({});
   const user = useSelector(store => store.user);
   const detail = useSelector((store) => store.cardDetails);
-  const genre = useSelector((store) => store.hazardGenre);
-  const [flaggedHazard, setFlaggedHazard] = useState({});
-  const [hazard_title, set_hazard_title] = useState('');
+  const id = params.id;
 
+  // fetches hazard details and genre for card clicked on
   useEffect(() => {
     dispatch({
       type: "FETCH_HAZARD_CARD_DETAIL",
       payload: id,
     });
+    dispatch({
+      type: "FETCH_HAZARD_GENRE",
+    });
   }, []);
 
-  useEffect(() => {
-    getHazardGenre()
-  }, [])
-
-  const getHazardGenre = () => {
-     dispatch({
-       type: "FETCH_HAZARD_GENRE",
-     });
-  }
-
+  // updates with whats in inputs via local state
   const handleChange = (event) => {
     setFlaggedHazard({
       ...flaggedHazard, 
@@ -39,6 +32,8 @@ export default function HazardCardDetails() {
     })
   };
 
+  // adds reported hazard to flagged hazard table
+  // gives user confirmation and navigates to home
   const handleSubmit = (hazardId) => {
     dispatch({ 
       type: 'ADD_FLAGGED_HAZARD', 
@@ -48,16 +43,17 @@ export default function HazardCardDetails() {
     history.push('/home');
   };
 
+  // changes 'approved' field in hazard table
+  // and updates via dispatch to saga
   const changeStatus = (items) => {
     let cardDetails = detail[0];
     dispatch({
-      type: 'ADD_EDIT_HAZARD',
-      payload: {
-        ...cardDetails,
-        approved: (!items.approved)
-      }
-  })
-
+        type: 'ADD_EDIT_HAZARD',
+        payload: {
+          ...cardDetails,
+          approved: (!items.approved)
+        }
+    });
     alert('Status Changed!');
     history.push('/home');
   }
@@ -99,7 +95,6 @@ export default function HazardCardDetails() {
                       <h4>Description: {items.description}</h4>
                     </div>
                     <h4>Hazard Genre: {items.title}</h4>
-                    {/* {set_hazard_title(items.title)} */}
                     <p>
                       <h4>Hazard Location:</h4>
                       <i className="fa fa-map-marker"></i> {items.street},{" "}
@@ -112,13 +107,13 @@ export default function HazardCardDetails() {
                     </div>
                     <div>
                     {user.role !== 1 &&
-                        <button 
-                          type="button" class="btn btn-primary" 
-                          data-bs-toggle="modal" 
-                          data-bs-target="#exampleModal"
-                        >
-                          Flag Hazard
-                        </button>
+                      <button 
+                        type="button" class="btn btn-primary" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#exampleModal"
+                      >
+                        Flag Hazard
+                      </button>
                     }
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog">
