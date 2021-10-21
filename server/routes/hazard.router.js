@@ -3,9 +3,12 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
-
 const router = express.Router();
 
+
+/**
+ * Edit Hazard Route
+ */
 router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const userId = req.user.id;
@@ -32,6 +35,9 @@ router.get("/edit/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Fetch Flagged Hazards
+ */
 router.get("/flagged", rejectUnauthenticated, (req, res) => {
     const query = `
     SELECT 
@@ -52,6 +58,9 @@ router.get("/flagged", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Fetch individual User Data
+ */
 router.get("/user/:id", rejectUnauthenticated, (req, res) => {
   const userId = req.user.id;
 
@@ -80,6 +89,9 @@ router.get("/user/:id", rejectUnauthenticated, (req, res) => {
     
 });
 
+/**
+ * Fetch All Hazards
+ */
 router.post("/", rejectUnauthenticated, (req, res) => {
   const name = req.body.name;
   const description = req.body.description;
@@ -112,6 +124,9 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Post Flagged Hazard
+ */
 router.post("/flagged", rejectUnauthenticated, (req, res) => {
   let userId = req.user.id
   let hazardId = req.body.hazardId;
@@ -133,6 +148,9 @@ router.post("/flagged", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Fetch Individual Hazard
+ */
 router.put("/:id", rejectUnauthenticated, (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
@@ -206,6 +224,9 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Delete Hazard 
+ */
 router.delete("/:id", rejectUnauthenticated, (req, res) => {
   let id = req.params.id;
   let userId = req.user.id;
@@ -231,6 +252,9 @@ router.delete("/:id", rejectUnauthenticated, (req, res) => {
       });
 });
 
+/**
+ * Delete Flagged Hazard
+ */
 router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
   let id = req.params.id;
   if (req.user.role !== 1) {
@@ -248,6 +272,9 @@ router.delete("/flagged/:id", rejectUnauthenticated, (req, res) => {
     });
 });
 
+/**
+ * Hazard Individual Details
+ */
 router.get("/details/:id", rejectUnauthenticated, async (req, res) => {
   try {
     const params = [req.params.id];
