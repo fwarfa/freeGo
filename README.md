@@ -29,7 +29,6 @@ Before you get started, make sure you have the following software installed on y
 
 - [Node.js](https://nodejs.org/en/)
 - [PostrgeSQL](https://www.postgresql.org/)
-- [Nodemon](https://nodemon.io/)
 
 Create a new database called `freeGo` and  Copy the content in database.sql file  within the project and paste that into your database editor of your choice and execute that. 
 
@@ -40,6 +39,15 @@ Create a new database called `freeGo` and  Copy the content in database.sql file
   ```
   REACT_APP_GOOGLE_API_KEY=YOUR_API_KEY
   ```
+  *** please note if you want to deploy this project with heroku, you will need to do the following to get this key on heroku:
+    - Log into heroku 
+    - click on the project name
+    - Go to the settings 
+    - Click on Reveal Config Vars
+    ![Screen Shot 2021-10-21 at 11 48 16 AM](https://user-images.githubusercontent.com/78863626/138321948-2793b162-2881-4602-80d8-180ea07f000f.png)
+    - Enter your key name. Please make sure the key name is the same name in your project 
+    - Enter your value. This will be the api key from google (geocode).
+
 - Start postgres if not running already by using `brew services start postgresql`
 - Run `npm run server`
 - Run `npm run client`
