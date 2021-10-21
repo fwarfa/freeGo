@@ -13,43 +13,47 @@ function RegisterForm() {
   const [accept_terms, setAccept_Terms] = useState(false);
   const [password2, setPassword2] = useState('');
   const [image, setImage] = useState('');
-
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
+  /**
+   * Register User
+   * On submit of the form - it checks if the passwords match - if so it dispatches the user creation
+   * @param {*} event 
+   */
   const registerUser = (event) => {
     event.preventDefault();
-
-    if (password === password2){
-
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        username: username,
-        first_name: first_name,
-        password: password,
-        last_name: last_name,
-        email: email,
-        birthday: birthday, 
-        country: country, 
-        accept_terms: accept_terms, 
-        image: image, 
-      }
-    });
-  }
+    if (password === password2) {
+      dispatch({
+        type: 'REGISTER',
+        payload: {
+          username: username,
+          first_name: first_name,
+          password: password,
+          last_name: last_name,
+          email: email,
+          birthday: birthday, 
+          country: country, 
+          accept_terms: accept_terms, 
+          image: image, 
+        }
+      });
+    }
   else {
     alert('Passwords is not matching incorrect');
   }
   }; // end registerUser
 
-   const canBeSubmitted = () => {
-     return accept_terms ? setIsDisabled(true) : setIsDisabled(false);
-   };
-   const onCheckboxClick = () => {
-    setAccept_Terms(!accept_terms);
-     return canBeSubmitted();
-   };
-   return (
+  const canBeSubmitted = () => {
+    return accept_terms ? setIsDisabled(true) : setIsDisabled(false);
+  };
+
+  const onCheckboxClick = () => {
+  setAccept_Terms(!accept_terms);
+    return canBeSubmitted();
+  };
+   
+  return (
     <form className="formPanel card card-form" onSubmit={registerUser}>
       <h2>Register User</h2>
       {errors.registrationMessage && (
