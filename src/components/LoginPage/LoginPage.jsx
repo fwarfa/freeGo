@@ -1,10 +1,9 @@
 import React from 'react';
 import LoginForm from '../LoginForm/LoginForm';
 import RegisterPage from '../RegisterPage/RegisterPage';
-import { useHistory } from 'react-router-dom';
 
+// This component houses the login form and register form
 function LoginPage() {
-  const history = useHistory();
 
   return (
     <div className="container">
