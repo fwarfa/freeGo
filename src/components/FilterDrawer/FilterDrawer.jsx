@@ -7,6 +7,14 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import 'react-date-range/dist/styles.css'; // main style file
 import Geocode from "react-geocode";
 import { useSelector } from 'react-redux';
+const dotenv = require("dotenv");
+dotenv.config({ path: ".env" });
+
+ /**
+  * There is a Google API key that was pushed to git - so in git history it is exposed, BUT the key is no longer valid and has since been replaced
+  */
+  Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+  Geocode.setLanguage("en");
 
 /**
  * Filter Drawer
@@ -28,11 +36,7 @@ export default function FilterDrawer() {
  const [threat_Level, setThreat_Level] = useState('');
  const [distance, set_distance] = useState('5');
 
- /**
-  * There is a Google API key that was pushed to git - so in git history it is exposed, BUT the key is no longer valid and has since been replaced
-  */
- Geocode.setApiKey(Process.env.REACT_APP_GOOGLE_API_KEY);
- Geocode.setLanguage("en");
+
  
  /**
   * Apply Button
