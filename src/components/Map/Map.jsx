@@ -1,23 +1,27 @@
 import React, { useState } from "react";
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
+import { Map, TileLayer, Marker } from 'react-leaflet'
 import L, {latLngBounds} from 'leaflet';
 import { useHistory } from "react-router-dom";
-// import FullscreenControl from 'react-leaflet-fullscreen';
 import "leaflet/dist/leaflet.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import icon from 'leaflet/dist/images/marker-icon.png';
-import icon2 from '../Map/placeholder.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import "../Map/Map.css";
 
+/**
+ * -----------------------------------------------BUG-WORK-AROUND-----------------------------
+ * React Leaflet bug workaround
+ * The bug is: without the code below currently the map pins don't render due to incorrect path? <-- as far as I believe the issue to be
+ */
 let DefaultIcon = L.icon({
     iconUrl: icon,
     shadowUrl: iconShadow
 });
-
 L.Marker.prototype.options.icon = DefaultIcon;
+
+// -------------------------------------------------------------------------------------------
 
 function MapComponent({address}) {
   const history = useHistory();
@@ -25,23 +29,39 @@ function MapComponent({address}) {
   const [hazard, sethazard] = useState();
   const dashBoard = useSelector(store => store.dashBoardReducer)
 
-  const getCardInfo = (id) => {
+  /**
+   * Navigate to Individual Hazard Detail Component
+   * @param {*} id 
+   */
+  const hazardDetailNav = (id) => {
     history.push(`/details/${id}`)
   }
 
-  const getCardInfo2 = (item) => {
+  /**
+   *  Navigate to Individual EXTERNAL Hazard Detail Component
+   * This could certainly be improved - time constraint hack
+   * @param {} item 
+   */
+  const ExternalHazardNav = (item) => {
     history.push({
       pathname: '/detail-external',
       state: item
     })
   }
 
+  /**
+   * Convert Object into an array
+   */
   if (address instanceof Array) {
     // DO NOTHING
   } else {
     address = Object.keys(address).map((key) => address[key]);
   }
 
+  /**
+   * Building map bounds around the lat/lngs of all data
+   * This positions the map and displays all lat/lng pins within its bounds
+   */
   const bounds = latLngBounds(L.latLng(address));
   
   if(dashBoard.length > 0) {
@@ -52,6 +72,12 @@ function MapComponent({address}) {
     bounds.extend(address)
   }
 
+
+  /**
+   * Return
+   * Code duplication in the return to deal with the external API data and that of the database
+   * This can/should certainly be improved, but again time constraint.
+   */
   return (
     <>
       <div className="map-popup-container">
@@ -84,14 +110,14 @@ function MapComponent({address}) {
              {hazard.is_minn == true ? (
                 <div className="row no-gutters">
                   <div className="image-container col-sm-4">
-                    <img onClick={() => getCardInfo2(hazard)} src={hazard.image} alt=""/>
+                    <img onClick={() => ExternalHazardNav(hazard)} src={hazard.image} alt=""/>
                   </div>
                   <div className="information-conatiner col-sm-7">
                     <button type="button" class="close btn-map-close" onClick={() => setshowpop(false)} aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <span className="badge badge-pill badge-primary" className={'badge-'+hazard.threat_level + ' badge badge-pill badge-primary'}>{hazard.threat_level}</span>
-                    <div onClick={() => getCardInfo(hazard)} className="card-title">{hazard.name}</div>
+                    <div onClick={() => ExternalHazardNav(hazard)} className="card-title">{hazard.name}</div>
                     <div className="">
                       <div className="map-card-location">
                         <FontAwesomeIcon icon={faMapMarkedAlt} />
@@ -103,14 +129,14 @@ function MapComponent({address}) {
              ) : (
               <div className="row no-gutters">
                 <div className="image-container col-sm-4">
-                  <img onClick={() => getCardInfo(hazard.id)} src={hazard.image} alt=""/>
+                  <img onClick={() => hazardDetailNav(hazard.id)} src={hazard.image} alt=""/>
                 </div>
                 <div className="information-conatiner col-sm-7">
                   <button type="button" class="close btn-map-close" onClick={() => setshowpop(false)} aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
                   <span className="badge badge-pill badge-primary" className={'badge-'+hazard.threat_level + ' badge badge-pill badge-primary'}>{hazard.threat_level}</span>
-                  <div onClick={() => getCardInfo(hazard.id)} className="card-title">{hazard.name}</div>
+                  <div onClick={() => hazardDetailNav(hazard.id)} className="card-title">{hazard.name}</div>
                   <div className="">
                     <div className="map-card-location">
                       <FontAwesomeIcon icon={faMapMarkedAlt} />
@@ -120,7 +146,6 @@ function MapComponent({address}) {
                 </div>  
               </div>
              )}
-
           </div> 
           :
           <div className="popup-map-item"></div>

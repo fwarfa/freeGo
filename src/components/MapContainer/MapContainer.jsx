@@ -6,12 +6,9 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import MapComponent from '../Map/Map'
 import Geocode from "react-geocode";
 import PageHeader from '../PageHeader/PageHeader';
-import useCurrentLocation from "../../hooks/useCurrentLocation";
 import useWatchLocation from "../../hooks/useWatchLocation";
 import { geolocationOptions } from "../../constants/geolocationOptions";
-import { useInterval } from '../../hooks/useInterval';
 import {  addDays, subDays } from 'date-fns';
-
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
 
@@ -55,7 +52,6 @@ function MapContainer({userLocation}) {
   const [isWatchinForLocation, setIsWatchForLocation] = useState(true);
   const dashBoard = useSelector(store => store.dashBoardReducer);
   const [expanded, set_expanded] = useState('Expand Filters')
-
   const [created_date, setCreated_Date] = useState([
     {
       startDate: subDays(new Date(), 30),
@@ -64,12 +60,13 @@ function MapContainer({userLocation}) {
     },
   ]);
 
-  //making fetch request to  get the hazard genre/category 
+  /**
+   * making fetch request to  get the hazard genre/category 
+   * */ 
   useEffect(() => {
     dispatch({
       type: "FETCH_HAZARD_GENRE",
     });
-
   }, [])
 
    const hazardCategory = useSelector((store) => store.hazardGenre);
@@ -92,7 +89,12 @@ function MapContainer({userLocation}) {
     }, 3000);
   }, [location, cancelLocationWatch]);
 
-  function getLocation() {
+  /**
+   * Get Map Hazards
+   * This function takes the filter data which is set in state by the user selection
+   * Queries database as well as the External API for hazards that fit the criteria 
+   */
+  function getMapHazards() {
     let today = new Date();
     let priorDate = new Date().setDate(today.getDate()-30) // <-- 30 represents the number of days to go back from the current_date (TODAY)
     setCreated_Date({
@@ -148,6 +150,7 @@ function MapContainer({userLocation}) {
         <div class="collapse" id="collapseFilters">
           <div className="form-group map-container-group card">
             <div class="input-group mb-3">
+
               {/* address */}
               <input
                 onChange={(event) => setAddress(event.target.value)}
@@ -155,13 +158,8 @@ function MapContainer({userLocation}) {
                 value={address}
                 placeholder="Address / Location"
               />
+
               {/* genre */}
-              {/* <input
-                onChange={event => setgenre(event.target.value)}
-                className="form-control"
-                value={genre}
-                placeholder="Hazard Category"
-              /> */}
               <select
                 onChange={(event) => setgenre(event.target.value)}
                 className="form-control"
@@ -177,6 +175,7 @@ function MapContainer({userLocation}) {
                     ))
                   : null}
               </select>
+
               {/* threat level */}
               <select
                 onChange={event => set_threat_level(event.target.value)}
@@ -189,6 +188,7 @@ function MapContainer({userLocation}) {
                 <option value="moderate">Moderate</option>
                 <option value="severe">Severe</option>
               </select>
+
               {/* distance */}
               <select
                 className="form-control"
@@ -209,10 +209,11 @@ function MapContainer({userLocation}) {
 
               {/* submit */}
               <div class="input-group-append">
-                <button className="btn btn-primary" onClick={getLocation}>
+                <button className="btn btn-primary" onClick={getMapHazards}>
                   Find Location
                 </button>
               </div>
+
             </div>
           </div>
         </div>
