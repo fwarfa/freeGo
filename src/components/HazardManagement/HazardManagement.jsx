@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 const HazardManagement = () => {
-    const history = useHistory()
+  const history = useHistory()
   const dispatch = useDispatch();
   const hazard = useSelector((store) => store.userHazard);
   const user = useSelector(store => store.user);
@@ -14,6 +14,7 @@ const HazardManagement = () => {
   
 
   useEffect(() => {
+    // fetching all user hazards and flagged hazards
     dispatch({ 
       type: "FETCH_USER_HAZARD",
       payload: user.id 
@@ -23,25 +24,31 @@ const HazardManagement = () => {
     });
   }, []);
 
+  // deletes hazard
   const deleteHazard = (id) => {
+    // looping through flagged hazards to see if any are flagged
     for (let flag of flaggedHazards) {
       if (id === flag.hazard_id) {
+        // if the user is not an admin they will get this alert when they try to delete a flagged hazard
         if (user.role !== 1) {
           alert('Your hazard has been flagged! You may not delete its been reviewed by an Admin.');
           return;
         }
+        // otherwise call delete flagged hazard function
         else {
           deleteFlagged(flag);
           return;
         }
       }
     }
+    // if hazard is not flagged it will be deleted
       dispatch({
         type: "DELETE_HAZARD_ITEM",
         payload: id
       });
     }
 
+  // deletes flagged hazard 
   const deleteFlagged = (item) => {
     dispatch({
       type: "DELETE_FLAG",
@@ -53,9 +60,11 @@ const HazardManagement = () => {
     });
   }
 
+  // edits hazard
   const editHazard = (id) => {
     for (let flag of flaggedHazards) {
       if (id === flag.hazard_id) {
+        // if the user is not an admin they will get this alert when they try to edit a flagged hazard
         if (user.role !== 1) {
           alert('Your hazard has been flagged! You may not delete its been reviewed by an Admin.');
           return;
@@ -66,13 +75,16 @@ const HazardManagement = () => {
         }
       }
     }
+    //if hazard is not flagged user can edit
     history.push(`/edithazard/${id}`);
   };
 
+  // edits flagged hazard for admin
   const editFlagged = (item) => {
     history.push(`/edithazard/${item.hazard_id}`);
   }
 
+  // unflags (deletes flag) hazard
   const unflagHazard = (id) => {
     dispatch({
       type: "DELETE_FLAG",
