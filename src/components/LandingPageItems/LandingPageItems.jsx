@@ -1,16 +1,13 @@
 import React from "react";
 import '../LandingPage/LandingPage.css'
-import { useHistory, useLocation } from "react-router";
-import { useDispatch, useSelector } from 'react-redux';
 
+/**
+ * Simply renders the landing page item details
+ * This could potentially be part of just landing page - less confusion?
+ * @param {*} param0 
+ * @returns 
+ */
 export default function LandingPageItems({ items }) {
-  const history = useHistory();
-  const user = useSelector(store => store.user);
-
-  const handleClick = (id) => {
-    history.push(`/edithazard/${id}`);
-  }
-
   return (
     <>
       <div className="information-conatiner col-sm-7">
