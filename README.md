@@ -57,5 +57,49 @@ When navigating to the site, the user will be taken to the Login page. An existi
 
 <img width="990" alt="Screen Shot 2021-10-20 at 11 33 03 PM" src="https://user-images.githubusercontent.com/78863626/138212024-ac2ba793-d657-48b2-adcd-86d7cdde8098.png">
 In here the, the users will have access to all the hazards being reported by other users and external API resources. 
+<img width="716" alt="Screen Shot 2021-10-21 at 7 28 36 AM" src="https://user-images.githubusercontent.com/78863626/138277159-94d94248-a447-4d12-bb42-6b8a0962a7fb.png">
+Users will be able to add a hazard by filling out this form. To add a hazard, users are required to fill out all the inputs within the form for a successful submition. 
+<img width="724" alt="Screen Shot 2021-10-21 at 7 32 15 AM" src="https://user-images.githubusercontent.com/78863626/138277707-f0fe7017-fddf-4d1d-bee4-6281c984e3b3.png">
 
+On home page, the users will be able to see a list of all hazards being reported by our users and external API resource. The users will be able to click on a card within the list to get more details regarding what ours users are reporting. 
+
+ If you're wondering where to start, consider reading through component file comments in the following order:
+
+- src/components
+  - App/App
+  - AboutPage
+  - AddHazard
+  - AddHazardbutton
+  - FilterDrawer
+  - HazardCard Details 
+  - HazardCardExternalApi
+  - HazardManagement
+  - HazardManagementEdit
+  - HazardManagementItem
+  - HazardManagmentDelete
+  - InfoPage
+  - LandingPage
+  - LandingPageItems
+  - LoginForm
+  - LoginPage
+  - LogOutButton
+  - Map
+  - MapContainer
+  - Nav
+  - Notification 
+  - PageHeader
+  - ProfilePage
+  - ProtectedRoute
+  - RegisterPage
+  - RegisterForm
+  - TemplateClass
+  - TemplateFunction
+  - UserPage
+  
+  Directory Structure:
+
+- `src/` contains the React application
+- `public/` contains static assets for the client-side
+- `build/` after you build the project, contains the transpiled code from `src/` and `public/` that will be viewed on the production site
+- `server/` contains the Express App
 
