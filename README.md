@@ -38,3 +38,23 @@ Create a new database called `freeGo` and  Copy the content in database.sql file
 
 
 ## Usage 
+<img width="719" alt="Screen Shot 2021-10-20 at 11 23 23 PM" src="https://user-images.githubusercontent.com/78863626/138211198-bd6bf07c-9659-4a0e-93ce-572f133b0e32.png">
+When navigating to the site, the user will be taken to the Login page. An existing user should enter their username and password. To submit this information, a user can click the Log In button.
+ -If the username and password are correct, the user will be taken to their respective profile page.
+ -If the user tries to submit without completing a required field, an error message pop-up will appear with instructions to complete all fields.
+ -If the user enters the incorrect email address or password, an error message pop-up will appear informing them to try again.
+ ## Limitations/Bugs
+    The site is not currently equipped with a Forgot Username/Password functionality
+
+
+ <img width="991" alt="Screen Shot 2021-10-20 at 11 29 52 PM" src="https://user-images.githubusercontent.com/78863626/138211783-24e3232d-b760-4bc9-8c09-72f64a98d70e.png">
+ - If the users does not have a username and password, they can register by clicking on the sign up tab to complete their registration. The user will need to accept the terms and condition before they can register  for an account.
+ 
+ <img width="718" alt="Screen Shot 2021-10-20 at 11 33 51 PM" src="https://user-images.githubusercontent.com/78863626/138212087-d6474f9a-bd02-4db9-9cc2-722db3a29357.png"> 
+ Once the users logs into the application successfully, they will be brought to thier profile page.From their they can go to different places withing appliation. One option is going to the map to see all the hazards near their location. 
+
+
+<img width="990" alt="Screen Shot 2021-10-20 at 11 33 03 PM" src="https://user-images.githubusercontent.com/78863626/138212024-ac2ba793-d657-48b2-adcd-86d7cdde8098.png">
+In here the, the users will have access to all the hazards being reported by other users and external API resources. 
+
+
