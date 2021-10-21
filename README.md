@@ -43,6 +43,7 @@ When navigating to the site, the user will be taken to the Login page. An existi
  -If the username and password are correct, the user will be taken to their respective profile page.
  -If the user tries to submit without completing a required field, an error message pop-up will appear with instructions to complete all fields.
  -If the user enters the incorrect email address or password, an error message pop-up will appear informing them to try again.
+ 
  ## Limitations/Bugs
     The site is not currently equipped with a Forgot Username/Password functionality
 
