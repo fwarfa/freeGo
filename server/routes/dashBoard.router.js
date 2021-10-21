@@ -5,10 +5,20 @@ const axios = require("axios");
 
 /**
  * GET route template
+ * This queries the database for hazards
+ * it takes in 8 different types of query props
+ * - Genre
+ * - Threat Level
+ * - latitude and longitude
+ * - Start Date
+ * - End Date
+ * - Description
+ * - Distance 
+ * 
+ * $8 is the distance in miles the query will ask for
  */
 router.get("/", async (req, res) => {
   try {
-    //creating query
     const query = `
         SELECT 
         h.id, h.approved,h.name, h.description, h.city, h.state, h.street, h.zip, h.threat_level, h.latitude, h.longitude, h.created_date, TO_CHAR(h.created_date, 'Month'), h.image, genre.title, genre.description , h.user_id
@@ -31,7 +41,7 @@ router.get("/", async (req, res) => {
           AND 
          LOWER(h.description) LIKE LOWER($5)
           AND
-          h.created_date between $6 and $7;`; // <-- 383 is the amount of miles we are asking for change at your discreation
+          h.created_date between $6 and $7;`;
 
     let genreTitle = "%";
     let threat_level = "%";
@@ -41,13 +51,6 @@ router.get("/", async (req, res) => {
     let endDate = '2090-01-01';
     let description = "%";
     let distance = "5";
-
-    // if(JSON.parse(req.query.filterParams).date) {
-    //   JSON.parse(req.query.filterParams).date?.map((postData) => {
-    //     startDate = postData.startDate;
-    //     endDate = postData.endDate;
-    //   })
-    // }
 
     if (JSON.parse(req.query.filterParams).description) {
       description = JSON.parse(req.query.filterParams).description + "%";
@@ -93,7 +96,6 @@ router.get("/", async (req, res) => {
     
     //Making axios get request to open Minneapolis Api
     const openApiData = await axios.get(
-      // "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&resultRecordCount=50&outSR=4326&f=json"
       `https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=publicaddress,reportedDate,beginDate,offense,description,UCRCode,centergbsid,centerLong,centerLat,centerX,centerY,neighborhood,lastchanged,LastUpdateDateETL&geometry=` + getBoundingBox([userLat, userLng], distance) + `&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json&resultRecordCount=50`
     );
 
@@ -101,9 +103,10 @@ router.get("/", async (req, res) => {
     const openDataApi = openApiData.data.features;
     let ODAPIDMODIFIED = [];
 
-    // Example Threat Levels and Genre's for external API - THIS is just to demonstrate fitlers - these values are fake on the external API hazards
+    /**
+     * Example Threat Levels and Genre's for external API - THIS is just to demonstrate fitlers - these values are fake on the external API hazards
+     */
     const fakeThreatLevels = ['low', 'moderate', 'severe'];
-    const genre = []
 
     if(openApiData) {
       openDataApi.map((item, index) => {
@@ -130,6 +133,12 @@ router.get("/", async (req, res) => {
       });
     }
 
+    /**
+     * This function simple checks for hazards with inappropriate descriptions for our DEMO - In real world situation this function should be removed.
+     * @param {*} str 
+     * @param {*} substrings 
+     * @returns 
+     */    
     function containsAny(str, substrings) {
         for (var i = 0; i != substrings.length; i++) {
           var substring = substrings[i];
@@ -139,6 +148,11 @@ router.get("/", async (req, res) => {
         }
         return null; 
     }
+
+    /**
+     * This could is rough - needs to be refactored
+     * Filtering the returned External API data based on threat level
+     */
 
     const ODAPIDMODIFIEDFILTERED = [];
     ODAPIDMODIFIED.map((item, index) => {
@@ -162,6 +176,7 @@ router.get("/", async (req, res) => {
     console.log("GET Minneapolis Open Api/db error is", error);
   }
 });
+
 
 router.get("/hazard_genre",  async(req, res) => {
   try {
@@ -254,17 +269,3 @@ getBoundingBox = function (centerPoint, distance) {
 };
 
 module.exports = router;
-
-
-// https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where= (reportedDate %3D '1626566400000' OR reportedDate %3D '1626566400001') &outFields=*&outSR=4326&f=json
-// https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=reportedDate ='1626566400000' OR reportedDate = '1626566400001')&outFields=*&outSR=4326&f=json
-
-// consolelog(getBoundingBox(centerPoint[44.977753, -93.265015], 8));
-
-
-
-// https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=*&geometry=  -93.36660894925227 ,   44.90588736037304 ,   -93.16342105074776 ,   45.04961863962696&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json
-
-
-
-// https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Police_Incidents_2021/FeatureServer/0/query?where=1%3D1&outFields=&geometry=  -93.36660894925227 ,   44.90588736037304 ,   -93.16342105074776 ,   45.04961863962696&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outSR=4326&f=json
