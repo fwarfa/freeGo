@@ -7,30 +7,21 @@ import { useDispatch } from 'react-redux';
 /**
  * Notifications Component
  * This component renders our hazard list in a list format / non card
+ * NOTE = This component isn't completed and should probably be removed from navigation until more attention is put into it - basically just another view list of hazards similar to landing page.
  */
 
 function Notification() {
   const dispatch = useDispatch()
   const dashBoard = useSelector((store) => store.dashBoardReducer);
-  const getCardInfo = (id) => {
-    history.push(`/details/${id}`)
-  }
   const removeNotification = (id) => {
-    // dispatch({
-    //   type:"SET_NOTIFICATION_DASHBOARD"
-    // })
     dispatch({
       type: "DELETE_HAZARD_ITEM",
       payload: id,
     });
-    
-    
-
   }
 
   return (
     <div className="container">
-
       <table className="table">
         <thead>
           <tr>
