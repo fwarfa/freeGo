@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import LogOutButton from '../LogOutButton/LogOutButton';
+import React, { useEffect } from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -8,27 +7,22 @@ import './UserPage.css';
 import PageHeader from '../PageHeader/PageHeader';
 
 function UserPage() {
-  const [user1, set_user] = useState();
-  // this component doesn't do much to start, just renders some user reducer info to the DOM
   const user = useSelector((store) => store.user);
-  // set_user(user);
   const dispatch = useDispatch();
   const history = useHistory();
-  const dashBoard = useSelector((store) => store.dashBoardReducer);
 
   useEffect(() => {
-    fetchDashboard();
+    fetchHazards();
   }, []);
 
-  //fetches dashboard data from the database
-  function fetchDashboard() {
+  /**
+   * Fetch Hazards
+   * fetches dashboard data from the database
+   */
+  function fetchHazards() {
     dispatch({
       type: "FETCH_HAZARD",
     });
-    // dispatch({ 
-    //   type: 'FETCH_USER',
-    // });
-    set_user(user);
   }
 
   /**
@@ -42,7 +36,6 @@ function UserPage() {
   return (
 
     <div className="container-fluid">
-          {console.log('user', user1)}
       <PageHeader 
       title = {user.role === 1 ? "Admin" : "My Account"}
       description = "my account details"
@@ -56,9 +49,6 @@ function UserPage() {
                   <img class="d-block avatar avatar-xxl p-2 mb-2" src="https://d19m59y37dris4.cloudfront.net/directory/2-0-1/img/avatar/avatar-10.jpg" alt=""></img></a>
                 <h2>Welcome, {user.first_name}!</h2>
               </div>
-              {/* <div className="card-body">
-                <p>Your ID is: {user.id}</p>
-              </div> */}
             </div>
           </div>
           <div className="col-lg-9 ps-lg-5">
@@ -96,5 +86,4 @@ function UserPage() {
   );
 }
 
-// this allows us to use <App /> in index.js
 export default UserPage;
