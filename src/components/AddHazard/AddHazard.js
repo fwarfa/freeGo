@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Geocode from "react-geocode";
@@ -10,10 +10,6 @@ Geocode.setApiKey("AIzaSyBbtf3Ot3DoK8yxfVML3Hfg2HdcIYwa-MM");
 
 // set response language. Defaults to english.
 Geocode.setLanguage("en");
-
-// set response region. Its optional.
-// // A Geocoding request with region=es (Spain) will return the Spanish city.
-// Geocode.setRegion("es");
 
 // set location_type filter . Its optional.
 // google geocoder returns more that one address for given lat/lng.
@@ -33,27 +29,24 @@ function AddHazard() {
     const params = useParams();
 
     useEffect(() => {
-        // Is there an `:id` param in the URL?
+        // If there is no id params we clear out hazardReducer
+        // we are in add hazard mode
         if (params.id === undefined) {
-            // Create mode
-            // localhost:3000/hazard
-            // Reset store.hazardReducer = {}
             dispatch({
                 type: 'CLEAR_HAZARD'
-            })
+            });
         }
         else {
+            // otherwise we fetch hazard to edit from reducer
             // Edit mode
-            // localhost:3000/jobEntry/:id
-            // GET /jobEntries/:id
-            // Save results to store.editJobEntry
             dispatch({
                 type: 'FETCH_HAZARD_TO_EDIT',
                 payload: params.id
-            })
+            });
         }
-    }, [params.id]);
+    }, [params.id]); // we call useEffect again if id changes
 
+    // clears out reducer then navigates to previous route
     const handleBack = () => {
         dispatch({
             type: 'CLEAR_HAZARD'
@@ -61,6 +54,7 @@ function AddHazard() {
         history.goBack();
     }
 
+    // updates reducer when there is a change in the form fields
     const handleChange = (event) =>{
         dispatch({
             type: 'UPDATE_EDIT_HAZARD',
@@ -68,9 +62,10 @@ function AddHazard() {
                 ...hazardReducer, 
                 [event.target.name]: event.target.value
             }
-        })
+        });
       };
 
+    // when form is submitted we convert user given address to lat and lng coordinates
     const getUserLocal = (event) => {
         event.preventDefault();
         if(hazardReducer.street && hazardReducer.city && hazardReducer.state && hazardReducer.zip) {
@@ -78,8 +73,8 @@ function AddHazard() {
             Geocode.fromAddress(address).then(
                 (response) => {
                   const { lat, lng } = response.results[0].geometry.location;
-                  let hazardLocal = {...hazardReducer, latitude:lat, longitude: lng};
-                  handleSubmit(hazardLocal);
+                  let hazardLocal = {...hazardReducer, latitude:lat, longitude: lng}; // add lat and lng to what was previously in reducer
+                  handleSubmit(hazardLocal); // pass to handle submit
                 },
                 (error) => {
                   console.error(error);
@@ -88,15 +83,18 @@ function AddHazard() {
         }
     }
 
+    // dispatches to redux store
     const handleSubmit = (hazardLocal) => {
-        console.log('hazard before dispatch', hazardLocal);
+        // this dispatch sends the edited/added hazard to hazard saga
         dispatch({
             type: 'ADD_EDIT_HAZARD',
             payload: hazardLocal
-        })
+        });
+        // clears out hazardReducer that held hazard to edit
         dispatch({
             type: 'CLEAR_HAZARD'
-        })
+        });
+        // gets all hazards 
         dispatch({
             type: "FETCH_HAZARD",
             payload: {latitude: hazardLocal.latitude, longitude: hazardLocal.latitude}
@@ -105,38 +103,18 @@ function AddHazard() {
         location.reload();
     }
 
-    const handleFiller = () => {
-        dispatch({
-            type: 'UPDATE_EDIT_HAZARD',
-            payload: {
-                ...hazardReducer, 
-                name: 'Car Accident',
-                description: 'Red Honda hit tree on 10th Ave',
-                street: '2210 10th Ave S',
-                city: 'St. Cloud',
-                state: 'MN',
-                zip: '56301',
-                image: '',
-                threat_level: 'low',
-                genre_id: '3'
-            }
-        })
-    }
-
     return (
         <div className="container-fluid">
             <PageHeader 
-            
             title =
             {params.id === undefined ?
                 "Add Hazard" :
                 "Edit Hazard"
             }
-            description = "Here you can add a hazard - temp description"
+            description = "Here you can add a hazard"
             />
             <button className="btn btn-secondary" onClick={handleBack}>Back</button>
             <br />
-            
             <h1 onClick={handleFiller}>
                 {params.id === undefined ?
                     "Add Hazard" :
@@ -183,13 +161,15 @@ function AddHazard() {
                             onChange={handleChange}
                         />                    
                     </div>
-                    <input 
-                        className="form-control"
-                        placeholder="state"
-                        name='state'
-                        value={hazardReducer.state}
-                        onChange={handleChange}
-                    />
+                    <div className="form-group">
+                        <input 
+                            className="form-control"
+                            placeholder="state"
+                            name='state'
+                            value={hazardReducer.state}
+                            onChange={handleChange}
+                        />
+                    </div>
                     <div className="form-group">
                         <input 
                             className="form-control"

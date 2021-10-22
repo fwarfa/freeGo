@@ -114,12 +114,12 @@ function App() {
           <Redirect exact from="/" to="/home" />
 
           {/* Visiting localhost:3000/about will show the about page. */}
+          {/* // shows AboutPage at all times (logged in or not) */}
           <Route
-            // shows AboutPage at all times (logged in or not)
             exact
             path="/about"
           >
-            <AboutPage />
+              <AboutPage />
           </Route>
 
           {/* For protected routes, the view could show one of several things on the same route.
@@ -127,19 +127,10 @@ function App() {
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
           <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
             exact
             path="/user"
           >
-            <UserPage />
-          </ProtectedRoute>
-
-          <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
-            exact
-            path="/info"
-          >
-            <InfoPage />
+              <UserPage />
           </ProtectedRoute>
 
           <ProtectedRoute 
@@ -182,16 +173,12 @@ function App() {
             )}
           </Route>
 
-          <Route exact path="/map">
-            {user.id ? (
-              // If the user is already logged in,
-              // redirect them to the /user page
+          <ProtectedRoute 
+            exact 
+            path="/map"
+          >
               <MapContainer address={location} />
-            ) : (
-              // Otherwise, show the registration page
-              <Redirect to="/user" />
-            )}
-          </Route>
+          </ProtectedRoute>
 
           <Route exact path="/home">
             {
@@ -205,60 +192,34 @@ function App() {
               // Otherwise, show the Landing page
             }
           </Route>
-          <Route exact path="/details/:id">
-            {
-              user.id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <HazardCardDetails />
-              ) : (
-                <Redirect to="/user" />
-              )
-              // Otherwise, show the Landing page
-            }
-          </Route>
 
-          <Route exact path="/detail-external">
-            {
-              user.id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <HazardCardDetailsExternalAPI />
-              ) : (
-                <Redirect to="/user" />
-              )
-              // Otherwise, show the Landing page
-            }
-          </Route>
+          <ProtectedRoute 
+            exact 
+            path="/details/:id"
+          >
+              <HazardCardDetails />
+          </ProtectedRoute>
 
-          
+          <ProtectedRoute 
+            exact 
+            path="/detail-external"
+          >
+              <HazardCardDetailsExternalAPI />
+          </ProtectedRoute>
 
-          <Route exact path="/profilepage">
-            {
-              user.id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <ProfilePage />
-              ) : (
-                <Redirect to="/user" />
-              )
-              // Otherwise, show the Landing page
-            }
-          </Route>
+          <ProtectedRoute 
+            exact 
+            path="/profilepage"
+          >
+            <ProfilePage />
+          </ProtectedRoute>
 
-
-          <Route exact path="/notifications/:id">
-            {
-              user.id ? (
-                // If the user is already logged in,
-                // redirect them to the /user page
-                <Notification />
-              ) : (
-                <Redirect to="/user" />
-              )
-              // Otherwise, show the Landing page
-            }
-          </Route>
+          <ProtectedRoute 
+            exact 
+            path="/notifications/:id"
+          >
+              <Notification />
+          </ProtectedRoute>
 
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
