@@ -115,7 +115,7 @@ function AddHazard() {
             />
             <button className="btn btn-secondary" onClick={handleBack}>Back</button>
             <br />
-            <h1 onClick={handleFiller}>
+            <h1>
                 {params.id === undefined ?
                     "Add Hazard" :
                     "Edit Hazard"
